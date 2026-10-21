@@ -6,8 +6,8 @@ Initial 9B GPU measurements were recorded on **2026-10-20**; 4B measurements and
 
 ## Core behavior
 
-- **50 core pytest tests pass** on Windows / Python 3.10, including a fresh environment without torch.
-- A real MCP stdio subprocess initializes, discovers five tools, compares pronunciations, handles custom rules, retains unknown candidates, returns phonetic-only rankings and model state, and reports invalid inputs.
+- **73 core pytest tests pass** on Windows / Python 3.10, including a fresh environment without torch.
+- A real MCP stdio subprocess initializes, discovers six tools, compares pronunciations, handles custom rules, retains unknown candidates, returns phonetic-only rankings and model state, and reports invalid inputs.
 - Tests also check 4B/9B model selection, exact snapshot pins, matching tokenizer/model load arguments, and real stdio model status for both selections. Tests cover positive soft weights, pair direction and precedence, positional rules, no transitive closure, alternative readings, multiple syllables, unknown retention, syllable preferences, and strength zero.
 - A review found and fixed a syllable count that previously came from a different pronunciation than the selected match. Another regression covers an interrupted repair of a derived checkpoint cache.
 - Ruff and sdist/wheel builds pass. Public documentation links and example JSON have been checked locally.
@@ -91,3 +91,22 @@ Updated validation: 47 core tests in a torch-free environment (one optional modu
 The live failed Cherry Studio 9B server retained weights after the reported cublasCreate allocation error. A fresh server accepted the same request before the fix, so the native driver failure was not deterministic. Confirmed gaps were deferred runtime initialization, missing suggest-first coverage, and no cleanup on inference allocation errors.
 
 The fix prepares cuBLAS/BF16 before NF4 weights, returns unused loading reservations, and clears allocation-owning inference frames/weights on allocation failure. Real 9B/4B production MCP processes now have records for the city-lights request as their first model operation, a second request in the same process, and a separately labeled injected-error recovery audit. See [suggest-reliability.md](suggest-reliability.md) and its four raw records. Tests now total 50 core plus 10 optional real-tensor tests.
+
+## Token-path search and balanced lookup — 0.3.0
+
+The sixth MCP tool `search_lyrics` searches actual next-token paths, with default 20 active paths / top20 extensions / 12 new-token budget. It returns original sequence probability separately from custom soft rhyme weights; it does not request a subjective semantic score from Qwen. Full algorithm, budget, EOS, subword and short-path semantics are in [probability-search.md](probability-search.md).
+
+| Actual model (Windows / RTX 5080 / NF4) | Direct full-beam including load | Peak allocated GPU | Cold production MCP including load |
+| --- | --- | --- | --- |
+| Qwen3.5-4B | 22.15 s | 3.157 GiB | 24.24 s |
+| Qwen3.5-9B | 31.17 s | 7.473 GiB | 32.46 s |
+
+Each direct check independently teacher-forced the first three returned token paths. Maximum absolute logprob error was below 0.000024 for 4B and 0.0000025 for 9B. Probabilities are normalized against the full vocabulary before nontext filtering and top-k selection. Both models evaluated the full default search, not a reduced-width test.
+
+Batch-size changes can alter BF16/NF4 rounding: the recorded 9B logprob difference for one top token between microbatch 1 and 2 is approximately 0.123. The check records per-token differences and uses a stated 0.15 logprob tolerance; it does not promise bitwise equality or unchanged beam outcomes across batching. Default microbatch is 1 and does not reduce the 20-path frontier.
+
+Raw records: [4B direct](search-model-4b.json), [9B direct](search-model-9b.json), [4B MCP](search-mcp-4b.json), [9B MCP](search-mcp-9b.json). The cold MCP check calls search before any other model operation. These are functional/probability tests, not a comparative quality benchmark; pure probability can prefer short phrases and finite pruning can miss rhyme families.
+
+Balanced dictionary lookup tests cover mine/fall useful common terms, custom rule preservation, raw phonetic mode and expandable same-pronunciation variants. They use installed wordfreq English data locally; its code and data licenses are acknowledged separately. No online search was used in this change.
+
+Final 0.3.0 checks: 73 tests pass in the torch-free core environment (one optional module skipped); 83 tests pass in the model environment including real tensor-transfer tests. Ruff, dependency compatibility, documentation links, example JSON, sdist/wheel builds and package contents passed. Both actual-model and MCP search records report package_version=0.3.0.

@@ -54,6 +54,12 @@ Model card: <https://huggingface.co/Qwen/Qwen3.5-9B>. Fixed snapshot: <https://h
 
 The optional `Qwen/Qwen3.5-4B` selection is also downloaded separately under Apache-2.0, at fixed revision `851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a`. Its matching tokenizer comes from the same snapshot: <https://huggingface.co/Qwen/Qwen3.5-4B/tree/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a>.
 
-## Runtime dependencies
+## Local word-frequency data
+
+`wordfreq==3.1.1`, by Robyn Speer and contributors, is installed separately. Its code is Apache-2.0; its included frequency data is distributed under **CC BY-SA 4.0**, with upstream source acknowledgments and additional terms retained in that package. Project: <https://github.com/rspeer/wordfreq>. Citation: Robyn Speer (2022), *rspeer/wordfreq: v3.0*, <https://doi.org/10.5281/zenodo.7199437>.
+
+Upstream sources include Google Books Ngrams, the Leeds Internet Corpus, Wikipedia, ParaCrawl, OPUS OpenSubtitles 2018 (credit to OpenSubtitles), and SUBTLEX lists by Marc Brysbaert and colleagues. SUBTLEX is freely available data at <http://crr.ugent.be/programs-data/subtitle-frequencies/>; its authors retain credit. The installed wordfreq distribution contains the complete acknowledgments. This repository does not copy or relicense its data files. Numeric lookup weights are computed locally using its English data.
+
+## Other runtime dependencies
 
 Other directly used projects include PyYAML, Pydantic, the MCP Python SDK, PyTorch, Transformers, Accelerate, bitsandbytes, Hugging Face Hub, and their transitive dependencies. They are installed separately; their distributions supply their license notices. `requirements-lock.txt` is a record of the verified Windows environment, not a relicensing of those packages.

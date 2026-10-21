@@ -226,11 +226,19 @@ class RhymeEngine:
                 }
         return {**common, **best}
 
-    def find(self, target: str, limit: int = 20):
+    def find(self, target: str, limit: int = 20, mode="balanced", commonness_strength=0.65,
+             collapse_homophones=None):
         if not 1 <= limit <= 100:
             raise ValueError("limit must be between 1 and 100")
         if not target.strip():
             raise ValueError("Rhyme target must be nonempty")
+        if mode not in {"balanced", "phonetic"}:
+            raise ValueError("mode must be balanced or phonetic")
+        if not math.isfinite(commonness_strength) or commonness_strength < 0:
+            raise ValueError("commonness_strength must be finite and nonnegative")
+        from wordfreq import zipf_frequency
+
+        collapse = mode == "balanced" if collapse_homophones is None else collapse_homophones
         vocabulary = (w for w in dictionary() if WORD.fullmatch(w) and w.lower() != target.lower())
         count = 0
 
@@ -239,12 +247,39 @@ class RhymeEngine:
             for word in vocabulary:
                 count += 1
                 rhyme = self.compare(word, target)
-                yield {"text": word, "rhyme": rhyme}
+                frequency = zipf_frequency(word, "en")
+                commonness = max(0.02, min(1.0, frequency / 7))
+                score = rhyme["weight"] if mode == "phonetic" else (
+                    rhyme["weight"] ** 2 * commonness ** commonness_strength
+                )
+                yield {"text": word, "rhyme": rhyme, "frequency_zipf": frequency,
+                       "commonness_weight": commonness, "lookup_score": score, "alternatives": []}
 
-        items = heapq.nlargest(limit, scored(), key=lambda x: (x["rhyme"]["weight"], -len(x["text"])))
+        rows = scored()
+        if collapse:
+            groups = {}
+            for row in rows:
+                key = tuple(row["rhyme"].get("candidate_phones", [])) or (row["text"],)
+                groups.setdefault(key, []).append(row)
+            representatives = []
+            for group in groups.values():
+                group.sort(key=lambda r: (-r["lookup_score"], r["text"]))
+                best = group[0]
+                best["alternatives"] = [
+                    {"text": r["text"], "frequency_zipf": r["frequency_zipf"],
+                     "lookup_score": r["lookup_score"]} for r in group[1:]
+                ]
+                representatives.append(best)
+            rows = representatives
+        items = heapq.nsmallest(limit, rows, key=lambda r: (-r["lookup_score"], r["text"]))
         return {
             "candidates": items,
             "vocabulary_evaluated": count,
             "search_scope": "CMUdict single words; all evaluated with soft weights; top results returned",
             "profile": self.profile.name,
+            "mode": mode,
+            "commonness_strength": commonness_strength if mode == "balanced" else 0,
+            "homophones_collapsed": collapse,
+            "ranking_definition": "rhyme^2 * max(0.02, min(1, English Zipf frequency / 7))^commonness_strength; "
+            "phonetic mode uses rhyme weight only; frequency never changes the rhyme component",
         }

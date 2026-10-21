@@ -30,11 +30,12 @@ The response shows the selected pronunciations, the `custom_rule` that matched, 
 
 The labels `i` and `e` are yours: example words define their sounds. Profiles support directional pair rules, syllable-specific preferences, and sung pronunciation overrides. Accepting two vowel pairs does not silently create a third.
 
-## A writing session, three useful moves
+## A writing session
 
 | When you get stuck | Give the tool | Get back |
 | --- | --- | --- |
 | “I know what I mean, but not how to say it.” | A meaning, a rhyme reference, optional surrounding words | English gap fills or whole lines, then soft ranking |
+| “Explore likely continuations under my rhyme rules.” | A lyric prefix, meaning, and rhyme reference | Actual token-tree search with original path probabilities and soft rhyme weights |
 | “These lines mean roughly the same thing.” | Your alternatives and both sides of the gap | Contextual model scores, rhyme explanations, a ranked list |
 | “This sound works in my delivery.” | Example words, a weight, optional pronunciation overrides | A saved profile you can reuse or pass to another model |
 
@@ -90,6 +91,16 @@ mumble-rhyme --model 4b --profile examples/mumble.yaml suggest --request example
 
 Each selection locks weights and tokenizer together. Models are never silently substituted. The default NF4 path requires CUDA; core phonetic tools do not. Weights are downloaded separately under their upstream license.
 
+## Search actual token probabilities
+
+```console
+mumble-rhyme --model 4b --profile examples/mumble.yaml search --request examples/search.json
+```
+
+Defaults: **20 active paths, 20 token extensions per path**, up to 12 tokens; return raw path log probability, separate rhyme weight, adjusted rank and cutoff reasons. The default raw product favors short expressions. Length normalization is an explicit option. This is finite beam search, so low-probability branches can be missed. No subjective semantic scores are generated. [Full explanation](docs/probability-search.md).
+
+Dictionary lookup now defaults to balanced soft rhyme/frequency ranking; `--mode phonetic` restores pure pronunciation exploration. Homophone spellings remain accessible as alternatives.
+
 ## Give your assistant a rhyme tool
 
 Start the stdio MCP server:
@@ -107,7 +118,8 @@ For 4B use [the Windows 4B configuration](examples/mcp.windows.4b.json) or [the 
 | Tool | Purpose | Needs Qwen |
 | --- | --- | --- |
 | `compare_rhyme` | Explain a word/phrase rhyme | No |
-| `find_rhymes` | Search dictionary words by soft phonetics | No |
+| `find_rhymes` | Explore words using soft rhyme, local frequency, and expandable homophones | No |
+| `search_lyrics` | Search Qwen token paths: default beam 20 × top 20, actual sequence probabilities | Yes |
 | `rank_candidates` | Compare your phrases in context | Default yes; `use_model=false` available |
 | `suggest_lyrics` | Generate English options and rerank them | Yes |
 | `model_status` | Inspect pinned configuration and load state | No |
@@ -132,7 +144,7 @@ score = mean_token_log_likelihood
 
 `strength=0` removes the rhyme adjustment; any separate syllable preference still applies. Every supplied candidate remains. `rank_weight` is a softmax within that candidate set, not a probability that a line will sound good.
 
-Version 0.2 implements **candidate generation and reranking**, rather than modifying token logits during generation. The proposal prompt uses the rhyme reference; custom pair rules take effect during reranking. You can supply your own alternatives to explore possibilities the generator missed. Complete text is tokenized before scoring, including right context and tokens that cross the gap boundary. See [the implementation](docs/architecture.md).
+Version 0.3 adds **token-path beam search** alongside candidate generation and reranking. It combines actual Qwen token log probabilities with soft rhyme weights, without model self-ratings. The default 20×20 search is independent of microbatch size. See [probability search, completion boundaries, and limits](docs/probability-search.md). Existing suggest_lyrics generates then reranks proposals rather than modifying token logits during generation. The proposal prompt uses the rhyme reference; custom pair rules take effect during reranking. You can supply your own alternatives to explore possibilities the generator missed. Complete text is tokenized before scoring, including right context and tokens that cross the gap boundary. See [the implementation](docs/architecture.md).
 
 ## Reliability and verification
 
@@ -140,7 +152,7 @@ Version 0.2.2 covers the reported cold `suggest_lyrics` cuBLAS allocation case: 
 
 ## What is verified, and what is next
 
-- **Verified locally:** 50 core tests plus 10 optional tensor tests, a real MCP stdio exchange, pinned Qwen3.5-9B and 4B NF4 generation/scoring, and unchanged tensors after Windows resharding (775 for 9B, 738 for 4B).
+- **Verified locally:** 73 core tests plus 10 optional tensor tests, a real MCP stdio exchange, pinned Qwen3.5-9B and 4B NF4 generation/scoring, and unchanged tensors after Windows resharding (775 for 9B, 738 for 4B).
 - **Measured 4B:** 12.56 seconds for a cached direct-model smoke, 14.68 seconds for the production MCP exchange, peak PyTorch allocation 3.217 GiB.
 - **Recorded 9B:** one cached direct-model smoke took 27.71 seconds; an MCP smoke including model load, ranking, and generation took 26.35 seconds. These are functional checks with different requests, not comparative benchmarks or generation-only latency.
 - **Current scope:** English pronunciations; English or Chinese creative instructions; JSON CLI, Python, and MCP.

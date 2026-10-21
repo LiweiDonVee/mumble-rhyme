@@ -24,6 +24,7 @@ async def test_real_stdio_roundtrip_and_tool_errors(model):
             "rank_candidates",
             "suggest_lyrics",
             "model_status",
+            "search_lyrics",
         }
         comparison = await session.call_tool("compare_rhyme", {"candidate": "night", "target": "light"})
         assert not comparison.isError
@@ -50,5 +51,11 @@ async def test_real_stdio_roundtrip_and_tool_errors(model):
         status = await session.call_tool("model_status", {})
         assert status.structuredContent["model_id"] == f"Qwen/Qwen3.5-{model.upper()}"
         assert status.structuredContent["loaded"] is False
+        lookup = await session.call_tool("find_rhymes", {"target":"mine", "limit":5})
+        assert not lookup.isError
+        assert lookup.structuredContent["mode"] == "balanced"
+        assert "line" in [r["text"] for r in lookup.structuredContent["candidates"]]
+        invalid_search = await session.call_tool("search_lyrics", {"target":"mine", "beam_width":0})
+        assert invalid_search.isError
         bad = await session.call_tool("compare_rhyme", {"candidate": "", "target": "light"})
         assert bad.isError

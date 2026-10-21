@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.0
+
+- Add search_lyrics / CLI search: bounded token-tree search with default 20 active paths and top-20 extensions, raw sequence probabilities, completed-word soft rhyme guidance, explicit length normalization and cutoff metadata.
+- Keep microbatch size independent from search width; record actual 4B/9B probabilities against teacher-forced checks and cold MCP calls. No model self-grading.
+- Improve find_rhymes with default local word-frequency balancing and expandable same-pronunciation alternatives; retain raw phonetic mode.
+- Add wordfreq code/data attribution and document finite search, short-path bias, incomplete word limits, and quantized batch-size numeric drift.
+
 ## 0.2.2
 
 - Initialize cuBLAS and a real BF16 linear operation before NF4 weights occupy memory; release unused loading reservations before first inference.

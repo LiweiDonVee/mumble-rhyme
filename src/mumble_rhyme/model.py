@@ -338,6 +338,70 @@ class LocalModel:
             raise RuntimeError(f"Model returned no usable candidates. Raw output: {text[:500]}")
         return candidates[:count], text
 
+    def _next_token_options(self, prefix_ids, paths, top_k, microbatch_size):
+        """Original full-vocabulary probabilities; filtering does not renormalize top-k."""
+        import torch
+
+        result = []
+        eos = self.model.generation_config.eos_token_id
+        eos_ids = {eos} if isinstance(eos, int) else set(eos or [])
+        excluded = set(self.tokenizer.all_special_ids) - eos_ids
+        pad = self.tokenizer.pad_token_id or self.tokenizer.eos_token_id
+        for start in range(0, len(paths), microbatch_size):
+            sequences = [list(prefix_ids) + list(path) for path in paths[start:start + microbatch_size]]
+            width = max(map(len, sequences))
+            ids = torch.full((len(sequences), width), pad, dtype=torch.long, device=self.model.device)
+            mask = torch.zeros_like(ids)
+            for i, sequence in enumerate(sequences):
+                ids[i, -len(sequence):] = torch.tensor(sequence, device=self.model.device)
+                mask[i, -len(sequence):] = 1
+            output = self.model(input_ids=ids, attention_mask=mask, use_cache=False, logits_to_keep=1)
+            logprobs = output.logits[:, -1].float().log_softmax(-1)
+            for row in logprobs:
+                # Probabilities were normalized BEFORE removing nontext controls.
+                if excluded:
+                    row[list(excluded)] = -float("inf")
+                values, tokens = row.topk(min(top_k, row.numel() - len(excluded)))
+                result.append(list(zip(tokens.tolist(), values.tolist())))
+            del output, logprobs, ids, mask
+        return result
+
+    @_inference_operation
+    def search(self, *, left, intent, rhyme_weight, beam_width=20, branch_top_k=20,
+               max_new_tokens=12, min_new_tokens=2, strength=2.0, length_normalization=0.0,
+               limit=10, microbatch_size=1):
+        from .search import beam_search, validate_search
+
+        validate_search(beam_width, branch_top_k, max_new_tokens, min_new_tokens,
+                        strength, length_normalization, limit, microbatch_size)
+        self.load()
+        messages = [
+            {"role": "system", "content": "You are an English songwriter. Complete the lyric naturally. "
+             "Write only original English lyric text, with no explanations or quotation marks. "
+             "Continue directly after the supplied lyric prefix; do not repeat it."},
+            {"role": "user", "content": "Continue the lyric." + (" Meaning and mood: " + intent if intent else "")},
+        ]
+        prompt = self.tokenizer.apply_chat_template(
+            messages, tokenize=False, add_generation_prompt=True, enable_thinking=False
+        ) + left
+        prefix = self.tokenizer(prompt, add_special_tokens=False)["input_ids"]
+        if len(prefix) + max_new_tokens > MAX_INPUT_TOKENS:
+            raise ValueError(f"Search prompt and token budget exceed {MAX_INPUT_TOKENS} tokens")
+        eos = self.model.generation_config.eos_token_id
+        eos_ids = [eos] if isinstance(eos, int) else list(eos or [])
+        result = beam_search(
+            lambda paths: self._next_token_options(prefix, paths, branch_top_k, microbatch_size),
+            lambda ids: self.tokenizer.decode(ids, skip_special_tokens=True, clean_up_tokenization_spaces=False),
+            rhyme_weight, eos_ids=eos_ids, beam_width=beam_width, branch_top_k=branch_top_k,
+            max_new_tokens=max_new_tokens, min_new_tokens=min_new_tokens, strength=strength,
+            length_normalization=length_normalization, limit=limit,
+        )
+        result["search"].update({"microbatch_size": microbatch_size, "prefix_token_count": len(prefix),
+                                "conditioning_token_ids": prefix,
+                                "nontext_special_tokens_excluded": True,
+                                "cache_strategy": "Full-prefix forwards; no persistent beam KV copies"})
+        return result
+
 
 def parse_proposals(text):
     # Parse the actual JSON array, tolerating code fences/prose without inventing options.

@@ -9,7 +9,8 @@ Global options come **before** the subcommand: `--profile path.yaml`, `--quantiz
 | Command | Input | Output |
 | --- | --- | --- |
 | `compare TEXT TARGET` | A word or phrase and reference | Pronunciations, per-syllable explanation, soft weight |
-| `find TARGET --limit 12` | Reference and 1–100 results | Softly ranked dictionary words |
+| `find TARGET --limit 12` | Reference, `--mode balanced|phonetic`, `--commonness-strength` | Softly ranked dictionary words with frequency and alternatives |
+| `search --request request.json` | Prefix, meaning, rhyme reference, beam/length budgets | Token paths with original probabilities and soft rhyme adjustment |
 | `rank --request request.json` | Supplied candidate list and context | All candidates with scores |
 | `suggest --request request.json` | Creative brief and reference | Generated candidates with scores |
 | `status` | None | Pinned model configuration; no weights loaded |
@@ -69,7 +70,8 @@ Registered tools:
 | Tool | Required fields | Useful optional fields |
 | --- | --- | --- |
 | `compare_rhyme` | `candidate`, `target` | `profile` |
-| `find_rhymes` | `target` | `limit` (default 20), `profile` |
+| `find_rhymes` | `target` | `limit`, `profile`, `mode`, `commonness_strength`, `collapse_homophones` |
+| `search_lyrics` | `target` | `left`, `intent`, `beam_width`, `branch_top_k`, `max_new_tokens`, `min_new_tokens`, `strength`, `length_normalization`, `limit`, `microbatch_size`, `profile` |
 | `rank_candidates` | `candidates`, `target` | `left`, `right`, `intent`, `strength`, `target_syllables`, `use_model`, `profile` |
 | `suggest_lyrics` | `target` | `left`, `right`, `intent`, `count`, `strength`, `target_syllables`, `profile` |
 | `model_status` | None | None |
@@ -115,3 +117,7 @@ After updating, restart the MCP server and check `package_version`; a running pr
 ## Explicit Python release
 
 `service.model.unload()` releases references owned by the adapter and unused CUDA allocations under a shared project inference lock. The optional `service.model.unload(release_runtime_cache=True)` also purges process-wide cuBLAS workspace caches; call it only after stopping external CUDA work in the same process. Default unload and automatic failure recovery leave those shared workspaces alone. The next model request loads the same selection again. Externally retained Python references still own their memory; the runtime context may remain until process exit. MCP intentionally stays resident between calls; stopping its server releases that process. See the [failure/retry and lifecycle audit](model-memory.md).
+
+## Probability search
+
+`service.search` and `search_lyrics` have the same fields as [examples/search.json](../examples/search.json). The default beam/branch budgets are 20/20. Raw `sequence_logprob` and `sequence_probability` describe the actual token path; `adjusted_log_weight` applies the rhyme preference and optional explicit length normalization. `rank_weight` is relative to returned candidates. `search` reports pruning, cutoff, and conditioning tokens. Unlike rank_candidates, this forward search has no right context. Full boundary, frequency, and probability semantics are in [probability-search.md](probability-search.md).

@@ -20,7 +20,9 @@ def parser():
     find = sub.add_parser("find", help="Search CMUdict with soft phonetic weights")
     find.add_argument("target")
     find.add_argument("--limit", type=int, default=20)
-    for command in ["rank", "suggest"]:
+    find.add_argument("--mode", choices=["balanced", "phonetic"], default="balanced")
+    find.add_argument("--commonness-strength", type=float, default=0.65)
+    for command in ["rank", "suggest", "search"]:
         child = sub.add_parser(command)
         child.add_argument("--request", required=True, help="JSON request file, or - for stdin")
     sub.add_parser("serve", help="Run MCP over stdio")
@@ -46,7 +48,8 @@ def main():
         if args.command == "compare":
             result = service.compare(args.candidate, args.target)
         elif args.command == "find":
-            result = service.find(args.target, args.limit)
+            result = service.find(args.target, args.limit, mode=args.mode,
+                                  commonness_strength=args.commonness_strength)
         elif args.command == "status":
             result = service.model.status()
         elif args.command == "download":

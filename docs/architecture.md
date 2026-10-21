@@ -2,7 +2,7 @@
 
 [Home](../README.md) · [Rhyme rules](rhyme-rules.md)
 
-Version 0.2 exposes a local pronunciation and candidate-ranking layer. It does not modify the model's token distribution at each decoding step.
+Version 0.3 exposes pronunciation, candidate ranking, and bounded token-tree search. It does not modify the model's token distribution at each decoding step.
 
 ```mermaid
 flowchart TD
@@ -23,7 +23,8 @@ flowchart TD
 | --- | --- |
 | `profile.py` | Validate YAML/JSON rules and request overlays |
 | `phonetics.py` | Pronunciation alternatives, vowel/coda/stress comparison, dictionary search |
-| `model.py` | Pinned tokenizer/model, finite proposals, teacher-forced likelihood |
+| `model.py` | Pinned tokenizer/model, proposals, sequence likelihood, next-token distributions |
+| `search.py` | Backend-independent beam frontier, completed-word rhyme guidance, raw path probability and cutoff reporting |
 | `checkpoint.py` | Byte-preserving Windows resharding to lower file-mapping peaks |
 | `service.py` | Input validation and combined candidate ranking |
 | `cli.py`, `server.py` | JSON CLI and stdio MCP over the same service |
@@ -64,3 +65,7 @@ Windows uses standard smaller safetensors shards, copied by streaming raw tensor
 English pronunciations only; Chinese text is creative intent. No audio transcription, automatic sung-vowel inference, accent model, artist corpus, or constrained-logit backend. This release makes user preferences explicit and inspectable while leaving final writing decisions with the creator.
 
 Before NF4 weights are loaded, the current execution thread initializes cuBLAS and performs a small BF16 linear operation. The MCP SDK's synchronous tools execute on that thread. Allocation failures in scoring/generation are handled after their frames unwind, then weights and temporary references are released. Runtime/validation errors unrelated to allocation retain their normal behavior; there is no hidden retry or model substitution. See [cold suggestion and recovery checks](suggest-reliability.md).
+
+## Direct probability search
+
+`search_lyrics` branches actual token IDs with original full-vocabulary log probabilities, removes nontext control tokens after normalization, and preserves EOS probability. Active paths are pruned using completed-prefix rhyme guidance with a fraction reserved for raw likelihood. Final candidates retain raw path probability plus separate soft weighting; no Qwen self-rating is used. Microbatching is independent from beam width, and full-prefix forwards avoid persistent per-beam KV copies. See [probability-search.md](probability-search.md).

@@ -13,7 +13,9 @@ def create_server(service: LyricService | None = None):
         instructions=(
             "Local English songwriting assistant. Custom profile rules apply soft phonetic weights; "
             "all supplied candidates remain. Accept Chinese creative intent, produce English lyrics. "
-            "Use compare_rhyme/find_rhymes for cheap dictionary operations; rank_candidates and suggest_lyrics "
+            "Use compare_rhyme/find_rhymes for dictionary operations; search_lyrics expands actual token paths "
+            "using original probabilities and soft rhyme weights, with no model self-ratings. "
+            "rank_candidates and suggest_lyrics "
             f"load pinned local {service.model.status()['model_id']}. strength controls rhyme preference. "
             "Do not equate rank_weight with a calibrated probability or singing quality. "
             "Use profile aliases/vowel_rules/pronunciations for the user's own mumble allowances."
@@ -31,9 +33,32 @@ def create_server(service: LyricService | None = None):
         return service.compare(candidate, target, profile)
 
     @server.tool(structured_output=True)
-    def find_rhymes(target: str, limit: int = 20, profile: dict | None = None) -> dict[str, Any]:
-        """Rank CMUdict words by soft phonetics. No semantic model; disclose dictionary search coverage."""
-        return service.find(target, limit, profile)
+    def find_rhymes(target: str, limit: int = 20, profile: dict | None = None,
+                    mode: str = "balanced", commonness_strength: float = 0.65,
+                    collapse_homophones: bool | None = None) -> dict[str, Any]:
+        """Find English words with soft rhyme and local frequency preferences; no model needed.
+
+        balanced mode folds same-pronunciation spellings into expandable alternatives.
+        phonetic mode uses rhyme alone and keeps spellings separate by default.
+        Frequency never changes your rhyme rules or forbids rare words.
+        """
+        return service.find(target, limit, profile, mode, commonness_strength, collapse_homophones)
+
+    @server.tool(structured_output=True)
+    def search_lyrics(target: str, left: str = "", intent: str = "", beam_width: int = 20,
+                      branch_top_k: int = 20, max_new_tokens: int = 12, min_new_tokens: int = 2,
+                      strength: float = 2.0, length_normalization: float = 0.0, limit: int = 10,
+                      microbatch_size: int = 1, profile: dict | None = None) -> dict[str, Any]:
+        """Search actual Qwen next-token paths, combining true sequence probability and custom soft rhyme.
+
+        No model self-rating. Defaults: 20 active paths and 20 extensions per path.
+        microbatch_size changes GPU batching only, not search width. min/max_new_tokens
+        set completion length; cutoff endings may be partial words and are marked.
+        Raw probabilities include all tokens (EOS when emitted); normalized rank weights
+        concern the returned set only. Search is finite/pruned, not exhaustive. No right context.
+        """
+        return service.search(target, left, intent, beam_width, branch_top_k, max_new_tokens,
+                              min_new_tokens, strength, length_normalization, limit, microbatch_size, profile)
 
     @server.tool(structured_output=True)
     def rank_candidates(

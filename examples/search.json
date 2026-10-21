@@ -1,0 +1,13 @@
+{
+  "target": "light",
+  "left": "the city lights are",
+  "intent": "深夜城市的孤独感",
+  "beam_width": 20,
+  "branch_top_k": 20,
+  "max_new_tokens": 12,
+  "min_new_tokens": 2,
+  "strength": 2.0,
+  "length_normalization": 0.0,
+  "limit": 10,
+  "microbatch_size": 1
+}

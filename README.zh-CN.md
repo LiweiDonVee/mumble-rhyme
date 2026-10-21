@@ -6,7 +6,7 @@
 
 给非母语英语创作者用的本地歌词助手：用中文说出意思，获取英文补词或整句建议；由你决定哪些声音可以通押。提供 Python API、JSON CLI 和 stdio MCP，供人类或旗舰模型调用。
 
-**状态：0.2.2 可运行版本。** 发音规则、排序、MCP 已验证；本机 RTX 5080 的真实 Qwen3.5-9B 与 4B NF4 生成及评分已通过。实测记录见 [验证记录](docs/verification.md)。
+**状态：0.3.0 可运行版本。** 发音规则、排序、MCP 已验证；本机 RTX 5080 的真实 Qwen3.5-9B 与 4B NF4 生成及评分已通过。实测记录见 [验证记录](docs/verification.md)。
 
 ## 模型与范围
 
@@ -102,12 +102,13 @@ pronunciations:
 .venv/Scripts/python.exe -m mumble_rhyme --profile examples/mumble.yaml serve
 ```
 
-提供五个工具：
+提供六个工具：
 
 | 工具 | 输入与用途 | 本地模型 |
 | --- | --- | --- |
 | `compare_rhyme` | 比较词或短语，解释每个末尾音节的元音、尾辅音和规则 | 不需要 |
-| `find_rhymes` | 对 CMUdict 单词软评分，返回候选词；不检查上下文含义 | 不需要 |
+| `find_rhymes` | 词频与音韵软排序，返回同音拼写备选；保留纯音韵模式 | 不需要 |
+| `search_lyrics` | 默认 20×20 token 树搜索，返回真实组合概率与软押韵加权 | 需要 |
 | `rank_candidates` | 给候选字符串、左右文、韵脚，结合语境与发音排序 | 默认需要；可 `use_model=false` |
 | `suggest_lyrics` | 给中文意思及上下文，生成英文补词或完整一行并排序 | 需要 |
 | `model_status` | 查看固定提交、量化、加载状态 | 不需要 |
@@ -164,4 +165,18 @@ rank_weight = softmax(score over the supplied candidate set)
 
 首次 NF4 加载会先初始化 cuBLAS/BF16 运算路径。生成或评分中遇到显存分配错误，会释放模型和异常堆栈中的临时张量，避免报错后继续占用整份模型。不会自动换模型或假装返回成功。`model_status` 新增 `package_version` 和 `last_resource_error`。
 
-更新后请在 Cherry Studio 中停止/重新启动此 MCP，再确认 `package_version` 为 `0.2.2`；运行中的旧进程不会自动更新代码。两种模型已验证以用户的城市灯光请求冷启动直接生成，并验证模拟分配错误后的同进程重试。原始驱动错误在重启后未稳定复现，不能把模拟错误当成原生故障复现，详见 [调试记录](docs/suggest-reliability.md)。
+更新后请在 Cherry Studio 中停止/重新启动此 MCP，再确认 `package_version` 为 `0.3.0`；运行中的旧进程不会自动更新代码。两种模型已验证以用户的城市灯光请求冷启动直接生成，并验证模拟分配错误后的同进程重试。原始驱动错误在重启后未稳定复现，不能把模拟错误当成原生故障复现，详见 [调试记录](docs/suggest-reliability.md)。
+
+## 0.3.0：真实概率树搜索与实用找词
+
+新增第六个 MCP 工具 `search_lyrics`，对应 CLI `search`。默认每轮保留 20 条路径，每条扩展前 20 个 token，累加真实全词表条件对数概率；完整词边界用自定义软通押引导搜索，最终返回路径概率、押韵权重、加权结果和截断标记。没有语义/自然度主观打分。
+
+```powershell
+.venv/Scripts/python.exe -m mumble_rhyme --model 4b --profile examples/mumble.yaml search --request examples/search.json
+```
+
+`beam_width`、`branch_top_k` 默认均为 20；显存批量 `microbatch_size` 默认 1，不缩减搜索宽度。`length_normalization=0` 保留原始组合概率的排序，天然偏向短表达；可显式调整最短 token 长度或归一化。到最大长度时可能截在词内，会标明未确认词边界。搜索是有限预算，不能保证找到全局最优。该接口首版仅向前续写，无右文；中间填空仍可用 rank_candidates。
+
+`find_rhymes` 默认 balanced：综合词频与软音韵，折叠同音拼写并返回 alternatives；`mode=phonetic` 保留纯音韵模式。词频不改变你的通押分数，不禁用生僻词；常见人名和网络词仍可能出现。
+
+[算法、API 与实测](docs/probability-search.md)。更新后重启 MCP，通过 model_status 确认运行版本为 0.3.0；工具列表应有六项。

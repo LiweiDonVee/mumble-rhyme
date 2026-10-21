@@ -116,3 +116,7 @@ Inference and phonetic scoring run locally. Normal online model loading can cont
 ## Reproduce checks
 
 See [CONTRIBUTING.md](../CONTRIBUTING.md) for core tests and the opt-in real-model scripts. [verification.md](verification.md) records what actually ran; CI does not download model weights. All three model validation scripts accept `--model 4b` or `--model 9b`.
+
+## Version 0.3 search and lookup
+
+Core installation now includes wordfreq and its local data for balanced lookup. No online word-frequency service is used. The sixth tool search_lyrics uses the selected Qwen model; its beam width defaults to 20 independently of microbatch size 1. Test scripts use the full default 20×20 budget. See [probability-search.md](probability-search.md) for raw probability, boundary and length-limit behavior. After updating, restart the MCP process and check package_version=0.3.0 and six registered tools.

@@ -30,8 +30,9 @@ class LyricService:
     def compare(self, candidate, target, profile=None):
         return self._engine(profile).compare(candidate, target)
 
-    def find(self, target, limit=20, profile=None):
-        return self._engine(profile).find(target, limit)
+    def find(self, target, limit=20, profile=None, mode="balanced", commonness_strength=0.65,
+             collapse_homophones=None):
+        return self._engine(profile).find(target, limit, mode, commonness_strength, collapse_homophones)
 
     def rank(
         self,
@@ -115,4 +116,27 @@ class LyricService:
             "Bounded locally generated proposals; no rhyme filtering. "
             "Call rank_candidates with your own alternatives to widen the search."
         )
+        return result
+
+    def search(self, target, left="", intent="", beam_width=20, branch_top_k=20,
+               max_new_tokens=12, min_new_tokens=2, strength=2.0, length_normalization=0.0,
+               limit=10, microbatch_size=1, profile=None):
+        from .search import validate_search
+
+        validate_preferences(target, strength, None)
+        validate_search(beam_width, branch_top_k, max_new_tokens, min_new_tokens,
+                        strength, length_normalization, limit, microbatch_size)
+        engine = self._engine(profile)
+        result = self.model.search(
+            left=left, intent=intent, rhyme_weight=lambda text: engine.compare(text, target)["weight"],
+            beam_width=beam_width, branch_top_k=branch_top_k, max_new_tokens=max_new_tokens,
+            min_new_tokens=min_new_tokens, strength=strength, length_normalization=length_normalization,
+            limit=limit, microbatch_size=microbatch_size,
+        )
+        for row in result["candidates"]:
+            row["rhyme"] = engine.compare(row["text"], target)
+        result.update({"scoring_mode": "token_path_search", "model": self.model.status(),
+                       "profile": engine.profile.name, "left": left, "target": target,
+                       "ranking_definition": "sequence_logprob / token_count^length_normalization "
+                       "+ strength * log(rhyme_weight); no model self-rating"})
         return result

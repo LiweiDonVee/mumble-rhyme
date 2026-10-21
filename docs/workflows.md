@@ -8,7 +8,7 @@ The table compares **workflows**, rather than auditing named products. Individua
 
 | Writing need | Dictionary-led exploration | Conversational writing | Mumble Rhyme's explicit control |
 | --- | --- | --- | --- |
-| Find a word family | Browse sounds, spellings, syllables, and phrases | Ask for vocabulary and associations | Search installed English readings by soft phonetic weight |
+| Find a word family | Browse sounds, spellings, syllables, and phrases | Ask for vocabulary and associations | Balance English phonetics with local word frequency; expand same-pronunciation spellings |
 | Turn a feeling into a line | Build the line around a discovered word | Discuss meaning and generate rewrites | Generate English options from a brief, including a Chinese brief, then expose component scores |
 | Try a sound that works when sung | Listen through a list of near matches | Describe the delivery in a prompt | Store a direct vowel-pair weight and a sung pronunciation in YAML |
 | Compare your own alternatives | Cross-check each ending | Ask for an editorial preference | Score every candidate with the same pinned model and profile, including left/right context |
@@ -32,3 +32,5 @@ A stronger external assistant can do the editorial work—meaning, idiom, narrat
 That needs a listening and writing evaluation. Current evidence demonstrates working generation, scoring, custom rules, and tool transport on one measured local setup. It does not demonstrate superiority over a dictionary, another model, or a human collaborator.
 
 Use dictionary exploration for breadth, conversation for developing the thought, and explicit local ranking when you want to preserve and inspect your own rhyme tolerances.
+
+Version 0.3 also offers `search_lyrics`: explore actual Qwen token paths from the meaning and lyric prefix, preserving raw sequence probabilities while applying your soft rhyme preferences. It does not ask the model to judge itself. See [the search mechanics and limits](probability-search.md).
