@@ -2,13 +2,13 @@
 
 [Home](../README.md) · [Reproduce the checks](../CONTRIBUTING.md)
 
-GPU measurements were recorded on **2026-10-20**. Public-release core checks were repeated on **2026-10-21**. These are functional integration records, not comparisons with other writing tools or a listening evaluation.
+Initial 9B GPU measurements were recorded on **2026-10-20**; 4B measurements and updated core checks were recorded on **2026-10-21**. These are functional integration records, not comparisons with other writing tools or a listening evaluation.
 
 ## Core behavior
 
-- **35 pytest tests pass** on Windows / Python 3.10, including a fresh environment without torch.
+- **41 pytest tests pass** on Windows / Python 3.10, including a fresh environment without torch.
 - A real MCP stdio subprocess initializes, discovers five tools, compares pronunciations, handles custom rules, retains unknown candidates, returns phonetic-only rankings and model state, and reports invalid inputs.
-- Tests cover positive soft weights, pair direction and precedence, positional rules, no transitive closure, alternative readings, multiple syllables, unknown retention, syllable preferences, and strength zero.
+- Tests also check 4B/9B model selection, exact snapshot pins, matching tokenizer/model load arguments, and real stdio model status for both selections. Tests cover positive soft weights, pair direction and precedence, positional rules, no transitive closure, alternative readings, multiple syllables, unknown retention, syllable preferences, and strength zero.
 - A review found and fixed a syllable count that previously came from a different pronunciation than the selected match. Another regression covers an interrupted repair of a derived checkpoint cache.
 - Ruff and sdist/wheel builds pass. Public documentation links and example JSON have been checked locally.
 - The real pinned tokenizer has 248077 entries. Full-text offset selection includes boundary-crossing tokens and right context.
@@ -51,3 +51,31 @@ The MCP smoke calls custom-profile comparison, actual model ranking, actual mode
 English pronunciation comes from dictionary readings and hand-designed similarity, with user overrides. Chinese is accepted as a creative brief; Chinese phonetic scoring and recording analysis are absent. Bounded proposals can miss useful unconventional rhymes; custom pair rules apply at reranking time.
 
 Windows uses reference PyTorch kernels where causal_conv1d and flash-linear-attention are absent. The complete 9B smoke passed with those fallbacks. No optimized-kernel performance, universal hardware minimum, or subjective songwriting superiority is claimed.
+
+## 2026-10-21 follow-up resource check
+
+During 4B adaptation, the current host failed to reload 9B with a MemoryError while materializing its first 2.03 GB embedding. System commit headroom before model load was about 11.74 GB and fell to 3.48 GB before that read; the safetensors pread slice path requires additional temporary copies. Running the unmodified initial commit on the same host reproduced the identical failure. The dated successful 9B records above remain intact; they are not a claim that the later resource-limited run succeeded.
+
+## Actual Qwen3.5-4B integration — 2026-10-21
+
+| Setting | Recorded value |
+| --- | --- |
+| Model | Qwen/Qwen3.5-4B |
+| Weights/tokenizer revision | 851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a |
+| OS / Python / GPU | Windows / 3.10.11 / RTX 5080 |
+| Torch / quantization | 2.8.0+cu128 / NF4 with double quantization, BF16 compute |
+| Tokenizer entries | 248077, loaded from the selected 4B snapshot |
+| Original weight bytes | 9,319,828,096 in two SHA-256-verified shards |
+| Peak PyTorch allocated GPU memory | 3.217 GiB |
+| Final direct smoke, existing derived cache | 12.56 seconds |
+| Final production-entrypoint MCP smoke | 14.68 seconds |
+
+Raw outputs: [model-smoke-4b.json](model-smoke-4b.json), [mcp-model-smoke-4b.json](mcp-model-smoke-4b.json), [reshard-check-4b.json](reshard-check-4b.json).
+
+Both integration scripts actually loaded the selected official 4B weights and scored/generated text. The direct check also ranks multi-token gap fills with right context. An independent streaming comparison of all **738 tensors** found identical dtype, shape, and per-tensor SHA-256 between source and derived files. The existing 9B raw records were not overwritten.
+
+Initial 4B suggestions were valid JSON but too generic for the Chinese brief about insomnia and being afraid to call. The shared prompt now explicitly preserves concrete meaning, treats the rhyme reference as a sound rather than a topic, and reinforces the JSON-array output contract. The direct smoke, with seed 42, first failed a narrow lexical assertion for call/phone/dial/number/ring, then passed after the prompt adjustment. The final MCP exchange passed the same brief check. This lexical assertion is specific to the test brief and is not a general meaning or lyric-quality metric.
+
+Final direct examples include `can't make a call tonight` and `dread the phone ring tonight`; the MCP output includes `too scared to call on this long night`. Other candidates still generalize the mood, so editorial selection remains necessary. Sampling can produce different text or malformed output on other requests; the adapter reports unparseable proposals explicitly.
+
+The recorded 4B times include model loading, scoring, and generation with the derived cache prepared. They are functional measurements on one host, not a controlled 4B/9B quality or speed benchmark, nor a guarantee that every 4 GB GPU can run the model.

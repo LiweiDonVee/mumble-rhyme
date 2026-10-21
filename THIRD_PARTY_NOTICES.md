@@ -52,6 +52,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 Model card: <https://huggingface.co/Qwen/Qwen3.5-9B>. Fixed snapshot: <https://huggingface.co/Qwen/Qwen3.5-9B/tree/c202236235762e1c871ad0ccb60c8ee5ba337b9a>.
 
+The optional `Qwen/Qwen3.5-4B` selection is also downloaded separately under Apache-2.0, at fixed revision `851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a`. Its matching tokenizer comes from the same snapshot: <https://huggingface.co/Qwen/Qwen3.5-4B/tree/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a>.
+
 ## Runtime dependencies
 
 Other directly used projects include PyYAML, Pydantic, the MCP Python SDK, PyTorch, Transformers, Accelerate, bitsandbytes, Hugging Face Hub, and their transitive dependencies. They are installed separately; their distributions supply their license notices. `requirements-lock.txt` is a record of the verified Windows environment, not a relicensing of those packages.

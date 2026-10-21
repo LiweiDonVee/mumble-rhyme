@@ -7,6 +7,10 @@ from pathlib import Path
 
 MODEL_ID = "Qwen/Qwen3.5-9B"
 MODEL_REVISION = "c202236235762e1c871ad0ccb60c8ee5ba337b9a"
+MODEL_SPECS = {
+    "9b": (MODEL_ID, MODEL_REVISION),
+    "4b": ("Qwen/Qwen3.5-4B", "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a"),
+}
 MAX_INPUT_TOKENS = 2048
 
 
@@ -21,19 +25,22 @@ def assemble_completion(left, candidate, right):
 
 
 class LocalModel:
-    def __init__(self, quantization="nf4"):
+    def __init__(self, quantization="nf4", model="9b"):
         if quantization not in {"nf4", "none"}:
             raise ValueError("quantization must be nf4 or none")
         self.quantization = quantization
+        if model not in MODEL_SPECS:
+            raise ValueError("model must be 9b or 4b")
+        self.model_id, self.revision = MODEL_SPECS[model]
         self.model = None
         self.tokenizer = None
         self.lock = threading.RLock()
 
     def status(self):
         return {
-            "model_id": MODEL_ID,
-            "revision": MODEL_REVISION,
-            "tokenizer_revision": MODEL_REVISION,
+            "model_id": self.model_id,
+            "revision": self.revision,
+            "tokenizer_revision": self.revision,
             "quantization": self.quantization,
             "loaded": self.model is not None,
             "max_input_tokens": MAX_INPUT_TOKENS,
@@ -45,8 +52,8 @@ class LocalModel:
         from huggingface_hub import snapshot_download
 
         return snapshot_download(
-            MODEL_ID,
-            revision=MODEL_REVISION,
+            self.model_id,
+            revision=self.revision,
             allow_patterns=["*.json", "*.jinja", "*.txt", "*.safetensors", "LICENSE"],
             max_workers=3,
         )
@@ -63,7 +70,7 @@ class LocalModel:
                     "NF4 requires CUDA here. Install a compatible CUDA PyTorch, or select --quantization none."
                 )
             kwargs = {
-                "revision": MODEL_REVISION,
+                "revision": self.revision,
                 "device_map": "auto",
                 "dtype": torch.bfloat16,
                 "trust_remote_code": False,
@@ -78,15 +85,15 @@ class LocalModel:
                 )
                 kwargs["device_map"] = {"": 0}
             tokenizer = AutoTokenizer.from_pretrained(
-                MODEL_ID, revision=MODEL_REVISION, trust_remote_code=False
+                self.model_id, revision=self.revision, trust_remote_code=False
             )
-            model_path = MODEL_ID
+            model_path = self.model_id
             if sys.platform == "win32":
                 from .checkpoint import reshard_checkpoint
 
                 snapshot = Path(self.download())
                 model_path = str(reshard_checkpoint(
-                    snapshot, snapshot.parent.parent / "mumble-rhyme-shards" / MODEL_REVISION
+                    snapshot, snapshot.parent.parent / "mumble-rhyme-shards" / self.revision
                 ))
             model = Qwen3_5ForConditionalGeneration.from_pretrained(model_path, **kwargs).eval()
             if len(tokenizer) > model.get_input_embeddings().num_embeddings:
@@ -165,13 +172,19 @@ class LocalModel:
             {
                 "role": "system",
                 "content": "Help a nonnative speaker write original English song lyrics. "
+                "The meaning_or_mood is the primary brief: preserve its concrete actions, objects, "
+                "and emotional conflict in every option. If the brief is Chinese, express that meaning "
+                "naturally in English. Avoid replacing a specific situation with generic mood words. "
                 "The user provides context around a gap and possibly a Chinese meaning. "
                 "Return a JSON array of distinct English strings to put into the gap. "
                 "When context is empty, each string should be one complete lyric line. "
+                "rhyme_reference describes a SOUND, not the topic of the lyric. "
                 "Aim for each option to end in a rhyme or near rhyme with rhyme_reference. "
                 "Keep the requested meaning; vary the ending words instead of repeating the reference. "
                 "Offer varied natural wording, including near rhymes. No commentary, no Markdown. "
-                "Do not repeat the provided left or right context.",
+                "Do not repeat the provided left or right context. "
+                'Your entire response MUST be a valid JSON array of strings: ["lyric option", "another option"]. '
+                "Do not return unquoted plain lines or explanations.",
             },
             {"role": "user", "content": json.dumps(request, ensure_ascii=False)},
         ]

@@ -3,18 +3,23 @@
 This does NOT validate 9B weights, lyric quality, NF4 or CUDA. It runs on CPU.
 """
 
+import argparse
 import json
 
 import torch
 from transformers import AutoTokenizer, Qwen3_5Config, Qwen3_5ForConditionalGeneration
 
-from mumble_rhyme.model import MODEL_ID, MODEL_REVISION, LocalModel
+from mumble_rhyme.model import MODEL_SPECS, LocalModel
 
 
 def main():
+    parser = argparse.ArgumentParser(description="Pinned tokenizer and random tiny Qwen adapter check")
+    parser.add_argument("--model", choices=list(MODEL_SPECS), default="9b")
+    args = parser.parse_args()
+    model_id, revision = MODEL_SPECS[args.model]
     torch.manual_seed(7)
     torch.set_num_threads(2)
-    tokenizer = AutoTokenizer.from_pretrained(MODEL_ID, revision=MODEL_REVISION, local_files_only=True)
+    tokenizer = AutoTokenizer.from_pretrained(model_id, revision=revision, local_files_only=True)
     config = Qwen3_5Config(
         text_config={
             "vocab_size": 248320,
@@ -45,7 +50,7 @@ def main():
         },
     )
     model = Qwen3_5ForConditionalGeneration(config).eval()
-    adapter = LocalModel(quantization="none")
+    adapter = LocalModel(quantization="none", model=args.model)
     adapter.model, adapter.tokenizer = model, tokenizer
     scores = adapter.score(["emotionally unavailable"], left="I feel", right=", tonight.")
     prompt = adapter._prompt()
@@ -71,9 +76,10 @@ def main():
             {
                 "adapter_score_matches_full_logits": True,
                 "two_token_cached_generation": True,
-                "tokenizer_revision": MODEL_REVISION,
+                "tokenizer_model": model_id,
+                "tokenizer_revision": revision,
                 "tokenizer_vocabulary": len(tokenizer),
-                "test_weights": "random tiny Qwen3.5, NOT the 9B model",
+                "test_weights": "random tiny Qwen3.5, NOT the selected pretrained model",
                 "scores": scores,
             },
             indent=2,

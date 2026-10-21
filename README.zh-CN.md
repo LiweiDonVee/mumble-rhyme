@@ -6,13 +6,13 @@
 
 给非母语英语创作者用的本地歌词助手：用中文说出意思，获取英文补词或整句建议；由你决定哪些声音可以通押。提供 Python API、JSON CLI 和 stdio MCP，供人类或旗舰模型调用。
 
-**状态：0.1 可运行版本。** 发音规则、排序、MCP 已验证；本机 RTX 5080 的真实 Qwen3.5-9B NF4 生成及评分已通过。实测记录见 [验证记录](docs/verification.md)。
+**状态：0.2 可运行版本。** 发音规则、排序、MCP 已验证；本机 RTX 5080 的真实 Qwen3.5-9B 与 4B NF4 生成及评分已通过。实测记录见 [验证记录](docs/verification.md)。
 
 ## 模型与范围
 
-固定使用 **Qwen/Qwen3.5-9B**，模型和 tokenizer 都锁定到 `c202236235762e1c871ad0ccb60c8ee5ba337b9a`。不会偷偷换成较小模型。默认在 CUDA 上用 bitsandbytes NF4 4-bit 加载；原始下载约 19 GB，量化在本地加载时完成。量化不改变词表，但会影响数值精度。无需音频输入。
+支持显式选择 **Qwen3.5-9B 或 Qwen3.5-4B**。默认仍为 9B（`c202236235762e1c871ad0ccb60c8ee5ba337b9a`），`--model 4b` 使用官方 4B（`851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a`）。每个模型的权重与 tokenizer 绑定到各自同一提交。不会偷偷换成较小模型。默认在 CUDA 上用 bitsandbytes NF4 4-bit 加载；9B 原始下载约 19.31 GB，4B 约 9.32 GB，量化在本地加载时完成。量化不改变词表，但会影响数值精度。无需音频输入。
 
-Windows 首次加载会将已下载权重流式重排成较小分片，以绕过 safetensors 大文件映射导致的分页内存峰值；不改变张量数值。原始缓存保留，因此额外占用约 19.3 GB 磁盘，之后会复用重分片缓存。无需修改系统分页文件。
+Windows 首次加载会将已下载权重流式重排成较小分片，以绕过 safetensors 大文件映射导致的分页内存峰值；不改变张量数值。原始缓存保留，因此额外占用与所选原始权重大小接近的磁盘空间，之后会复用重分片缓存。无需修改系统分页文件。
 
 首版发音评分针对**英文**；创作意图可以用中文。中文韵母评分尚未实现。可用来探索旋律说唱、近韵、情绪化口语表达；不包含艺术家的歌词训练集或风格微调。
 
@@ -28,6 +28,16 @@ uv pip install --python .venv/Scripts/python.exe -e '.[model,dev]'
 ```
 
 核心功能可单独安装 `uv pip install --python .venv/Scripts/python.exe -e .`，不需要 PyTorch。Python 3.10+。其他平台应先按自己的硬件安装兼容的 PyTorch；`--quantization none` 可禁用量化，需要更多内存。当前默认 NF4 路径要求 CUDA。依赖快照见 `requirements-lock.txt`（本机 Windows / Python 3.10 环境）；模型依赖是可选项。
+
+显式使用 4B：
+
+```powershell
+.venv/Scripts/python.exe -m mumble_rhyme --model 4b download
+.venv/Scripts/python.exe -m mumble_rhyme --model 4b --profile examples/mumble.yaml suggest --request examples/suggest.json
+.venv/Scripts/python.exe -m mumble_rhyme --model 4b --profile examples/mumble.yaml serve
+```
+
+4B MCP 配置见 [Windows](examples/mcp.windows.4b.json) / [POSIX](examples/mcp.posix.4b.json)。每个服务进程固定使用启动时选定的模型，工具调用不会自动切换。
 
 已安装后的使用：
 
@@ -49,6 +59,8 @@ uv pip install --python .venv/Scripts/python.exe -e '.[model,dev]'
 ```
 
 `rank` / `suggest` 也接受 `--request -`，从标准输入读取 JSON。所有正常输出都是 JSON；日志和错误写到 stderr。MCP 会常驻并复用已加载模型；每次 CLI 调用是新进程，需要重新加载。
+
+4B 实测（RTX 5080 / torch 2.8.0+cu128）：缓存已有时，真实生成及评分脚本约 12.56 秒、正式 MCP 调用约 14.68 秒；PyTorch 峰值已分配显存约 3.217 GiB。这是整轮功能测试，非每次生成延迟或最低显存承诺。原始结果与 9B 当前内存限制见 [验证记录](docs/verification.md)。
 
 ## 你的“通押自定义”
 
@@ -134,7 +146,7 @@ rank_weight = softmax(score over the supplied candidate set)
 .venv/Scripts/python.exe scripts/smoke_model.py
 ```
 
-模型烟雾测试下载/加载真实的固定 Qwen3.5-9B，执行实际生成和似然评分，输出 `docs/model-smoke.json`。常规测试不下载模型、不要求 GPU；包含真实 stdio MCP 子进程交互。模型缓存沿用 Hugging Face 默认位置，可通过 `HF_HOME` 由用户设置。模型和词典各自遵循其上游许可；CMUdict 许可随 Python 依赖分发。
+模型 smoke 脚本均支持 `--model 4b` / `--model 9b`；4B 结果写入独立的 `docs/model-smoke-4b.json` 与 `docs/mcp-model-smoke-4b.json`，9B 原文件名保留。测试会执行所选真实模型的生成和似然评分。常规测试不下载模型、不要求 GPU；包含真实 stdio MCP 子进程交互。模型缓存沿用 Hugging Face 默认位置，可通过 `HF_HOME` 由用户设置。模型和词典各自遵循其上游许可；CMUdict 许可随 Python 依赖分发。
 
 ## 开源与贡献
 

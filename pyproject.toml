@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "mumble-rhyme"
-version = "0.1.0"
+version = "0.2.0"
 description = "Local, soft phonetic rhyme ranking and English lyric suggestions via CLI and MCP"
 readme = "README.md"
 license = "GPL-3.0-or-later"

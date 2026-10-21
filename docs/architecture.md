@@ -2,7 +2,7 @@
 
 [Home](../README.md) · [Rhyme rules](rhyme-rules.md)
 
-Version 0.1 exposes a local pronunciation and candidate-ranking layer. It does not modify the model's token distribution at each decoding step.
+Version 0.2 exposes a local pronunciation and candidate-ranking layer. It does not modify the model's token distribution at each decoding step.
 
 ```mermaid
 flowchart TD
@@ -36,7 +36,7 @@ The best pronunciation pairing is returned, bounded to 32 paths per phrase. Unkn
 
 ## Language layer and the fixed vocabulary
 
-Qwen weights and tokenizer use the same immutable revision. Candidate phrases are not assumed to be single tokens. The adapter assembles prompt + left context + candidate + right context, tokenizes the complete string once, and selects token positions using character offsets. A token spanning the left/gap boundary is scored. Right context is also scored to account for the connection after the gap.
+The selected Qwen weights and tokenizer use the same immutable revision. The model registry pins 9B and 4B separately; default 9B is preserved and model selection never falls back to a different size. Candidate phrases are not assumed to be single tokens. The adapter assembles prompt + left context + candidate + right context, tokenizes the complete string once, and selects token positions using character offsets. A token spanning the left/gap boundary is scored. Right context is also scored to account for the connection after the gap.
 
 Scores are teacher-forced token log likelihoods. Ranking uses their mean to reduce raw sequence-length bias; this does not remove all length effects. The raw sum and number of scored tokens remain available. Model input is capped at 2,048 tokens with an explicit error on overflow. Selected output positions avoid materializing vocabulary logits for the entire prompt.
 

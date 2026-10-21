@@ -8,10 +8,13 @@ from mcp.client.stdio import stdio_client
 
 
 @pytest.mark.asyncio
-async def test_real_stdio_roundtrip_and_tool_errors():
+@pytest.mark.parametrize("model", ["9b", "4b"])
+async def test_real_stdio_roundtrip_and_tool_errors(model):
     env = dict(os.environ)
     env["PYTHONPATH"] = str(Path(__file__).resolve().parents[1] / "src")
-    params = StdioServerParameters(command=sys.executable, args=["-m", "mumble_rhyme", "serve"], env=env)
+    params = StdioServerParameters(
+        command=sys.executable, args=["-m", "mumble_rhyme", "--model", model, "serve"], env=env
+    )
     async with stdio_client(params) as (read, write), ClientSession(read, write) as session:
         await session.initialize()
         tools = await session.list_tools()
@@ -45,7 +48,7 @@ async def test_real_stdio_roundtrip_and_tool_errors():
         assert not ranking.isError
         assert len(ranking.structuredContent["candidates"]) == 2
         status = await session.call_tool("model_status", {})
-        assert status.structuredContent["model_id"] == "Qwen/Qwen3.5-9B"
+        assert status.structuredContent["model_id"] == f"Qwen/Qwen3.5-{model.upper()}"
         assert status.structuredContent["loaded"] is False
         bad = await session.call_tool("compare_rhyme", {"candidate": "", "target": "light"})
         assert bad.isError

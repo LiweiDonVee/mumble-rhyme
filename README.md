@@ -6,7 +6,7 @@
 
 A local English songwriting toolkit for writers who hear a line before they can phrase it. Describe the meaning in English or Chinese, fill a gap, or compare complete lines. Decide which sounds can rhyme in your delivery—and how much each compromise should cost.
 
-Use it from a terminal, Python, or any client that supports **stdio MCP**. Phonetic tools run without a language model. Generation and contextual scoring use a pinned **Qwen3.5-9B** with its matching tokenizer.
+Use it from a terminal, Python, or any client that supports **stdio MCP**. Phonetic tools run without a language model. Generation and contextual scoring use pinned **Qwen3.5-9B or Qwen3.5-4B** weights with the selected model's matching tokenizer. The default remains 9B; choose 4B explicitly for a smaller model.
 
 ## Start with the sound you mean
 
@@ -75,7 +75,20 @@ mumble-rhyme --profile examples/mumble.yaml suggest --request examples/suggest.j
 
 Original weights need about **19.3 GB** of disk. On Windows, the first load creates an additional **19.3 GB** of smaller shards to reduce temporary mapping pressure; tensor values are unchanged. The tested NF4 run peaked at **7.525 GiB of PyTorch allocated GPU memory**. This is a measurement, not a minimum VRAM guarantee. See [hardware, cache, and troubleshooting](docs/installation.md).
 
-The adapter always uses `Qwen/Qwen3.5-9B` at revision `c202236235762e1c871ad0ccb60c8ee5ba337b9a`, for both weights and tokenizer. The default model path requires CUDA; core phonetic tools do not. Weights are downloaded separately under their upstream license.
+Choose 4B with a global option before the subcommand:
+
+```console
+mumble-rhyme --model 4b download
+mumble-rhyme --model 4b status
+mumble-rhyme --model 4b --profile examples/mumble.yaml suggest --request examples/suggest.json
+```
+
+| Selection | Official weights and tokenizer | Fixed revision | Weight download |
+| --- | --- | --- | --- |
+| `--model 9b` (default) | `Qwen/Qwen3.5-9B` | `c202236235762e1c871ad0ccb60c8ee5ba337b9a` | 19.31 GB |
+| `--model 4b` | `Qwen/Qwen3.5-4B` | `851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a` | 9.32 GB |
+
+Each selection locks weights and tokenizer together. Models are never silently substituted. The default NF4 path requires CUDA; core phonetic tools do not. Weights are downloaded separately under their upstream license.
 
 ## Give your assistant a rhyme tool
 
@@ -86,6 +99,8 @@ mumble-rhyme --profile examples/mumble.yaml serve
 ```
 
 Copy [the Windows configuration](examples/mcp.windows.json) or [the POSIX configuration](examples/mcp.posix.json) into your MCP client's server settings, replacing the example absolute paths.
+
+For 4B use [the Windows 4B configuration](examples/mcp.windows.4b.json) or [the POSIX 4B configuration](examples/mcp.posix.4b.json), or start `mumble-rhyme --model 4b --profile examples/mumble.yaml serve`. A server keeps one model selection for its lifetime.
 
 > Help me express “I'm awake, staring at their number, but I can't make the call.” Use `night` as a rhyme reference. Suggest several lines, explain the English, then compare the ones I like using my rhyme profile. Keep unusual near rhymes available.
 
@@ -117,16 +132,17 @@ score = mean_token_log_likelihood
 
 `strength=0` removes the rhyme adjustment; any separate syllable preference still applies. Every supplied candidate remains. `rank_weight` is a softmax within that candidate set, not a probability that a line will sound good.
 
-Version 0.1 implements **candidate generation and reranking**, rather than modifying token logits during generation. The proposal prompt uses the rhyme reference; custom pair rules take effect during reranking. You can supply your own alternatives to explore possibilities the generator missed. Complete text is tokenized before scoring, including right context and tokens that cross the gap boundary. See [the implementation](docs/architecture.md).
+Version 0.2 implements **candidate generation and reranking**, rather than modifying token logits during generation. The proposal prompt uses the rhyme reference; custom pair rules take effect during reranking. You can supply your own alternatives to explore possibilities the generator missed. Complete text is tokenized before scoring, including right context and tokens that cross the gap boundary. See [the implementation](docs/architecture.md).
 
 ## What is verified, and what is next
 
-- **Verified locally:** 35 tests, a real MCP stdio exchange, pinned Qwen3.5-9B NF4 generation and scoring, and all 775 tensors unchanged after Windows resharding.
-- **Measured:** one cached direct-model smoke took 27.71 seconds; an MCP smoke including model load, ranking, and generation took 26.35 seconds. These are functional checks with different requests, not comparative benchmarks or generation-only latency.
+- **Verified locally:** 41 tests, a real MCP stdio exchange, pinned Qwen3.5-9B and 4B NF4 generation/scoring, and unchanged tensors after Windows resharding (775 for 9B, 738 for 4B).
+- **Measured 4B:** 12.56 seconds for a cached direct-model smoke, 14.68 seconds for the production MCP exchange, peak PyTorch allocation 3.217 GiB.
+- **Recorded 9B:** one cached direct-model smoke took 27.71 seconds; an MCP smoke including model load, ranking, and generation took 26.35 seconds. These are functional checks with different requests, not comparative benchmarks or generation-only latency.
 - **Current scope:** English pronunciations; English or Chinese creative instructions; JSON CLI, Python, and MCP.
 - **Future work:** better proposal coverage for custom profiles, broader pronunciation handling, Chinese phonetic scoring, and evaluation with real writing sessions.
 
-No recording analysis, melody tracking, browser editor, or trained singing-quality score is included. Default phonetic similarity is a heuristic over dictionary pronunciations. Read the [verification record](docs/verification.md) for raw outputs and limits.
+No recording analysis, melody tracking, browser editor, or trained singing-quality score is included. Default phonetic similarity is a heuristic over dictionary pronunciations. Read the [verification record](docs/verification.md) for raw outputs and limits, including a later 9B reload failure under reduced available system commit memory.
 
 ## Contribute and license
 

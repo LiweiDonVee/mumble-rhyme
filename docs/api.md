@@ -4,7 +4,7 @@
 
 ## CLI
 
-Global options come **before** the subcommand: `--profile path.yaml`, `--quantization nf4|none`.
+Global options come **before** the subcommand: `--profile path.yaml`, `--quantization nf4|none`, `--model 9b|4b` (default `9b`).
 
 | Command | Input | Output |
 | --- | --- | --- |
@@ -56,10 +56,12 @@ There must be 1–32 nonempty candidates. `use_model=false` explicitly chooses `
 
 Use an absolute Python path so your client finds the correct environment. Replace **every example path** in [mcp.windows.json](../examples/mcp.windows.json) or [mcp.posix.json](../examples/mcp.posix.json). The JSON shows a common `mcpServers` layout; clients may use a different settings wrapper. No API key is required for local inference.
 
-The server uses stdio, has no HTTP port, and starts through:
+For 4B, use [mcp.windows.4b.json](../examples/mcp.windows.4b.json) or [mcp.posix.4b.json](../examples/mcp.posix.4b.json), which add `--model 4b` to the server arguments.
+
+A server uses one model for its lifetime. Choose it at startup; tool calls do not switch models. The server uses stdio, has no HTTP port, and a 4B server starts through:
 
 ```console
-python -m mumble_rhyme --profile examples/mumble.yaml serve
+python -m mumble_rhyme --model 4b --profile examples/mumble.yaml serve
 ```
 
 Registered tools:
@@ -77,10 +79,11 @@ Model loading is lazy. Keep the MCP process alive to reuse its model; allow suff
 ## Python
 
 ```python
+from mumble_rhyme.model import LocalModel
 from mumble_rhyme.profile import Profile
 from mumble_rhyme.service import LyricService
 
-service = LyricService(Profile.load("examples/mumble.yaml"))
+service = LyricService(Profile.load("examples/mumble.yaml"), LocalModel(model="4b"))
 comparison = service.compare("sit", "set")
 ranked = service.rank(
     ["head", "chest", "dreams"], "bed",

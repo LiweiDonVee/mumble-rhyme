@@ -50,18 +50,37 @@ Install CUDA torch first. An older CUDA build can detect the RTX 5080 yet fail o
 
 Other NVIDIA platforms need a compatible PyTorch build and bitsandbytes support. The complete 9B path has been verified on the Windows configuration above; Linux/macOS GPU inference has not been measured here. Core code is portable Python; CI exercises the core separately. `--quantization none` disables NF4 and uses automatic device placement, with much larger memory needs; CPU-only 9B generation is unverified.
 
+## Choose 9B or 4B
+
+`--model` is a global option and must come before the subcommand. The default is `9b`, preserving existing commands. Use `4b` explicitly:
+
+```console
+python -m mumble_rhyme --model 4b download
+python -m mumble_rhyme --model 4b status
+python -m mumble_rhyme --model 4b --profile examples/mumble.yaml suggest --request examples/suggest.json
+python -m mumble_rhyme --model 4b --profile examples/mumble.yaml serve
+```
+
+| Selection | Fixed revision for both weights and tokenizer | Original weights |
+| --- | --- | --- |
+| `9b` | `c202236235762e1c871ad0ccb60c8ee5ba337b9a` | 19,306,310,880 bytes |
+| `4b` | `851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a` | 9,319,828,096 bytes |
+
+Models have separate snapshots and derived caches. Selecting 4B does not download or replace 9B. Each MCP server keeps its startup selection; tools report that model ID and revision. Example 4B MCP configurations: [Windows](../examples/mcp.windows.4b.json), [POSIX](../examples/mcp.posix.4b.json).
+
 ## Disk, GPU memory, and first load
 
 | Resource | Observed behavior |
 | --- | --- |
-| Official weight download | 19,306,310,880 bytes, plus tokenizer/config files |
-| Windows derived shards | Approximately another 19.3 GB; original weights remain intact |
-| GPU peak | 7.525 GiB PyTorch allocated in the recorded NF4 smoke, excluding other programs and driver allocations |
+| Official weight download | 19.31 GB for 9B, 9.32 GB for 4B, plus tokenizer/config files |
+| Windows derived shards | Approximately another copy of the selected weights; original weights remain intact |
+| Recorded 4B GPU peak | 3.217 GiB PyTorch allocated in the final 4B smoke; complete cached direct smoke 12.56 s, MCP 14.68 s |
+| Recorded 9B GPU peak | 7.525 GiB PyTorch allocated in the dated NF4 smoke, excluding other programs and driver allocations |
 | System memory | Loading needs additional system commit headroom; the test host had 32 GB RAM |
 | First model call | Loads/quantizes weights; Windows also prepares smaller shards once |
 | Later MCP calls | Reuse the model in the server process |
 
-There is no automatic model substitution. Weights and tokenizer are pinned to `c202236235762e1c871ad0ccb60c8ee5ba337b9a`. Derived shards change file layout only. The local validation compared dtype, shape, and SHA-256 for all 775 tensors.
+There is no automatic model substitution. Each selection pins weights and tokenizer to the same revision listed above. Derived shards change file layout only. The original 9B validation compared dtype, shape, and SHA-256 for all 775 tensors. Actual model records are kept separately in [verification.md](verification.md).
 
 ## Cache and offline use
 
@@ -82,7 +101,7 @@ Inference and phonetic scoring run locally. Normal online model loading can cont
 
 **“NF4 requires CUDA.”** Core commands still work. Install compatible CUDA torch for the model path, or explicitly choose `--quantization none` before the subcommand with sufficient memory.
 
-**Windows error 1455 during loading.** The Windows adapter prepares smaller safetensors shards to avoid the original large-file mapping peak. Leave space for both caches and enough available system memory. The conversion does not alter system paging settings. Interrupted conversion is rebuilt under a lock before its completed index is published.
+**Windows error 1455 during loading.** The Windows adapter prepares smaller safetensors shards to avoid the original large-file mapping peak. Leave space for both caches and enough available system memory. The conversion does not alter system paging settings. Smaller shards do not remove temporary copies of individual tensors: a later 9B load failed with a MemoryError under reduced system commit headroom, also reproduced with the previous code. The same host completed the recorded 4B runs. See the dated verification record; a smaller measured GPU footprint does not remove system RAM/commit requirements. Interrupted conversion is rebuilt under a lock before its completed index is published.
 
 **The first request takes time.** It includes load/quantization. Give the MCP client a generous tool timeout (the integration script uses five minutes). Use a persistent MCP process for a writing session.
 
@@ -94,4 +113,4 @@ Inference and phonetic scoring run locally. Normal online model loading can cont
 
 ## Reproduce checks
 
-See [CONTRIBUTING.md](../CONTRIBUTING.md) for core tests and the opt-in real-model scripts. [verification.md](verification.md) records what actually ran; CI does not download the 9B weights.
+See [CONTRIBUTING.md](../CONTRIBUTING.md) for core tests and the opt-in real-model scripts. [verification.md](verification.md) records what actually ran; CI does not download model weights. All three model validation scripts accept `--model 4b` or `--model 9b`.

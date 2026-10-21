@@ -23,7 +23,7 @@ python scripts/smoke_model.py
 python scripts/smoke_mcp_model.py
 ```
 
-The adapter check uses the real tokenizer and a random tiny model; it is not a 9B quality test. The latter two scripts use the actual 9B model and write JSON under `docs/`. Generation is sampled, so text and runtime can differ. Do not replace recorded output with invented examples.
+The adapter check uses the real tokenizer and a random tiny model; it is not a pretrained-model quality test. All three scripts accept `--model 4b` or `--model 9b` (the default). The latter two scripts use the selected actual model and write JSON under `docs/`, with a `-4b` suffix for 4B so recorded 9B results are preserved. Generation is sampled, so text and runtime can differ. Do not replace recorded output with invented examples.
 
 ## Changes and tests
 

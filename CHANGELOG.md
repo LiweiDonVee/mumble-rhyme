@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2.0
+
+- Add explicit Qwen3.5-4B selection through `--model 4b` and `LocalModel(model="4b")`; 9B remains the default.
+- Pin each model and its matching tokenizer independently; keep model and derived caches separate.
+- Expose the selected model through MCP instructions and status; provide 4B MCP configuration examples.
+- Parameterize real-model, tokenizer-adapter, and MCP smoke scripts, preserving separate 4B/9B result records.
+- Debug the 4B proposal prompt for concrete-brief retention and JSON output; record actual NF4, right-context scoring, and production MCP validation.
+- Record the later host-memory limitation affecting 9B reloads without overwriting earlier successful evidence.
+
 ## 0.1.0 — initial public version
 
 - English phonetic comparison with positive soft rhyme weights and explanations.
