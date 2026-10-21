@@ -5,6 +5,8 @@ import json
 import sys
 import threading
 import traceback
+from contextlib import contextmanager
+from functools import wraps
 from pathlib import Path
 
 MODEL_ID = "Qwen/Qwen3.5-9B"
@@ -15,6 +17,17 @@ MODEL_SPECS = {
 }
 MAX_INPUT_TOKENS = 2048
 _RUNTIME_LOCK = threading.RLock()
+
+
+def _inference_operation(method):
+    @wraps(method)
+    def run(self, *args, **kwargs):
+        # Keep allocation-owning method frames outside the cleanup handler:
+        # they must have unwound before their traceback locals can be cleared.
+        with self._inference():
+            return method(self, *args, **kwargs)
+
+    return run
 
 
 def _clear_error_frames(error):
@@ -49,9 +62,13 @@ class LocalModel:
         self.model = None
         self.tokenizer = None
         self.lock = _RUNTIME_LOCK
+        self.last_resource_error = None
 
     def status(self):
+        from . import __version__
+
         return {
+            "package_version": __version__,
             "model_id": self.model_id,
             "revision": self.revision,
             "tokenizer_revision": self.revision,
@@ -60,6 +77,7 @@ class LocalModel:
             "max_input_tokens": MAX_INPUT_TOKENS,
             "backend": "transformers",
             "automatic_model_substitution": False,
+            "last_resource_error": self.last_resource_error,
         }
 
     def download(self):
@@ -94,6 +112,52 @@ class LocalModel:
                     clear_workspaces()
                 torch.cuda.empty_cache()
 
+    def _prepare_cuda(self):
+        """Initialize this thread's cuBLAS/BF16 path before allocating model weights."""
+        import torch
+
+        with torch.inference_mode():
+            torch.cuda.current_blas_handle()
+            probe = torch.ones((16, 16), dtype=torch.bfloat16, device="cuda:0")
+            output = torch.nn.functional.linear(probe, probe)
+            if output[0, 0].item() != 16:
+                raise RuntimeError("CUDA BF16 runtime initialization failed")
+            del probe, output
+        torch.cuda.synchronize(0)
+        torch.cuda.empty_cache()
+
+    @contextmanager
+    def _inference(self):
+        import torch
+
+        with self.lock, torch.inference_mode():
+            try:
+                yield
+            except (RuntimeError, MemoryError) as error:
+                message = str(error)
+                resource_error = isinstance(error, MemoryError) or any(
+                    marker in message.lower() for marker in (
+                        "cuda out of memory", "cuda error: out of memory",
+                        "cublas_status_alloc_failed", "cudnn_status_alloc_failed",
+                    )
+                )
+                if not resource_error:
+                    raise
+                self.last_resource_error = message or type(error).__name__
+                _clear_error_frames(error)
+                try:
+                    self.unload()
+                except RuntimeError:
+                    # Preserve the primary CUDA failure if its context cannot be reused.
+                    self.model, self.tokenizer = None, None
+                raise RuntimeError(
+                    f"{self.model_id}: {self.last_resource_error}. Model weights released after the failed "
+                    "operation. Free system/GPU memory before retrying; restart the server if CUDA remains "
+                    "unavailable. Choose --model 4b explicitly for the smaller model."
+                ) from None
+            else:
+                self.last_resource_error = None
+
     def load(self):
         with self.lock:
             if self.model is not None:
@@ -125,6 +189,8 @@ class LocalModel:
             )
             model = None
             try:
+                if self.quantization == "nf4":
+                    self._prepare_cuda()
                 if sys.platform == "win32":
                     from transformers import GenerationConfig, Qwen3_5Config
 
@@ -147,6 +213,9 @@ class LocalModel:
                 if len(tokenizer) > model.get_input_embeddings().num_embeddings:
                     raise RuntimeError("Tokenizer vocabulary exceeds pinned model embeddings")
                 self.tokenizer, self.model = tokenizer, model
+                if self.quantization == "nf4":
+                    # Drop unoccupied loading reservations before first generation.
+                    torch.cuda.empty_cache()
             except Exception as error:
                 # A retained exception (e.g. an MCP error/log record) otherwise
                 # keeps the partial model alive through dependency frame locals.
@@ -172,6 +241,7 @@ class LocalModel:
             messages, tokenize=False, add_generation_prompt=True, enable_thinking=False
         )
 
+    @_inference_operation
     def score(self, candidates, left="", right="", intent=""):
         import torch
 
@@ -210,6 +280,7 @@ class LocalModel:
                 )
         return scores
 
+    @_inference_operation
     def generate(self, left, right, intent, target, count=8):
         if not 1 <= count <= 12:
             raise ValueError("count must be between 1 and 12")

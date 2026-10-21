@@ -134,9 +134,13 @@ score = mean_token_log_likelihood
 
 Version 0.2 implements **candidate generation and reranking**, rather than modifying token logits during generation. The proposal prompt uses the rhyme reference; custom pair rules take effect during reranking. You can supply your own alternatives to explore possibilities the generator missed. Complete text is tokenized before scoring, including right context and tokens that cross the gap boundary. See [the implementation](docs/architecture.md).
 
+## Reliability and verification
+
+Version 0.2.2 covers the reported cold `suggest_lyrics` cuBLAS allocation case: CUDA runtime initialization happens before NF4 loading, inference allocation failures release weights, and status reports the running package version. Both models have real suggest-first and same-process failure-recovery records. See [the investigation, limits, and client restart instructions](docs/suggest-reliability.md).
+
 ## What is verified, and what is next
 
-- **Verified locally:** 47 core tests plus 10 optional tensor tests, a real MCP stdio exchange, pinned Qwen3.5-9B and 4B NF4 generation/scoring, and unchanged tensors after Windows resharding (775 for 9B, 738 for 4B).
+- **Verified locally:** 50 core tests plus 10 optional tensor tests, a real MCP stdio exchange, pinned Qwen3.5-9B and 4B NF4 generation/scoring, and unchanged tensors after Windows resharding (775 for 9B, 738 for 4B).
 - **Measured 4B:** 12.56 seconds for a cached direct-model smoke, 14.68 seconds for the production MCP exchange, peak PyTorch allocation 3.217 GiB.
 - **Recorded 9B:** one cached direct-model smoke took 27.71 seconds; an MCP smoke including model load, ranking, and generation took 26.35 seconds. These are functional checks with different requests, not comparative benchmarks or generation-only latency.
 - **Current scope:** English pronunciations; English or Chinese creative instructions; JSON CLI, Python, and MCP.

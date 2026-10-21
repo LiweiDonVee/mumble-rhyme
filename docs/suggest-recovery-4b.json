@@ -1,0 +1,553 @@
+{
+  "request": {
+    "target": "light",
+    "left": "the city lights are",
+    "intent": "深夜城市的孤独感",
+    "count": 3
+  },
+  "model": "4b",
+  "injected_failure": true,
+  "calls": [
+    {
+      "elapsed_seconds": 4.953898400068283,
+      "response": {
+        "candidates": [
+          {
+            "text": "the city lights are fading in the night",
+            "lm_mean_logprob": -3.4988064765930176,
+            "lm_sum_logprob": -27.99045181274414,
+            "scored_tokens": 8,
+            "rhyme": {
+              "candidate": "the city lights are fading in the night",
+              "target": "light",
+              "unknown_words": [],
+              "syllable_count": 10,
+              "pronunciation_search_truncated": true,
+              "pronunciation_pairs_considered": 32,
+              "weight": 1.0,
+              "alignment": [
+                {
+                  "position_from_end": 1,
+                  "candidate": {
+                    "vowel": "AY",
+                    "stress": 1,
+                    "coda": [
+                      "T"
+                    ]
+                  },
+                  "target": {
+                    "vowel": "AY",
+                    "stress": 1,
+                    "coda": [
+                      "T"
+                    ]
+                  },
+                  "vowel_weight": 1.0,
+                  "coda_weight": 1.0,
+                  "stress_weight": 1,
+                  "weight": 1.0,
+                  "source": "identical_vowel"
+                }
+              ],
+              "candidate_phones": [
+                "DH",
+                "AH0",
+                "S",
+                "IH1",
+                "T",
+                "IY0",
+                "L",
+                "AY1",
+                "T",
+                "S",
+                "AA1",
+                "R",
+                "F",
+                "EY1",
+                "D",
+                "IH0",
+                "NG",
+                "IH0",
+                "N",
+                "DH",
+                "AH0",
+                "N",
+                "AY1",
+                "T"
+              ],
+              "target_phones": [
+                "L",
+                "AY1",
+                "T"
+              ],
+              "status": "scored"
+            },
+            "syllable_weight": 1.0,
+            "adjusted_score": -3.4988064765930176,
+            "rank_weight": 0.6127275179305437
+          },
+          {
+            "text": "the city lights are burning up all night",
+            "lm_mean_logprob": -4.6468024253845215,
+            "lm_sum_logprob": -37.17441940307617,
+            "scored_tokens": 8,
+            "rhyme": {
+              "candidate": "the city lights are burning up all night",
+              "target": "light",
+              "unknown_words": [],
+              "syllable_count": 10,
+              "pronunciation_search_truncated": false,
+              "pronunciation_pairs_considered": 6,
+              "weight": 1.0,
+              "alignment": [
+                {
+                  "position_from_end": 1,
+                  "candidate": {
+                    "vowel": "AY",
+                    "stress": 1,
+                    "coda": [
+                      "T"
+                    ]
+                  },
+                  "target": {
+                    "vowel": "AY",
+                    "stress": 1,
+                    "coda": [
+                      "T"
+                    ]
+                  },
+                  "vowel_weight": 1.0,
+                  "coda_weight": 1.0,
+                  "stress_weight": 1,
+                  "weight": 1.0,
+                  "source": "identical_vowel"
+                }
+              ],
+              "candidate_phones": [
+                "DH",
+                "AH0",
+                "S",
+                "IH1",
+                "T",
+                "IY0",
+                "L",
+                "AY1",
+                "T",
+                "S",
+                "AA1",
+                "R",
+                "B",
+                "ER1",
+                "N",
+                "IH0",
+                "NG",
+                "AH1",
+                "P",
+                "AO1",
+                "L",
+                "N",
+                "AY1",
+                "T"
+              ],
+              "target_phones": [
+                "L",
+                "AY1",
+                "T"
+              ],
+              "status": "scored"
+            },
+            "syllable_weight": 1.0,
+            "adjusted_score": -4.6468024253845215,
+            "rank_weight": 0.19440126175213132
+          },
+          {
+            "text": "the city lights are dancing out of sight",
+            "lm_mean_logprob": -4.6547040939331055,
+            "lm_sum_logprob": -37.237632751464844,
+            "scored_tokens": 8,
+            "rhyme": {
+              "candidate": "the city lights are dancing out of sight",
+              "target": "light",
+              "unknown_words": [],
+              "syllable_count": 10,
+              "pronunciation_search_truncated": false,
+              "pronunciation_pairs_considered": 6,
+              "weight": 1.0,
+              "alignment": [
+                {
+                  "position_from_end": 1,
+                  "candidate": {
+                    "vowel": "AY",
+                    "stress": 1,
+                    "coda": [
+                      "T"
+                    ]
+                  },
+                  "target": {
+                    "vowel": "AY",
+                    "stress": 1,
+                    "coda": [
+                      "T"
+                    ]
+                  },
+                  "vowel_weight": 1.0,
+                  "coda_weight": 1.0,
+                  "stress_weight": 1,
+                  "weight": 1.0,
+                  "source": "identical_vowel"
+                }
+              ],
+              "candidate_phones": [
+                "DH",
+                "AH0",
+                "S",
+                "IH1",
+                "T",
+                "IY0",
+                "L",
+                "AY1",
+                "T",
+                "S",
+                "AA1",
+                "R",
+                "D",
+                "AE1",
+                "N",
+                "S",
+                "IH0",
+                "NG",
+                "AW1",
+                "T",
+                "AH1",
+                "V",
+                "S",
+                "AY1",
+                "T"
+              ],
+              "target_phones": [
+                "L",
+                "AY1",
+                "T"
+              ],
+              "status": "scored"
+            },
+            "syllable_weight": 1.0,
+            "adjusted_score": -4.6547040939331055,
+            "rank_weight": 0.1928712203173251
+          }
+        ],
+        "scoring_mode": "local_model",
+        "strength": 2.0,
+        "profile": "my-mumble",
+        "model": {
+          "package_version": "0.2.2",
+          "model_id": "Qwen/Qwen3.5-4B",
+          "revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+          "tokenizer_revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+          "quantization": "nf4",
+          "loaded": true,
+          "max_input_tokens": 2048,
+          "backend": "transformers",
+          "automatic_model_substitution": false,
+          "last_resource_error": null,
+          "test_cuda_allocated_bytes": 3311437824,
+          "test_cuda_reserved_bytes": 3487563776
+        },
+        "ranking_definition": "softmax(mean token log likelihood + strength * log(rhyme weight) + log(syllable weight)); relative to this candidate set, not calibrated probabilities",
+        "warnings": [],
+        "proposal_count_requested": 3,
+        "proposal_count_received": 3,
+        "proposal_raw_output": "[\"the city lights are fading in the night\", \"the city lights are burning up all night\", \"the city lights are dancing out of sight\"]\n",
+        "search_scope": "Bounded locally generated proposals; no rhyme filtering. Call rank_candidates with your own alternatives to widen the search."
+      }
+    },
+    {
+      "elapsed_seconds": 1.476978899911046,
+      "response": {
+        "candidates": [
+          {
+            "text": "the city lights are fading from the night",
+            "lm_mean_logprob": -3.730665922164917,
+            "lm_sum_logprob": -29.845327377319336,
+            "scored_tokens": 8,
+            "rhyme": {
+              "candidate": "the city lights are fading from the night",
+              "target": "light",
+              "unknown_words": [],
+              "syllable_count": 10,
+              "pronunciation_search_truncated": false,
+              "pronunciation_pairs_considered": 18,
+              "weight": 1.0,
+              "alignment": [
+                {
+                  "position_from_end": 1,
+                  "candidate": {
+                    "vowel": "AY",
+                    "stress": 1,
+                    "coda": [
+                      "T"
+                    ]
+                  },
+                  "target": {
+                    "vowel": "AY",
+                    "stress": 1,
+                    "coda": [
+                      "T"
+                    ]
+                  },
+                  "vowel_weight": 1.0,
+                  "coda_weight": 1.0,
+                  "stress_weight": 1,
+                  "weight": 1.0,
+                  "source": "identical_vowel"
+                }
+              ],
+              "candidate_phones": [
+                "DH",
+                "AH0",
+                "S",
+                "IH1",
+                "T",
+                "IY0",
+                "L",
+                "AY1",
+                "T",
+                "S",
+                "AA1",
+                "R",
+                "F",
+                "EY1",
+                "D",
+                "IH0",
+                "NG",
+                "F",
+                "R",
+                "AH1",
+                "M",
+                "DH",
+                "AH0",
+                "N",
+                "AY1",
+                "T"
+              ],
+              "target_phones": [
+                "L",
+                "AY1",
+                "T"
+              ],
+              "status": "scored"
+            },
+            "syllable_weight": 1.0,
+            "adjusted_score": -3.730665922164917,
+            "rank_weight": 0.6221910224548224
+          },
+          {
+            "text": "the city lights are burning out at last",
+            "lm_mean_logprob": -4.20270299911499,
+            "lm_sum_logprob": -33.62162399291992,
+            "scored_tokens": 8,
+            "rhyme": {
+              "candidate": "the city lights are burning out at last",
+              "target": "light",
+              "unknown_words": [],
+              "syllable_count": 10,
+              "pronunciation_search_truncated": false,
+              "pronunciation_pairs_considered": 12,
+              "weight": 0.8424693413832322,
+              "alignment": [
+                {
+                  "position_from_end": 1,
+                  "candidate": {
+                    "vowel": "AE",
+                    "stress": 1,
+                    "coda": [
+                      "S",
+                      "T"
+                    ]
+                  },
+                  "target": {
+                    "vowel": "AY",
+                    "stress": 1,
+                    "coda": [
+                      "T"
+                    ]
+                  },
+                  "vowel_weight": 0.8694420993065347,
+                  "coda_weight": 0.7046880897187134,
+                  "stress_weight": 1,
+                  "weight": 0.8424693413832322,
+                  "source": "default_similarity"
+                }
+              ],
+              "candidate_phones": [
+                "DH",
+                "AH0",
+                "S",
+                "IH1",
+                "T",
+                "IY0",
+                "L",
+                "AY1",
+                "T",
+                "S",
+                "AA1",
+                "R",
+                "B",
+                "ER1",
+                "N",
+                "IH0",
+                "NG",
+                "AW1",
+                "T",
+                "AE1",
+                "T",
+                "L",
+                "AE1",
+                "S",
+                "T"
+              ],
+              "target_phones": [
+                "L",
+                "AY1",
+                "T"
+              ],
+              "status": "scored"
+            },
+            "syllable_weight": 1.0,
+            "adjusted_score": -4.545539014049651,
+            "rank_weight": 0.27544116917133166
+          },
+          {
+            "text": "the city lights are dancing on your sight",
+            "lm_mean_logprob": -5.535340785980225,
+            "lm_sum_logprob": -44.2827262878418,
+            "scored_tokens": 8,
+            "rhyme": {
+              "candidate": "the city lights are dancing on your sight",
+              "target": "light",
+              "unknown_words": [],
+              "syllable_count": 10,
+              "pronunciation_search_truncated": false,
+              "pronunciation_pairs_considered": 24,
+              "weight": 1.0,
+              "alignment": [
+                {
+                  "position_from_end": 1,
+                  "candidate": {
+                    "vowel": "AY",
+                    "stress": 1,
+                    "coda": [
+                      "T"
+                    ]
+                  },
+                  "target": {
+                    "vowel": "AY",
+                    "stress": 1,
+                    "coda": [
+                      "T"
+                    ]
+                  },
+                  "vowel_weight": 1.0,
+                  "coda_weight": 1.0,
+                  "stress_weight": 1,
+                  "weight": 1.0,
+                  "source": "identical_vowel"
+                }
+              ],
+              "candidate_phones": [
+                "DH",
+                "AH0",
+                "S",
+                "IH1",
+                "T",
+                "IY0",
+                "L",
+                "AY1",
+                "T",
+                "S",
+                "AA1",
+                "R",
+                "D",
+                "AE1",
+                "N",
+                "S",
+                "IH0",
+                "NG",
+                "AA1",
+                "N",
+                "Y",
+                "AO1",
+                "R",
+                "S",
+                "AY1",
+                "T"
+              ],
+              "target_phones": [
+                "L",
+                "AY1",
+                "T"
+              ],
+              "status": "scored"
+            },
+            "syllable_weight": 1.0,
+            "adjusted_score": -5.535340785980225,
+            "rank_weight": 0.10236780837384601
+          }
+        ],
+        "scoring_mode": "local_model",
+        "strength": 2.0,
+        "profile": "my-mumble",
+        "model": {
+          "package_version": "0.2.2",
+          "model_id": "Qwen/Qwen3.5-4B",
+          "revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+          "tokenizer_revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+          "quantization": "nf4",
+          "loaded": true,
+          "max_input_tokens": 2048,
+          "backend": "transformers",
+          "automatic_model_substitution": false,
+          "last_resource_error": null,
+          "test_cuda_allocated_bytes": 3311437824,
+          "test_cuda_reserved_bytes": 3487563776
+        },
+        "ranking_definition": "softmax(mean token log likelihood + strength * log(rhyme weight) + log(syllable weight)); relative to this candidate set, not calibrated probabilities",
+        "warnings": [],
+        "proposal_count_requested": 3,
+        "proposal_count_received": 3,
+        "proposal_raw_output": "[\"the city lights are fading from the night\", \"the city lights are dancing on your sight\", \"the city lights are burning out at last\"]\n",
+        "search_scope": "Bounded locally generated proposals; no rhyme filtering. Call rank_candidates with your own alternatives to widen the search."
+      }
+    }
+  ],
+  "failure_response": "Error executing tool suggest_lyrics: Qwen/Qwen3.5-4B: CUDA error: CUBLAS_STATUS_ALLOC_FAILED when calling cublasCreate(handle) [injected]. Model weights released after the failed operation. Free system/GPU memory before retrying; restart the server if CUDA remains unavailable. Choose --model 4b explicitly for the smaller model.",
+  "after_failure_status": {
+    "package_version": "0.2.2",
+    "model_id": "Qwen/Qwen3.5-4B",
+    "revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+    "tokenizer_revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+    "quantization": "nf4",
+    "loaded": false,
+    "max_input_tokens": 2048,
+    "backend": "transformers",
+    "automatic_model_substitution": false,
+    "last_resource_error": "CUDA error: CUBLAS_STATUS_ALLOC_FAILED when calling cublasCreate(handle) [injected]",
+    "test_cuda_allocated_bytes": 8520704,
+    "test_cuda_reserved_bytes": 23068672
+  },
+  "final_status": {
+    "package_version": "0.2.2",
+    "model_id": "Qwen/Qwen3.5-4B",
+    "revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+    "tokenizer_revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+    "quantization": "nf4",
+    "loaded": true,
+    "max_input_tokens": 2048,
+    "backend": "transformers",
+    "automatic_model_substitution": false,
+    "last_resource_error": null,
+    "test_cuda_allocated_bytes": 3311437824,
+    "test_cuda_reserved_bytes": 3487563776
+  },
+  "checks_passed": true
+}

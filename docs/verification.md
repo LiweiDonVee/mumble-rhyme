@@ -6,7 +6,7 @@ Initial 9B GPU measurements were recorded on **2026-10-20**; 4B measurements and
 
 ## Core behavior
 
-- **47 core pytest tests pass** on Windows / Python 3.10, including a fresh environment without torch.
+- **50 core pytest tests pass** on Windows / Python 3.10, including a fresh environment without torch.
 - A real MCP stdio subprocess initializes, discovers five tools, compares pronunciations, handles custom rules, retains unknown candidates, returns phonetic-only rankings and model state, and reports invalid inputs.
 - Tests also check 4B/9B model selection, exact snapshot pins, matching tokenizer/model load arguments, and real stdio model status for both selections. Tests cover positive soft weights, pair direction and precedence, positional rules, no transitive closure, alternative readings, multiple syllables, unknown retention, syllable preferences, and strength zero.
 - A review found and fixed a syllable count that previously came from a different pronunciation than the selected match. Another regression covers an interrupted repair of a derived checkpoint cache.
@@ -85,3 +85,9 @@ The recorded 4B times include model loading, scoring, and generation with the de
 The later 9B loading failure is now resolved on the measured host. It involved avoidable dependency staging as well as memory headroom. Failed-load traceback retention and a workspace-pinned reserved CUDA block were also reproduced and fixed. Both sizes passed injected failure recovery and two same-process load/score/unload cycles, finishing each explicit `release_runtime_cache=True` unload at 1 KiB allocated and 2 MiB reserved. That option requires external CUDA work to be stopped; default cleanup does not purge shared cuBLAS workspaces. See [the full memory audit](model-memory.md) and its raw records.
 
 Updated validation: 47 core tests in a torch-free environment (one optional module skipped); 57 tests including 10 real-tensor streaming tests in the model environment. The latter cover BF16/F16/F32 bytes, matrices, scalar/empty tensors, and truncated input. Functional direct and production MCP runs passed for both 9B and 4B after the fix. Existing historical JSON remains intact.
+
+## Suggest-first and inference-error recovery — 0.2.2
+
+The live failed Cherry Studio 9B server retained weights after the reported cublasCreate allocation error. A fresh server accepted the same request before the fix, so the native driver failure was not deterministic. Confirmed gaps were deferred runtime initialization, missing suggest-first coverage, and no cleanup on inference allocation errors.
+
+The fix prepares cuBLAS/BF16 before NF4 weights, returns unused loading reservations, and clears allocation-owning inference frames/weights on allocation failure. Real 9B/4B production MCP processes now have records for the city-lights request as their first model operation, a second request in the same process, and a separately labeled injected-error recovery audit. See [suggest-reliability.md](suggest-reliability.md) and its four raw records. Tests now total 50 core plus 10 optional real-tensor tests.

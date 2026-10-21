@@ -6,7 +6,7 @@
 
 给非母语英语创作者用的本地歌词助手：用中文说出意思，获取英文补词或整句建议；由你决定哪些声音可以通押。提供 Python API、JSON CLI 和 stdio MCP，供人类或旗舰模型调用。
 
-**状态：0.2.1 可运行版本。** 发音规则、排序、MCP 已验证；本机 RTX 5080 的真实 Qwen3.5-9B 与 4B NF4 生成及评分已通过。实测记录见 [验证记录](docs/verification.md)。
+**状态：0.2.2 可运行版本。** 发音规则、排序、MCP 已验证；本机 RTX 5080 的真实 Qwen3.5-9B 与 4B NF4 生成及评分已通过。实测记录见 [验证记录](docs/verification.md)。
 
 ## 模型与范围
 
@@ -159,3 +159,9 @@ rank_weight = softmax(score over the supplied candidate set)
 ## 0.2.1 内存修复
 
 已修复 Windows 大张量读取产生额外副本的峰值、失败异常链保留部分模型，以及 cuBLAS 工作区阻止大块显存归还的问题。9B、4B 均通过模拟失败后恢复，并在同一进程内连续加载/评分/卸载两轮；使用显式完整缓存释放后，实测为 1 KiB 已分配、2 MiB 已预留。Python 可调用 `service.model.unload()` 释放模型；若需清理进程级 cuBLAS 缓存，可在同进程其他 CUDA 工作已停止时使用 `release_runtime_cache=True`；MCP 正常在会话内常驻模型，停止服务进程会释放其运行时上下文。详见 [内存审计](docs/model-memory.md)。
+
+## 0.2.2 首次生成与错误恢复
+
+首次 NF4 加载会先初始化 cuBLAS/BF16 运算路径。生成或评分中遇到显存分配错误，会释放模型和异常堆栈中的临时张量，避免报错后继续占用整份模型。不会自动换模型或假装返回成功。`model_status` 新增 `package_version` 和 `last_resource_error`。
+
+更新后请在 Cherry Studio 中停止/重新启动此 MCP，再确认 `package_version` 为 `0.2.2`；运行中的旧进程不会自动更新代码。两种模型已验证以用户的城市灯光请求冷启动直接生成，并验证模拟分配错误后的同进程重试。原始驱动错误在重启后未稳定复现，不能把模拟错误当成原生故障复现，详见 [调试记录](docs/suggest-reliability.md)。

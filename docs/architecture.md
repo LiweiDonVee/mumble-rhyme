@@ -62,3 +62,5 @@ Windows uses standard smaller safetensors shards, copied by streaming raw tensor
 ## Deliberate limits
 
 English pronunciations only; Chinese text is creative intent. No audio transcription, automatic sung-vowel inference, accent model, artist corpus, or constrained-logit backend. This release makes user preferences explicit and inspectable while leaving final writing decisions with the creator.
+
+Before NF4 weights are loaded, the current execution thread initializes cuBLAS and performs a small BF16 linear operation. The MCP SDK's synchronous tools execute on that thread. Allocation failures in scoring/generation are handled after their frames unwind, then weights and temporary references are released. Runtime/validation errors unrelated to allocation retain their normal behavior; there is no hidden retry or model substitution. See [cold suggestion and recovery checks](suggest-reliability.md).

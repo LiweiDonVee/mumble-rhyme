@@ -106,6 +106,12 @@ The service shares the same logic as CLI and MCP. Advanced Python/CLI ranking ca
 
 These are selection aids, not calibrated probabilities of naturalness, musical fit, or listener preference. See [architecture](architecture.md) for the scoring boundaries.
 
+## Resource errors and live version
+
+`model_status` includes `package_version` (the imported server version) and `last_resource_error` (null until an allocation failure, cleared after successful inference). Generation/scoring allocation failures release the weights and return the original CUDA error with recovery guidance; they do not silently retry. The next request can reload once resources are available. Restart the server if CUDA remains unusable.
+
+After updating, restart the MCP server and check `package_version`; a running process does not reload modules automatically. See the [suggest-first investigation](suggest-reliability.md).
+
 ## Explicit Python release
 
 `service.model.unload()` releases references owned by the adapter and unused CUDA allocations under a shared project inference lock. The optional `service.model.unload(release_runtime_cache=True)` also purges process-wide cuBLAS workspace caches; call it only after stopping external CUDA work in the same process. Default unload and automatic failure recovery leave those shared workspaces alone. The next model request loads the same selection again. Externally retained Python references still own their memory; the runtime context may remain until process exit. MCP intentionally stays resident between calls; stopping its server releases that process. See the [failure/retry and lifecycle audit](model-memory.md).

@@ -105,6 +105,8 @@ Inference and phonetic scoring run locally. Normal online model loading can cont
 
 **The first request takes time.** It includes load/quantization. Give the MCP client a generous tool timeout (the integration script uses five minutes). Use a persistent MCP process for a writing session.
 
+**`CUBLAS_STATUS_ALLOC_FAILED` on first suggestion.** Version 0.2.2 prepares cuBLAS/BF16 before loading weights and cleans up weights after inference allocation failure. Restart the server after updating and check `model_status.package_version`. Avoid duplicate 9B servers on the same GPU. A later request can reload once resources are available; choose `--model 4b` explicitly if desired. See the [investigation and its limits](suggest-reliability.md).
+
 **Missing optional attention kernels.** Windows validation used the reference PyTorch implementations. Warnings about `causal_conv1d` or `flash-linear-attention` did not prevent the recorded smoke from passing; no optimized-kernel performance is claimed.
 
 **Unexpected lyric or weak rhyme.** Generation samples a finite set. Inspect pronunciation explanations, add a sung pronunciation override, supply better alternatives to `rank_candidates`, or adjust `strength`. Unknown words remain with an explicit weight; they are not automatically pronounced.

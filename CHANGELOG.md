@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.2
+
+- Initialize cuBLAS and a real BF16 linear operation before NF4 weights occupy memory; release unused loading reservations before first inference.
+- Clean up model weights and exception-held tensors on generation/scoring allocation failures, not just failed loading. Preserve the reported error and return an explicit recovery message; no automatic model substitution or hidden retry.
+- Include the running package version and last resource error in model status.
+- Add the reported city-lights request as a cold suggest-first MCP check, plus real-model fault injection followed by same-process retry for both model sizes.
+
 ## 0.2.1
 
 - Reduce Windows NF4 load peaks: validated large floating-point tensors stream directly to CUDA using a 16 MiB CPU buffer; other tensors use single-buffer full-tensor reads.

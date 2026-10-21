@@ -190,3 +190,125 @@ def test_failed_load_drops_partial_model_even_if_error_is_kept(monkeypatch):
     assert partials[0]() is None
     assert adapter.model is None and adapter.tokenizer is None
     assert events == ["empty_cache"]
+
+
+def test_cuda_runtime_is_prepared_before_weights_are_loaded(monkeypatch):
+    import sys
+    from types import SimpleNamespace
+
+    from mumble_rhyme.model import LocalModel
+
+    events = []
+
+    class Model:
+        def eval(self):
+            return self
+
+        def get_input_embeddings(self):
+            return SimpleNamespace(num_embeddings=12)
+
+    class Tokenizer:
+        def __len__(self):
+            return 12
+
+    def load_weights(*args, **kwargs):
+        events.append("weights")
+        return Model()
+
+    monkeypatch.setitem(sys.modules, "torch", SimpleNamespace(
+        bfloat16="bf16", cuda=SimpleNamespace(
+            is_available=lambda: True, empty_cache=lambda: events.append("unused_loading_cache"),
+        ),
+    ))
+    monkeypatch.setitem(sys.modules, "transformers", SimpleNamespace(
+        AutoTokenizer=SimpleNamespace(from_pretrained=lambda *a, **k: Tokenizer()),
+        BitsAndBytesConfig=lambda **kwargs: kwargs,
+        Qwen3_5ForConditionalGeneration=SimpleNamespace(from_pretrained=load_weights),
+    ))
+    monkeypatch.setattr(sys, "platform", "linux")
+    monkeypatch.setattr(LocalModel, "_prepare_cuda", lambda self: events.append("runtime"), raising=False)
+    adapter = LocalModel()
+    adapter.load()
+    assert events == ["runtime", "weights", "unused_loading_cache"]
+
+
+def test_first_generate_resource_failure_releases_weights_and_can_retry(monkeypatch):
+    import sys
+    import weakref
+    from contextlib import nullcontext
+    from types import SimpleNamespace
+
+    import pytest
+
+    from mumble_rhyme.model import LocalModel
+
+    events, partials = [], []
+
+    class Inputs(dict):
+        input_ids = SimpleNamespace(shape=(1, 10))
+
+        def to(self, device):
+            return self
+
+    class Tokenizer:
+        def apply_chat_template(self, *a, **k):
+            return "prompt"
+
+        def __call__(self, *a, **k):
+            return Inputs()
+
+        def decode(self, *a, **k):
+            return '["fading into the night"]'
+
+    class Temporary:
+        pass
+
+    class Output:
+        def __getitem__(self, index):
+            return []
+
+    class Model:
+        device = "cuda:0"
+
+        def __init__(self, fail):
+            self.fail = fail
+
+        def generate(self, **kwargs):
+            if self.fail:
+                temporary = Temporary()
+                partials.append(weakref.ref(temporary))
+                raise RuntimeError("CUDA error: CUBLAS_STATUS_ALLOC_FAILED when calling cublasCreate(handle)")
+            return Output()
+
+    monkeypatch.setitem(sys.modules, "torch", SimpleNamespace(
+        inference_mode=nullcontext,
+        cuda=SimpleNamespace(is_initialized=lambda: True, empty_cache=lambda: events.append("released")),
+    ))
+    adapter = LocalModel()
+    adapter.model, adapter.tokenizer = Model(True), Tokenizer()
+    with pytest.raises(RuntimeError, match="CUBLAS_STATUS_ALLOC_FAILED") as captured:
+        adapter.generate("the city lights are", "", "深夜城市的孤独感", "light", 3)
+    assert adapter.status()["loaded"] is False
+    assert adapter.tokenizer is None
+    assert partials[0]() is None  # Even if the caller keeps the error.
+    assert "released" in str(captured.value).lower()
+    assert events == ["released"]
+    adapter.model, adapter.tokenizer = Model(False), Tokenizer()
+    assert adapter.generate("the city lights are", "", "深夜城市的孤独感", "light", 3)[0]
+
+
+def test_validation_error_does_not_unload_model(monkeypatch):
+    import sys
+    from contextlib import nullcontext
+    from types import SimpleNamespace
+
+    import pytest
+
+    from mumble_rhyme.model import LocalModel
+
+    monkeypatch.setitem(sys.modules, "torch", SimpleNamespace(inference_mode=nullcontext))
+    adapter = LocalModel()
+    adapter.model = object()
+    with pytest.raises(ValueError), adapter._inference():
+        raise ValueError("input too long")
+    assert adapter.status()["loaded"] is True

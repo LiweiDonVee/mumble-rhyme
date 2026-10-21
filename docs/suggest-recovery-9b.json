@@ -1,0 +1,545 @@
+{
+  "request": {
+    "target": "light",
+    "left": "the city lights are",
+    "intent": "深夜城市的孤独感",
+    "count": 3
+  },
+  "model": "9b",
+  "injected_failure": true,
+  "calls": [
+    {
+      "elapsed_seconds": 11.1379636998754,
+      "response": {
+        "candidates": [
+          {
+            "text": "burning bright in my lonely night",
+            "lm_mean_logprob": -3.762317657470703,
+            "lm_sum_logprob": -22.57390594482422,
+            "scored_tokens": 6,
+            "rhyme": {
+              "candidate": "burning bright in my lonely night",
+              "target": "light",
+              "unknown_words": [],
+              "syllable_count": 8,
+              "pronunciation_search_truncated": false,
+              "pronunciation_pairs_considered": 2,
+              "weight": 1.0,
+              "alignment": [
+                {
+                  "position_from_end": 1,
+                  "candidate": {
+                    "vowel": "AY",
+                    "stress": 1,
+                    "coda": [
+                      "T"
+                    ]
+                  },
+                  "target": {
+                    "vowel": "AY",
+                    "stress": 1,
+                    "coda": [
+                      "T"
+                    ]
+                  },
+                  "vowel_weight": 1.0,
+                  "coda_weight": 1.0,
+                  "stress_weight": 1,
+                  "weight": 1.0,
+                  "source": "identical_vowel"
+                }
+              ],
+              "candidate_phones": [
+                "B",
+                "ER1",
+                "N",
+                "IH0",
+                "NG",
+                "B",
+                "R",
+                "AY1",
+                "T",
+                "IH0",
+                "N",
+                "M",
+                "AY1",
+                "L",
+                "OW1",
+                "N",
+                "L",
+                "IY0",
+                "N",
+                "AY1",
+                "T"
+              ],
+              "target_phones": [
+                "L",
+                "AY1",
+                "T"
+              ],
+              "status": "scored"
+            },
+            "syllable_weight": 1.0,
+            "adjusted_score": -3.762317657470703,
+            "rank_weight": 0.7201910940734341
+          },
+          {
+            "text": "glowing fierce against the dark night",
+            "lm_mean_logprob": -4.948768138885498,
+            "lm_sum_logprob": -29.692607879638672,
+            "scored_tokens": 6,
+            "rhyme": {
+              "candidate": "glowing fierce against the dark night",
+              "target": "light",
+              "unknown_words": [],
+              "syllable_count": 8,
+              "pronunciation_search_truncated": false,
+              "pronunciation_pairs_considered": 6,
+              "weight": 1.0,
+              "alignment": [
+                {
+                  "position_from_end": 1,
+                  "candidate": {
+                    "vowel": "AY",
+                    "stress": 1,
+                    "coda": [
+                      "T"
+                    ]
+                  },
+                  "target": {
+                    "vowel": "AY",
+                    "stress": 1,
+                    "coda": [
+                      "T"
+                    ]
+                  },
+                  "vowel_weight": 1.0,
+                  "coda_weight": 1.0,
+                  "stress_weight": 1,
+                  "weight": 1.0,
+                  "source": "identical_vowel"
+                }
+              ],
+              "candidate_phones": [
+                "G",
+                "L",
+                "OW1",
+                "IH0",
+                "NG",
+                "F",
+                "IH1",
+                "R",
+                "S",
+                "AH0",
+                "G",
+                "EH1",
+                "N",
+                "S",
+                "T",
+                "DH",
+                "AH0",
+                "D",
+                "AA1",
+                "R",
+                "K",
+                "N",
+                "AY1",
+                "T"
+              ],
+              "target_phones": [
+                "L",
+                "AY1",
+                "T"
+              ],
+              "status": "scored"
+            },
+            "syllable_weight": 1.0,
+            "adjusted_score": -4.948768138885498,
+            "rank_weight": 0.21987651730947105
+          },
+          {
+            "text": "shining cold where I feel so tight",
+            "lm_mean_logprob": -6.248617172241211,
+            "lm_sum_logprob": -43.740318298339844,
+            "scored_tokens": 7,
+            "rhyme": {
+              "candidate": "shining cold where I feel so tight",
+              "target": "light",
+              "unknown_words": [],
+              "syllable_count": 8,
+              "pronunciation_search_truncated": false,
+              "pronunciation_pairs_considered": 2,
+              "weight": 1.0,
+              "alignment": [
+                {
+                  "position_from_end": 1,
+                  "candidate": {
+                    "vowel": "AY",
+                    "stress": 1,
+                    "coda": [
+                      "T"
+                    ]
+                  },
+                  "target": {
+                    "vowel": "AY",
+                    "stress": 1,
+                    "coda": [
+                      "T"
+                    ]
+                  },
+                  "vowel_weight": 1.0,
+                  "coda_weight": 1.0,
+                  "stress_weight": 1,
+                  "weight": 1.0,
+                  "source": "identical_vowel"
+                }
+              ],
+              "candidate_phones": [
+                "SH",
+                "AY1",
+                "N",
+                "IH0",
+                "NG",
+                "K",
+                "OW1",
+                "L",
+                "D",
+                "W",
+                "EH1",
+                "R",
+                "AY1",
+                "F",
+                "IY1",
+                "L",
+                "S",
+                "OW1",
+                "T",
+                "AY1",
+                "T"
+              ],
+              "target_phones": [
+                "L",
+                "AY1",
+                "T"
+              ],
+              "status": "scored"
+            },
+            "syllable_weight": 1.0,
+            "adjusted_score": -6.248617172241211,
+            "rank_weight": 0.05993238861709489
+          }
+        ],
+        "scoring_mode": "local_model",
+        "strength": 2.0,
+        "profile": "my-mumble",
+        "model": {
+          "package_version": "0.2.2",
+          "model_id": "Qwen/Qwen3.5-9B",
+          "revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+          "tokenizer_revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+          "quantization": "nf4",
+          "loaded": true,
+          "max_input_tokens": 2048,
+          "backend": "transformers",
+          "automatic_model_substitution": false,
+          "last_resource_error": null,
+          "test_cuda_allocated_bytes": 7899342336,
+          "test_cuda_reserved_bytes": 8126464000
+        },
+        "ranking_definition": "softmax(mean token log likelihood + strength * log(rhyme weight) + log(syllable weight)); relative to this candidate set, not calibrated probabilities",
+        "warnings": [],
+        "proposal_count_requested": 3,
+        "proposal_count_received": 3,
+        "proposal_raw_output": "[\"burning bright in my lonely night\", \"glowing fierce against the dark night\", \"shining cold where I feel so tight\"]\n",
+        "search_scope": "Bounded locally generated proposals; no rhyme filtering. Call rank_candidates with your own alternatives to widen the search."
+      }
+    },
+    {
+      "elapsed_seconds": 1.4405227000825107,
+      "response": {
+        "candidates": [
+          {
+            "text": "fading into the silence of the night",
+            "lm_mean_logprob": -3.642306089401245,
+            "lm_sum_logprob": -25.49614143371582,
+            "scored_tokens": 7,
+            "rhyme": {
+              "candidate": "fading into the silence of the night",
+              "target": "light",
+              "unknown_words": [],
+              "syllable_count": 10,
+              "pronunciation_search_truncated": false,
+              "pronunciation_pairs_considered": 27,
+              "weight": 1.0,
+              "alignment": [
+                {
+                  "position_from_end": 1,
+                  "candidate": {
+                    "vowel": "AY",
+                    "stress": 1,
+                    "coda": [
+                      "T"
+                    ]
+                  },
+                  "target": {
+                    "vowel": "AY",
+                    "stress": 1,
+                    "coda": [
+                      "T"
+                    ]
+                  },
+                  "vowel_weight": 1.0,
+                  "coda_weight": 1.0,
+                  "stress_weight": 1,
+                  "weight": 1.0,
+                  "source": "identical_vowel"
+                }
+              ],
+              "candidate_phones": [
+                "F",
+                "EY1",
+                "D",
+                "IH0",
+                "NG",
+                "IH1",
+                "N",
+                "T",
+                "UW0",
+                "DH",
+                "AH0",
+                "S",
+                "AY1",
+                "L",
+                "AH0",
+                "N",
+                "S",
+                "AH1",
+                "V",
+                "DH",
+                "AH0",
+                "N",
+                "AY1",
+                "T"
+              ],
+              "target_phones": [
+                "L",
+                "AY1",
+                "T"
+              ],
+              "status": "scored"
+            },
+            "syllable_weight": 1.0,
+            "adjusted_score": -3.642306089401245,
+            "rank_weight": 0.655830443386018
+          },
+          {
+            "text": "burning bright against the lonely dark",
+            "lm_mean_logprob": -3.7240188121795654,
+            "lm_sum_logprob": -22.344112396240234,
+            "scored_tokens": 6,
+            "rhyme": {
+              "candidate": "burning bright against the lonely dark",
+              "target": "light",
+              "unknown_words": [],
+              "syllable_count": 9,
+              "pronunciation_search_truncated": false,
+              "pronunciation_pairs_considered": 6,
+              "weight": 0.6755171532856165,
+              "alignment": [
+                {
+                  "position_from_end": 1,
+                  "candidate": {
+                    "vowel": "AA",
+                    "stress": 1,
+                    "coda": [
+                      "R",
+                      "K"
+                    ]
+                  },
+                  "target": {
+                    "vowel": "AY",
+                    "stress": 1,
+                    "coda": [
+                      "T"
+                    ]
+                  },
+                  "vowel_weight": 0.7044587067832626,
+                  "coda_weight": 0.5325918010068972,
+                  "stress_weight": 1,
+                  "weight": 0.6755171532856165,
+                  "source": "default_similarity"
+                }
+              ],
+              "candidate_phones": [
+                "B",
+                "ER1",
+                "N",
+                "IH0",
+                "NG",
+                "B",
+                "R",
+                "AY1",
+                "T",
+                "AH0",
+                "G",
+                "EH1",
+                "N",
+                "S",
+                "T",
+                "DH",
+                "AH0",
+                "L",
+                "OW1",
+                "N",
+                "L",
+                "IY0",
+                "D",
+                "AA1",
+                "R",
+                "K"
+              ],
+              "target_phones": [
+                "L",
+                "AY1",
+                "T"
+              ],
+              "status": "scored"
+            },
+            "syllable_weight": 1.0,
+            "adjusted_score": -4.508572269058123,
+            "rank_weight": 0.2757890068505723
+          },
+          {
+            "text": "reflecting shadows on my lonely path",
+            "lm_mean_logprob": -5.497283935546875,
+            "lm_sum_logprob": -32.98370361328125,
+            "scored_tokens": 6,
+            "rhyme": {
+              "candidate": "reflecting shadows on my lonely path",
+              "target": "light",
+              "unknown_words": [],
+              "syllable_count": 10,
+              "pronunciation_search_truncated": false,
+              "pronunciation_pairs_considered": 2,
+              "weight": 0.8163451728898903,
+              "alignment": [
+                {
+                  "position_from_end": 1,
+                  "candidate": {
+                    "vowel": "AE",
+                    "stress": 1,
+                    "coda": [
+                      "TH"
+                    ]
+                  },
+                  "target": {
+                    "vowel": "AY",
+                    "stress": 1,
+                    "coda": [
+                      "T"
+                    ]
+                  },
+                  "vowel_weight": 0.8694420993065347,
+                  "coda_weight": 0.5712090638488149,
+                  "stress_weight": 1,
+                  "weight": 0.8163451728898903,
+                  "source": "default_similarity"
+                }
+              ],
+              "candidate_phones": [
+                "R",
+                "IH0",
+                "F",
+                "L",
+                "EH1",
+                "K",
+                "T",
+                "IH0",
+                "NG",
+                "SH",
+                "AE1",
+                "D",
+                "OW2",
+                "Z",
+                "AA1",
+                "N",
+                "M",
+                "AY1",
+                "L",
+                "OW1",
+                "N",
+                "L",
+                "IY0",
+                "P",
+                "AE1",
+                "TH"
+              ],
+              "target_phones": [
+                "L",
+                "AY1",
+                "T"
+              ],
+              "status": "scored"
+            },
+            "syllable_weight": 1.0,
+            "adjusted_score": -5.9031199504815355,
+            "rank_weight": 0.06838054976340965
+          }
+        ],
+        "scoring_mode": "local_model",
+        "strength": 2.0,
+        "profile": "my-mumble",
+        "model": {
+          "package_version": "0.2.2",
+          "model_id": "Qwen/Qwen3.5-9B",
+          "revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+          "tokenizer_revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+          "quantization": "nf4",
+          "loaded": true,
+          "max_input_tokens": 2048,
+          "backend": "transformers",
+          "automatic_model_substitution": false,
+          "last_resource_error": null,
+          "test_cuda_allocated_bytes": 7899342336,
+          "test_cuda_reserved_bytes": 8126464000
+        },
+        "ranking_definition": "softmax(mean token log likelihood + strength * log(rhyme weight) + log(syllable weight)); relative to this candidate set, not calibrated probabilities",
+        "warnings": [],
+        "proposal_count_requested": 3,
+        "proposal_count_received": 3,
+        "proposal_raw_output": "[\"fading into the silence of the night\", \"burning bright against the lonely dark\", \"reflecting shadows on my lonely path\"]\n",
+        "search_scope": "Bounded locally generated proposals; no rhyme filtering. Call rank_candidates with your own alternatives to widen the search."
+      }
+    }
+  ],
+  "failure_response": "Error executing tool suggest_lyrics: Qwen/Qwen3.5-9B: CUDA error: CUBLAS_STATUS_ALLOC_FAILED when calling cublasCreate(handle) [injected]. Model weights released after the failed operation. Free system/GPU memory before retrying; restart the server if CUDA remains unavailable. Choose --model 4b explicitly for the smaller model.",
+  "after_failure_status": {
+    "package_version": "0.2.2",
+    "model_id": "Qwen/Qwen3.5-9B",
+    "revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+    "tokenizer_revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+    "quantization": "nf4",
+    "loaded": false,
+    "max_input_tokens": 2048,
+    "backend": "transformers",
+    "automatic_model_substitution": false,
+    "last_resource_error": "CUDA error: CUBLAS_STATUS_ALLOC_FAILED when calling cublasCreate(handle) [injected]",
+    "test_cuda_allocated_bytes": 8520704,
+    "test_cuda_reserved_bytes": 23068672
+  },
+  "final_status": {
+    "package_version": "0.2.2",
+    "model_id": "Qwen/Qwen3.5-9B",
+    "revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+    "tokenizer_revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+    "quantization": "nf4",
+    "loaded": true,
+    "max_input_tokens": 2048,
+    "backend": "transformers",
+    "automatic_model_substitution": false,
+    "last_resource_error": null,
+    "test_cuda_allocated_bytes": 7899342336,
+    "test_cuda_reserved_bytes": 8126464000
+  },
+  "checks_passed": true
+}

@@ -1,0 +1,508 @@
+{
+  "request": {
+    "target": "light",
+    "left": "the city lights are",
+    "intent": "深夜城市的孤独感",
+    "count": 3
+  },
+  "model": "9b",
+  "injected_failure": false,
+  "calls": [
+    {
+      "elapsed_seconds": 15.76241090008989,
+      "response": {
+        "candidates": [
+          {
+            "text": "burning cold alone tonight",
+            "lm_mean_logprob": -4.522978782653809,
+            "lm_sum_logprob": -18.091915130615234,
+            "scored_tokens": 4,
+            "rhyme": {
+              "candidate": "burning cold alone tonight",
+              "target": "light",
+              "unknown_words": [],
+              "syllable_count": 7,
+              "pronunciation_search_truncated": false,
+              "pronunciation_pairs_considered": 2,
+              "weight": 1.0,
+              "alignment": [
+                {
+                  "position_from_end": 1,
+                  "candidate": {
+                    "vowel": "AY",
+                    "stress": 1,
+                    "coda": [
+                      "T"
+                    ]
+                  },
+                  "target": {
+                    "vowel": "AY",
+                    "stress": 1,
+                    "coda": [
+                      "T"
+                    ]
+                  },
+                  "vowel_weight": 1.0,
+                  "coda_weight": 1.0,
+                  "stress_weight": 1,
+                  "weight": 1.0,
+                  "source": "identical_vowel"
+                }
+              ],
+              "candidate_phones": [
+                "B",
+                "ER1",
+                "N",
+                "IH0",
+                "NG",
+                "K",
+                "OW1",
+                "L",
+                "D",
+                "AH0",
+                "L",
+                "OW1",
+                "N",
+                "T",
+                "AH0",
+                "N",
+                "AY1",
+                "T"
+              ],
+              "target_phones": [
+                "L",
+                "AY1",
+                "T"
+              ],
+              "status": "scored"
+            },
+            "syllable_weight": 1.0,
+            "adjusted_score": -4.522978782653809,
+            "rank_weight": 0.48447044665578204
+          },
+          {
+            "text": "stinging my soul so bright",
+            "lm_mean_logprob": -4.583057403564453,
+            "lm_sum_logprob": -27.49834442138672,
+            "scored_tokens": 6,
+            "rhyme": {
+              "candidate": "stinging my soul so bright",
+              "target": "light",
+              "unknown_words": [],
+              "syllable_count": 6,
+              "pronunciation_search_truncated": false,
+              "pronunciation_pairs_considered": 1,
+              "weight": 1.0,
+              "alignment": [
+                {
+                  "position_from_end": 1,
+                  "candidate": {
+                    "vowel": "AY",
+                    "stress": 1,
+                    "coda": [
+                      "T"
+                    ]
+                  },
+                  "target": {
+                    "vowel": "AY",
+                    "stress": 1,
+                    "coda": [
+                      "T"
+                    ]
+                  },
+                  "vowel_weight": 1.0,
+                  "coda_weight": 1.0,
+                  "stress_weight": 1,
+                  "weight": 1.0,
+                  "source": "identical_vowel"
+                }
+              ],
+              "candidate_phones": [
+                "S",
+                "T",
+                "IH1",
+                "NG",
+                "IH0",
+                "NG",
+                "M",
+                "AY1",
+                "S",
+                "OW1",
+                "L",
+                "S",
+                "OW1",
+                "B",
+                "R",
+                "AY1",
+                "T"
+              ],
+              "target_phones": [
+                "L",
+                "AY1",
+                "T"
+              ],
+              "status": "scored"
+            },
+            "syllable_weight": 1.0,
+            "adjusted_score": -4.583057403564453,
+            "rank_weight": 0.4562212142927671
+          },
+          {
+            "text": "drowning out every light",
+            "lm_mean_logprob": -6.623285293579102,
+            "lm_sum_logprob": -26.493141174316406,
+            "scored_tokens": 4,
+            "rhyme": {
+              "candidate": "drowning out every light",
+              "target": "light",
+              "unknown_words": [],
+              "syllable_count": 7,
+              "pronunciation_search_truncated": false,
+              "pronunciation_pairs_considered": 2,
+              "weight": 1.0,
+              "alignment": [
+                {
+                  "position_from_end": 1,
+                  "candidate": {
+                    "vowel": "AY",
+                    "stress": 1,
+                    "coda": [
+                      "T"
+                    ]
+                  },
+                  "target": {
+                    "vowel": "AY",
+                    "stress": 1,
+                    "coda": [
+                      "T"
+                    ]
+                  },
+                  "vowel_weight": 1.0,
+                  "coda_weight": 1.0,
+                  "stress_weight": 1,
+                  "weight": 1.0,
+                  "source": "identical_vowel"
+                }
+              ],
+              "candidate_phones": [
+                "D",
+                "R",
+                "AW1",
+                "N",
+                "IH0",
+                "NG",
+                "AW1",
+                "T",
+                "EH1",
+                "V",
+                "ER0",
+                "IY0",
+                "L",
+                "AY1",
+                "T"
+              ],
+              "target_phones": [
+                "L",
+                "AY1",
+                "T"
+              ],
+              "status": "scored"
+            },
+            "syllable_weight": 1.0,
+            "adjusted_score": -6.623285293579102,
+            "rank_weight": 0.05930833905145095
+          }
+        ],
+        "scoring_mode": "local_model",
+        "strength": 2.0,
+        "profile": "my-mumble",
+        "model": {
+          "package_version": "0.2.2",
+          "model_id": "Qwen/Qwen3.5-9B",
+          "revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+          "tokenizer_revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+          "quantization": "nf4",
+          "loaded": true,
+          "max_input_tokens": 2048,
+          "backend": "transformers",
+          "automatic_model_substitution": false,
+          "last_resource_error": null
+        },
+        "ranking_definition": "softmax(mean token log likelihood + strength * log(rhyme weight) + log(syllable weight)); relative to this candidate set, not calibrated probabilities",
+        "warnings": [],
+        "proposal_count_requested": 3,
+        "proposal_count_received": 3,
+        "proposal_raw_output": "[\"burning cold alone tonight\", \"stinging my soul so bright\", \"drowning out every light\"]\n",
+        "search_scope": "Bounded locally generated proposals; no rhyme filtering. Call rank_candidates with your own alternatives to widen the search."
+      }
+    },
+    {
+      "elapsed_seconds": 1.514766599982977,
+      "response": {
+        "candidates": [
+          {
+            "text": "the city lights are fading fast tonight",
+            "lm_mean_logprob": -5.271010398864746,
+            "lm_sum_logprob": -36.897071838378906,
+            "scored_tokens": 7,
+            "rhyme": {
+              "candidate": "the city lights are fading fast tonight",
+              "target": "light",
+              "unknown_words": [],
+              "syllable_count": 10,
+              "pronunciation_search_truncated": false,
+              "pronunciation_pairs_considered": 12,
+              "weight": 1.0,
+              "alignment": [
+                {
+                  "position_from_end": 1,
+                  "candidate": {
+                    "vowel": "AY",
+                    "stress": 1,
+                    "coda": [
+                      "T"
+                    ]
+                  },
+                  "target": {
+                    "vowel": "AY",
+                    "stress": 1,
+                    "coda": [
+                      "T"
+                    ]
+                  },
+                  "vowel_weight": 1.0,
+                  "coda_weight": 1.0,
+                  "stress_weight": 1,
+                  "weight": 1.0,
+                  "source": "identical_vowel"
+                }
+              ],
+              "candidate_phones": [
+                "DH",
+                "AH0",
+                "S",
+                "IH1",
+                "T",
+                "IY0",
+                "L",
+                "AY1",
+                "T",
+                "S",
+                "AA1",
+                "R",
+                "F",
+                "EY1",
+                "D",
+                "IH0",
+                "NG",
+                "F",
+                "AE1",
+                "S",
+                "T",
+                "T",
+                "AH0",
+                "N",
+                "AY1",
+                "T"
+              ],
+              "target_phones": [
+                "L",
+                "AY1",
+                "T"
+              ],
+              "status": "scored"
+            },
+            "syllable_weight": 1.0,
+            "adjusted_score": -5.271010398864746,
+            "rank_weight": 0.35289059242434795
+          },
+          {
+            "text": "the city lights are drowning out my sight",
+            "lm_mean_logprob": -5.329177379608154,
+            "lm_sum_logprob": -42.633419036865234,
+            "scored_tokens": 8,
+            "rhyme": {
+              "candidate": "the city lights are drowning out my sight",
+              "target": "light",
+              "unknown_words": [],
+              "syllable_count": 10,
+              "pronunciation_search_truncated": false,
+              "pronunciation_pairs_considered": 6,
+              "weight": 1.0,
+              "alignment": [
+                {
+                  "position_from_end": 1,
+                  "candidate": {
+                    "vowel": "AY",
+                    "stress": 1,
+                    "coda": [
+                      "T"
+                    ]
+                  },
+                  "target": {
+                    "vowel": "AY",
+                    "stress": 1,
+                    "coda": [
+                      "T"
+                    ]
+                  },
+                  "vowel_weight": 1.0,
+                  "coda_weight": 1.0,
+                  "stress_weight": 1,
+                  "weight": 1.0,
+                  "source": "identical_vowel"
+                }
+              ],
+              "candidate_phones": [
+                "DH",
+                "AH0",
+                "S",
+                "IH1",
+                "T",
+                "IY0",
+                "L",
+                "AY1",
+                "T",
+                "S",
+                "AA1",
+                "R",
+                "D",
+                "R",
+                "AW1",
+                "N",
+                "IH0",
+                "NG",
+                "AW1",
+                "T",
+                "M",
+                "AY1",
+                "S",
+                "AY1",
+                "T"
+              ],
+              "target_phones": [
+                "L",
+                "AY1",
+                "T"
+              ],
+              "status": "scored"
+            },
+            "syllable_weight": 1.0,
+            "adjusted_score": -5.329177379608154,
+            "rank_weight": 0.3329495881804216
+          },
+          {
+            "text": "the city lights are cold as winter night",
+            "lm_mean_logprob": -5.387266635894775,
+            "lm_sum_logprob": -43.0981330871582,
+            "scored_tokens": 8,
+            "rhyme": {
+              "candidate": "the city lights are cold as winter night",
+              "target": "light",
+              "unknown_words": [],
+              "syllable_count": 10,
+              "pronunciation_search_truncated": false,
+              "pronunciation_pairs_considered": 12,
+              "weight": 1.0,
+              "alignment": [
+                {
+                  "position_from_end": 1,
+                  "candidate": {
+                    "vowel": "AY",
+                    "stress": 1,
+                    "coda": [
+                      "T"
+                    ]
+                  },
+                  "target": {
+                    "vowel": "AY",
+                    "stress": 1,
+                    "coda": [
+                      "T"
+                    ]
+                  },
+                  "vowel_weight": 1.0,
+                  "coda_weight": 1.0,
+                  "stress_weight": 1,
+                  "weight": 1.0,
+                  "source": "identical_vowel"
+                }
+              ],
+              "candidate_phones": [
+                "DH",
+                "AH0",
+                "S",
+                "IH1",
+                "T",
+                "IY0",
+                "L",
+                "AY1",
+                "T",
+                "S",
+                "AA1",
+                "R",
+                "K",
+                "OW1",
+                "L",
+                "D",
+                "AE1",
+                "Z",
+                "W",
+                "IH1",
+                "N",
+                "T",
+                "ER0",
+                "N",
+                "AY1",
+                "T"
+              ],
+              "target_phones": [
+                "L",
+                "AY1",
+                "T"
+              ],
+              "status": "scored"
+            },
+            "syllable_weight": 1.0,
+            "adjusted_score": -5.387266635894775,
+            "rank_weight": 0.3141598193952304
+          }
+        ],
+        "scoring_mode": "local_model",
+        "strength": 2.0,
+        "profile": "my-mumble",
+        "model": {
+          "package_version": "0.2.2",
+          "model_id": "Qwen/Qwen3.5-9B",
+          "revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+          "tokenizer_revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+          "quantization": "nf4",
+          "loaded": true,
+          "max_input_tokens": 2048,
+          "backend": "transformers",
+          "automatic_model_substitution": false,
+          "last_resource_error": null
+        },
+        "ranking_definition": "softmax(mean token log likelihood + strength * log(rhyme weight) + log(syllable weight)); relative to this candidate set, not calibrated probabilities",
+        "warnings": [],
+        "proposal_count_requested": 3,
+        "proposal_count_received": 3,
+        "proposal_raw_output": "[\"the city lights are fading fast tonight\", \"the city lights are drowning out my sight\", \"the city lights are cold as winter night\"]\n",
+        "search_scope": "Bounded locally generated proposals; no rhyme filtering. Call rank_candidates with your own alternatives to widen the search."
+      }
+    }
+  ],
+  "final_status": {
+    "package_version": "0.2.2",
+    "model_id": "Qwen/Qwen3.5-9B",
+    "revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+    "tokenizer_revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+    "quantization": "nf4",
+    "loaded": true,
+    "max_input_tokens": 2048,
+    "backend": "transformers",
+    "automatic_model_substitution": false,
+    "last_resource_error": null
+  },
+  "checks_passed": true
+}

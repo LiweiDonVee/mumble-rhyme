@@ -1,0 +1,534 @@
+{
+  "request": {
+    "target": "light",
+    "left": "the city lights are",
+    "intent": "深夜城市的孤独感",
+    "count": 3
+  },
+  "model": "4b",
+  "injected_failure": false,
+  "calls": [
+    {
+      "elapsed_seconds": 11.587958399904892,
+      "response": {
+        "candidates": [
+          {
+            "text": "the city lights are fading into the night",
+            "lm_mean_logprob": -3.432307720184326,
+            "lm_sum_logprob": -27.45846176147461,
+            "scored_tokens": 8,
+            "rhyme": {
+              "candidate": "the city lights are fading into the night",
+              "target": "light",
+              "unknown_words": [],
+              "syllable_count": 11,
+              "pronunciation_search_truncated": true,
+              "pronunciation_pairs_considered": 32,
+              "weight": 1.0,
+              "alignment": [
+                {
+                  "position_from_end": 1,
+                  "candidate": {
+                    "vowel": "AY",
+                    "stress": 1,
+                    "coda": [
+                      "T"
+                    ]
+                  },
+                  "target": {
+                    "vowel": "AY",
+                    "stress": 1,
+                    "coda": [
+                      "T"
+                    ]
+                  },
+                  "vowel_weight": 1.0,
+                  "coda_weight": 1.0,
+                  "stress_weight": 1,
+                  "weight": 1.0,
+                  "source": "identical_vowel"
+                }
+              ],
+              "candidate_phones": [
+                "DH",
+                "AH0",
+                "S",
+                "IH1",
+                "T",
+                "IY0",
+                "L",
+                "AY1",
+                "T",
+                "S",
+                "AA1",
+                "R",
+                "F",
+                "EY1",
+                "D",
+                "IH0",
+                "NG",
+                "IH1",
+                "N",
+                "T",
+                "UW0",
+                "DH",
+                "AH0",
+                "N",
+                "AY1",
+                "T"
+              ],
+              "target_phones": [
+                "L",
+                "AY1",
+                "T"
+              ],
+              "status": "scored"
+            },
+            "syllable_weight": 1.0,
+            "adjusted_score": -3.432307720184326,
+            "rank_weight": 0.5154790877011084
+          },
+          {
+            "text": "the city lights are burning out the dark night",
+            "lm_mean_logprob": -4.077763557434082,
+            "lm_sum_logprob": -36.69987106323242,
+            "scored_tokens": 9,
+            "rhyme": {
+              "candidate": "the city lights are burning out the dark night",
+              "target": "light",
+              "unknown_words": [],
+              "syllable_count": 11,
+              "pronunciation_search_truncated": false,
+              "pronunciation_pairs_considered": 18,
+              "weight": 1.0,
+              "alignment": [
+                {
+                  "position_from_end": 1,
+                  "candidate": {
+                    "vowel": "AY",
+                    "stress": 1,
+                    "coda": [
+                      "T"
+                    ]
+                  },
+                  "target": {
+                    "vowel": "AY",
+                    "stress": 1,
+                    "coda": [
+                      "T"
+                    ]
+                  },
+                  "vowel_weight": 1.0,
+                  "coda_weight": 1.0,
+                  "stress_weight": 1,
+                  "weight": 1.0,
+                  "source": "identical_vowel"
+                }
+              ],
+              "candidate_phones": [
+                "DH",
+                "AH0",
+                "S",
+                "IH1",
+                "T",
+                "IY0",
+                "L",
+                "AY1",
+                "T",
+                "S",
+                "AA1",
+                "R",
+                "B",
+                "ER1",
+                "N",
+                "IH0",
+                "NG",
+                "AW1",
+                "T",
+                "DH",
+                "AH0",
+                "D",
+                "AA1",
+                "R",
+                "K",
+                "N",
+                "AY1",
+                "T"
+              ],
+              "target_phones": [
+                "L",
+                "AY1",
+                "T"
+              ],
+              "status": "scored"
+            },
+            "syllable_weight": 1.0,
+            "adjusted_score": -4.077763557434082,
+            "rank_weight": 0.2703293142950868
+          },
+          {
+            "text": "the city lights are dancing on the street light",
+            "lm_mean_logprob": -4.31053352355957,
+            "lm_sum_logprob": -38.7947998046875,
+            "scored_tokens": 9,
+            "rhyme": {
+              "candidate": "the city lights are dancing on the street light",
+              "target": "light",
+              "unknown_words": [],
+              "syllable_count": 11,
+              "pronunciation_search_truncated": true,
+              "pronunciation_pairs_considered": 32,
+              "weight": 1.0,
+              "alignment": [
+                {
+                  "position_from_end": 1,
+                  "candidate": {
+                    "vowel": "AY",
+                    "stress": 1,
+                    "coda": [
+                      "T"
+                    ]
+                  },
+                  "target": {
+                    "vowel": "AY",
+                    "stress": 1,
+                    "coda": [
+                      "T"
+                    ]
+                  },
+                  "vowel_weight": 1.0,
+                  "coda_weight": 1.0,
+                  "stress_weight": 1,
+                  "weight": 1.0,
+                  "source": "identical_vowel"
+                }
+              ],
+              "candidate_phones": [
+                "DH",
+                "AH0",
+                "S",
+                "IH1",
+                "T",
+                "IY0",
+                "L",
+                "AY1",
+                "T",
+                "S",
+                "AA1",
+                "R",
+                "D",
+                "AE1",
+                "N",
+                "S",
+                "IH0",
+                "NG",
+                "AA1",
+                "N",
+                "DH",
+                "AH0",
+                "S",
+                "T",
+                "R",
+                "IY1",
+                "T",
+                "L",
+                "AY1",
+                "T"
+              ],
+              "target_phones": [
+                "L",
+                "AY1",
+                "T"
+              ],
+              "status": "scored"
+            },
+            "syllable_weight": 1.0,
+            "adjusted_score": -4.31053352355957,
+            "rank_weight": 0.21419159800380488
+          }
+        ],
+        "scoring_mode": "local_model",
+        "strength": 2.0,
+        "profile": "my-mumble",
+        "model": {
+          "package_version": "0.2.2",
+          "model_id": "Qwen/Qwen3.5-4B",
+          "revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+          "tokenizer_revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+          "quantization": "nf4",
+          "loaded": true,
+          "max_input_tokens": 2048,
+          "backend": "transformers",
+          "automatic_model_substitution": false,
+          "last_resource_error": null
+        },
+        "ranking_definition": "softmax(mean token log likelihood + strength * log(rhyme weight) + log(syllable weight)); relative to this candidate set, not calibrated probabilities",
+        "warnings": [],
+        "proposal_count_requested": 3,
+        "proposal_count_received": 3,
+        "proposal_raw_output": "[\"the city lights are fading into the night\", \"the city lights are dancing on the street light\", \"the city lights are burning out the dark night\"]\n",
+        "search_scope": "Bounded locally generated proposals; no rhyme filtering. Call rank_candidates with your own alternatives to widen the search."
+      }
+    },
+    {
+      "elapsed_seconds": 1.3348938999697566,
+      "response": {
+        "candidates": [
+          {
+            "text": "fading into dark, quiet nights",
+            "lm_mean_logprob": -4.815749168395996,
+            "lm_sum_logprob": -28.894493103027344,
+            "scored_tokens": 6,
+            "rhyme": {
+              "candidate": "fading into dark, quiet nights",
+              "target": "light",
+              "unknown_words": [],
+              "syllable_count": 8,
+              "pronunciation_search_truncated": false,
+              "pronunciation_pairs_considered": 3,
+              "weight": 0.9488543210558013,
+              "alignment": [
+                {
+                  "position_from_end": 1,
+                  "candidate": {
+                    "vowel": "AY",
+                    "stress": 1,
+                    "coda": [
+                      "T",
+                      "S"
+                    ]
+                  },
+                  "target": {
+                    "vowel": "AY",
+                    "stress": 1,
+                    "coda": [
+                      "T"
+                    ]
+                  },
+                  "vowel_weight": 1.0,
+                  "coda_weight": 0.7046880897187134,
+                  "stress_weight": 1,
+                  "weight": 0.9488543210558013,
+                  "source": "identical_vowel"
+                }
+              ],
+              "candidate_phones": [
+                "F",
+                "EY1",
+                "D",
+                "IH0",
+                "NG",
+                "IH1",
+                "N",
+                "T",
+                "UW0",
+                "D",
+                "AA1",
+                "R",
+                "K",
+                "K",
+                "W",
+                "AY1",
+                "AH0",
+                "T",
+                "N",
+                "AY1",
+                "T",
+                "S"
+              ],
+              "target_phones": [
+                "L",
+                "AY1",
+                "T"
+              ],
+              "status": "scored"
+            },
+            "syllable_weight": 1.0,
+            "adjusted_score": -4.9207491683959965,
+            "rank_weight": 0.5215348775109047
+          },
+          {
+            "text": "spilling cold on lonely streets",
+            "lm_mean_logprob": -4.484490394592285,
+            "lm_sum_logprob": -26.906940460205078,
+            "scored_tokens": 6,
+            "rhyme": {
+              "candidate": "spilling cold on lonely streets",
+              "target": "light",
+              "unknown_words": [],
+              "syllable_count": 7,
+              "pronunciation_search_truncated": false,
+              "pronunciation_pairs_considered": 2,
+              "weight": 0.5850018379941049,
+              "alignment": [
+                {
+                  "position_from_end": 1,
+                  "candidate": {
+                    "vowel": "IY",
+                    "stress": 1,
+                    "coda": [
+                      "T",
+                      "S"
+                    ]
+                  },
+                  "target": {
+                    "vowel": "AY",
+                    "stress": 1,
+                    "coda": [
+                      "T"
+                    ]
+                  },
+                  "vowel_weight": 0.5660977138688023,
+                  "coda_weight": 0.7046880897187134,
+                  "stress_weight": 1,
+                  "weight": 0.5850018379941049,
+                  "source": "default_similarity"
+                }
+              ],
+              "candidate_phones": [
+                "S",
+                "P",
+                "IH1",
+                "L",
+                "IH0",
+                "NG",
+                "K",
+                "OW1",
+                "L",
+                "D",
+                "AA1",
+                "N",
+                "L",
+                "OW1",
+                "N",
+                "L",
+                "IY0",
+                "S",
+                "T",
+                "R",
+                "IY1",
+                "T",
+                "S"
+              ],
+              "target_phones": [
+                "L",
+                "AY1",
+                "T"
+              ],
+              "status": "scored"
+            },
+            "syllable_weight": 1.0,
+            "adjusted_score": -5.556770974362188,
+            "rank_weight": 0.27609757765217796
+          },
+          {
+            "text": "watching me feel so far from sight",
+            "lm_mean_logprob": -5.8674397468566895,
+            "lm_sum_logprob": -41.07207489013672,
+            "scored_tokens": 7,
+            "rhyme": {
+              "candidate": "watching me feel so far from sight",
+              "target": "light",
+              "unknown_words": [],
+              "syllable_count": 8,
+              "pronunciation_search_truncated": false,
+              "pronunciation_pairs_considered": 1,
+              "weight": 1.0,
+              "alignment": [
+                {
+                  "position_from_end": 1,
+                  "candidate": {
+                    "vowel": "AY",
+                    "stress": 1,
+                    "coda": [
+                      "T"
+                    ]
+                  },
+                  "target": {
+                    "vowel": "AY",
+                    "stress": 1,
+                    "coda": [
+                      "T"
+                    ]
+                  },
+                  "vowel_weight": 1.0,
+                  "coda_weight": 1.0,
+                  "stress_weight": 1,
+                  "weight": 1.0,
+                  "source": "identical_vowel"
+                }
+              ],
+              "candidate_phones": [
+                "W",
+                "AA1",
+                "CH",
+                "IH0",
+                "NG",
+                "M",
+                "IY1",
+                "F",
+                "IY1",
+                "L",
+                "S",
+                "OW1",
+                "F",
+                "AA1",
+                "R",
+                "F",
+                "R",
+                "AH1",
+                "M",
+                "S",
+                "AY1",
+                "T"
+              ],
+              "target_phones": [
+                "L",
+                "AY1",
+                "T"
+              ],
+              "status": "scored"
+            },
+            "syllable_weight": 1.0,
+            "adjusted_score": -5.8674397468566895,
+            "rank_weight": 0.2023675448369173
+          }
+        ],
+        "scoring_mode": "local_model",
+        "strength": 2.0,
+        "profile": "my-mumble",
+        "model": {
+          "package_version": "0.2.2",
+          "model_id": "Qwen/Qwen3.5-4B",
+          "revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+          "tokenizer_revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+          "quantization": "nf4",
+          "loaded": true,
+          "max_input_tokens": 2048,
+          "backend": "transformers",
+          "automatic_model_substitution": false,
+          "last_resource_error": null
+        },
+        "ranking_definition": "softmax(mean token log likelihood + strength * log(rhyme weight) + log(syllable weight)); relative to this candidate set, not calibrated probabilities",
+        "warnings": [],
+        "proposal_count_requested": 3,
+        "proposal_count_received": 3,
+        "proposal_raw_output": "[\"spilling cold on lonely streets\", \"fading into dark, quiet nights\", \"watching me feel so far from sight\"]\n",
+        "search_scope": "Bounded locally generated proposals; no rhyme filtering. Call rank_candidates with your own alternatives to widen the search."
+      }
+    }
+  ],
+  "final_status": {
+    "package_version": "0.2.2",
+    "model_id": "Qwen/Qwen3.5-4B",
+    "revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+    "tokenizer_revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+    "quantization": "nf4",
+    "loaded": true,
+    "max_input_tokens": 2048,
+    "backend": "transformers",
+    "automatic_model_substitution": false,
+    "last_resource_error": null
+  },
+  "checks_passed": true
+}
