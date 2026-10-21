@@ -1,0 +1,623 @@
+{
+  "gpu": "NVIDIA GeForce RTX 5080",
+  "torch": "2.8.0+cu128",
+  "elapsed_seconds": 16.040514500113204,
+  "peak_allocated_gib": 7.535757064819336,
+  "tokenizer_vocabulary": 248077,
+  "ranking": {
+    "candidates": [
+      {
+        "text": "head",
+        "lm_mean_logprob": -0.17811261117458344,
+        "lm_sum_logprob": -0.17811261117458344,
+        "scored_tokens": 1,
+        "rhyme": {
+          "candidate": "head",
+          "target": "bed",
+          "unknown_words": [],
+          "syllable_count": 1,
+          "pronunciation_search_truncated": false,
+          "pronunciation_pairs_considered": 1,
+          "weight": 1.0,
+          "alignment": [
+            {
+              "position_from_end": 1,
+              "candidate": {
+                "vowel": "EH",
+                "stress": 1,
+                "coda": [
+                  "D"
+                ]
+              },
+              "target": {
+                "vowel": "EH",
+                "stress": 1,
+                "coda": [
+                  "D"
+                ]
+              },
+              "vowel_weight": 1.0,
+              "coda_weight": 1.0,
+              "stress_weight": 1,
+              "weight": 1.0,
+              "source": "identical_vowel"
+            }
+          ],
+          "candidate_phones": [
+            "HH",
+            "EH1",
+            "D"
+          ],
+          "target_phones": [
+            "B",
+            "EH1",
+            "D"
+          ],
+          "status": "scored"
+        },
+        "syllable_weight": 1.0,
+        "adjusted_score": -0.17811261117458344,
+        "rank_weight": 0.9514848308129527
+      },
+      {
+        "text": "chest",
+        "lm_mean_logprob": -2.928112506866455,
+        "lm_sum_logprob": -2.928112506866455,
+        "scored_tokens": 1,
+        "rhyme": {
+          "candidate": "chest",
+          "target": "bed",
+          "unknown_words": [],
+          "syllable_count": 1,
+          "pronunciation_search_truncated": false,
+          "pronunciation_pairs_considered": 1,
+          "weight": 0.8924810482567638,
+          "alignment": [
+            {
+              "position_from_end": 1,
+              "candidate": {
+                "vowel": "EH",
+                "stress": 1,
+                "coda": [
+                  "S",
+                  "T"
+                ]
+              },
+              "target": {
+                "vowel": "EH",
+                "stress": 1,
+                "coda": [
+                  "D"
+                ]
+              },
+              "vowel_weight": 1.0,
+              "coda_weight": 0.6344479679482282,
+              "stress_weight": 1,
+              "weight": 0.8924810482567638,
+              "source": "identical_vowel"
+            }
+          ],
+          "candidate_phones": [
+            "CH",
+            "EH1",
+            "S",
+            "T"
+          ],
+          "target_phones": [
+            "B",
+            "EH1",
+            "D"
+          ],
+          "status": "scored"
+        },
+        "syllable_weight": 1.0,
+        "adjusted_score": -3.155612506866455,
+        "rank_weight": 0.04844958867032378
+      },
+      {
+        "text": "dreams",
+        "lm_mean_logprob": -8.928112983703613,
+        "lm_sum_logprob": -8.928112983703613,
+        "scored_tokens": 1,
+        "rhyme": {
+          "candidate": "dreams",
+          "target": "bed",
+          "unknown_words": [],
+          "syllable_count": 1,
+          "pronunciation_search_truncated": false,
+          "pronunciation_pairs_considered": 1,
+          "weight": 0.6595153710300586,
+          "alignment": [
+            {
+              "position_from_end": 1,
+              "candidate": {
+                "vowel": "IY",
+                "stress": 1,
+                "coda": [
+                  "M",
+                  "Z"
+                ]
+              },
+              "target": {
+                "vowel": "EH",
+                "stress": 1,
+                "coda": [
+                  "D"
+                ]
+              },
+              "vowel_weight": 0.7082203534678,
+              "coda_weight": 0.5325918010068972,
+              "stress_weight": 1,
+              "weight": 0.6595153710300586,
+              "source": "default_similarity"
+            }
+          ],
+          "candidate_phones": [
+            "D",
+            "R",
+            "IY1",
+            "M",
+            "Z"
+          ],
+          "target_phones": [
+            "B",
+            "EH1",
+            "D"
+          ],
+          "status": "scored"
+        },
+        "syllable_weight": 1.0,
+        "adjusted_score": -9.760612983703613,
+        "rank_weight": 6.558051672342218e-05
+      }
+    ],
+    "scoring_mode": "local_model",
+    "strength": 2.0,
+    "profile": "soft-default",
+    "model": {
+      "model_id": "Qwen/Qwen3.5-9B",
+      "revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+      "tokenizer_revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+      "quantization": "nf4",
+      "loaded": true,
+      "max_input_tokens": 2048,
+      "backend": "transformers",
+      "automatic_model_substitution": false
+    },
+    "ranking_definition": "softmax(mean token log likelihood + strength * log(rhyme weight) + log(syllable weight)); relative to this candidate set, not calibrated probabilities",
+    "warnings": []
+  },
+  "generation": {
+    "candidates": [
+      {
+        "text": "call you but stay up all night",
+        "lm_mean_logprob": -3.616284132003784,
+        "lm_sum_logprob": -25.313987731933594,
+        "scored_tokens": 7,
+        "rhyme": {
+          "candidate": "call you but stay up all night",
+          "target": "night",
+          "unknown_words": [],
+          "syllable_count": 7,
+          "pronunciation_search_truncated": false,
+          "pronunciation_pairs_considered": 1,
+          "weight": 1.0,
+          "alignment": [
+            {
+              "position_from_end": 1,
+              "candidate": {
+                "vowel": "AY",
+                "stress": 1,
+                "coda": [
+                  "T"
+                ]
+              },
+              "target": {
+                "vowel": "AY",
+                "stress": 1,
+                "coda": [
+                  "T"
+                ]
+              },
+              "vowel_weight": 1.0,
+              "coda_weight": 1.0,
+              "stress_weight": 1,
+              "weight": 1.0,
+              "source": "identical_vowel"
+            }
+          ],
+          "candidate_phones": [
+            "K",
+            "AO1",
+            "L",
+            "Y",
+            "UW1",
+            "B",
+            "AH1",
+            "T",
+            "S",
+            "T",
+            "EY1",
+            "AH1",
+            "P",
+            "AO1",
+            "L",
+            "N",
+            "AY1",
+            "T"
+          ],
+          "target_phones": [
+            "N",
+            "AY1",
+            "T"
+          ],
+          "status": "scored"
+        },
+        "syllable_weight": 1.0,
+        "adjusted_score": -3.616284132003784,
+        "rank_weight": 0.885657864313289
+      },
+      {
+        "text": "dial your name within this night",
+        "lm_mean_logprob": -5.864786624908447,
+        "lm_sum_logprob": -41.053504943847656,
+        "scored_tokens": 7,
+        "rhyme": {
+          "candidate": "dial your name within this night",
+          "target": "night",
+          "unknown_words": [],
+          "syllable_count": 8,
+          "pronunciation_search_truncated": false,
+          "pronunciation_pairs_considered": 16,
+          "weight": 1.0,
+          "alignment": [
+            {
+              "position_from_end": 1,
+              "candidate": {
+                "vowel": "AY",
+                "stress": 1,
+                "coda": [
+                  "T"
+                ]
+              },
+              "target": {
+                "vowel": "AY",
+                "stress": 1,
+                "coda": [
+                  "T"
+                ]
+              },
+              "vowel_weight": 1.0,
+              "coda_weight": 1.0,
+              "stress_weight": 1,
+              "weight": 1.0,
+              "source": "identical_vowel"
+            }
+          ],
+          "candidate_phones": [
+            "D",
+            "AY1",
+            "AH0",
+            "L",
+            "Y",
+            "AO1",
+            "R",
+            "N",
+            "EY1",
+            "M",
+            "W",
+            "IH0",
+            "DH",
+            "IH1",
+            "N",
+            "DH",
+            "IH1",
+            "S",
+            "N",
+            "AY1",
+            "T"
+          ],
+          "target_phones": [
+            "N",
+            "AY1",
+            "T"
+          ],
+          "status": "scored"
+        },
+        "syllable_weight": 1.0,
+        "adjusted_score": -5.864786624908447,
+        "rank_weight": 0.09348754561673361
+      },
+      {
+        "text": "reach out yet hide all night",
+        "lm_mean_logprob": -7.3650407791137695,
+        "lm_sum_logprob": -44.190242767333984,
+        "scored_tokens": 6,
+        "rhyme": {
+          "candidate": "reach out yet hide all night",
+          "target": "night",
+          "unknown_words": [],
+          "syllable_count": 6,
+          "pronunciation_search_truncated": false,
+          "pronunciation_pairs_considered": 1,
+          "weight": 1.0,
+          "alignment": [
+            {
+              "position_from_end": 1,
+              "candidate": {
+                "vowel": "AY",
+                "stress": 1,
+                "coda": [
+                  "T"
+                ]
+              },
+              "target": {
+                "vowel": "AY",
+                "stress": 1,
+                "coda": [
+                  "T"
+                ]
+              },
+              "vowel_weight": 1.0,
+              "coda_weight": 1.0,
+              "stress_weight": 1,
+              "weight": 1.0,
+              "source": "identical_vowel"
+            }
+          ],
+          "candidate_phones": [
+            "R",
+            "IY1",
+            "CH",
+            "AW1",
+            "T",
+            "Y",
+            "EH1",
+            "T",
+            "HH",
+            "AY1",
+            "D",
+            "AO1",
+            "L",
+            "N",
+            "AY1",
+            "T"
+          ],
+          "target_phones": [
+            "N",
+            "AY1",
+            "T"
+          ],
+          "status": "scored"
+        },
+        "syllable_weight": 1.0,
+        "adjusted_score": -7.3650407791137695,
+        "rank_weight": 0.02085459006997734
+      }
+    ],
+    "scoring_mode": "local_model",
+    "strength": 2.0,
+    "profile": "soft-default",
+    "model": {
+      "model_id": "Qwen/Qwen3.5-9B",
+      "revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+      "tokenizer_revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+      "quantization": "nf4",
+      "loaded": true,
+      "max_input_tokens": 2048,
+      "backend": "transformers",
+      "automatic_model_substitution": false
+    },
+    "ranking_definition": "softmax(mean token log likelihood + strength * log(rhyme weight) + log(syllable weight)); relative to this candidate set, not calibrated probabilities",
+    "warnings": [],
+    "proposal_count_requested": 3,
+    "proposal_count_received": 3,
+    "proposal_raw_output": "[\"call you but stay up all night\", \"reach out yet hide all night\", \"dial your name within this night\"]\n",
+    "search_scope": "Bounded locally generated proposals; no rhyme filtering. Call rank_candidates with your own alternatives to widen the search."
+  },
+  "gap_with_right_context": {
+    "candidates": [
+      {
+        "text": "alone",
+        "lm_mean_logprob": -5.139382362365723,
+        "lm_sum_logprob": -20.55752944946289,
+        "scored_tokens": 4,
+        "rhyme": {
+          "candidate": "alone",
+          "target": "table",
+          "unknown_words": [],
+          "syllable_count": 2,
+          "pronunciation_search_truncated": false,
+          "pronunciation_pairs_considered": 1,
+          "weight": 0.6108828837574652,
+          "alignment": [
+            {
+              "position_from_end": 1,
+              "candidate": {
+                "vowel": "OW",
+                "stress": 1,
+                "coda": [
+                  "N"
+                ]
+              },
+              "target": {
+                "vowel": "AH",
+                "stress": 0,
+                "coda": [
+                  "L"
+                ]
+              },
+              "vowel_weight": 0.6881793673888816,
+              "coda_weight": 0.5712090638488149,
+              "stress_weight": 0.93,
+              "weight": 0.6108828837574652,
+              "source": "default_similarity"
+            }
+          ],
+          "candidate_phones": [
+            "AH0",
+            "L",
+            "OW1",
+            "N"
+          ],
+          "target_phones": [
+            "T",
+            "EY1",
+            "B",
+            "AH0",
+            "L"
+          ],
+          "status": "scored"
+        },
+        "syllable_weight": 1.0,
+        "adjusted_score": -6.125082397955275,
+        "rank_weight": 0.5631304897760943
+      },
+      {
+        "text": "restless",
+        "lm_mean_logprob": -6.600759983062744,
+        "lm_sum_logprob": -26.403039932250977,
+        "scored_tokens": 4,
+        "rhyme": {
+          "candidate": "restless",
+          "target": "table",
+          "unknown_words": [],
+          "syllable_count": 2,
+          "pronunciation_search_truncated": false,
+          "pronunciation_pairs_considered": 1,
+          "weight": 0.8693582353988059,
+          "alignment": [
+            {
+              "position_from_end": 1,
+              "candidate": {
+                "vowel": "AH",
+                "stress": 0,
+                "coda": [
+                  "S"
+                ]
+              },
+              "target": {
+                "vowel": "AH",
+                "stress": 0,
+                "coda": [
+                  "L"
+                ]
+              },
+              "vowel_weight": 1.0,
+              "coda_weight": 0.5712090638488149,
+              "stress_weight": 1,
+              "weight": 0.8693582353988059,
+              "source": "identical_vowel"
+            }
+          ],
+          "candidate_phones": [
+            "R",
+            "EH1",
+            "S",
+            "T",
+            "L",
+            "AH0",
+            "S"
+          ],
+          "target_phones": [
+            "T",
+            "EY1",
+            "B",
+            "AH0",
+            "L"
+          ],
+          "status": "scored"
+        },
+        "syllable_weight": 1.0,
+        "adjusted_score": -6.880759983062744,
+        "rank_weight": 0.26449802701701713
+      },
+      {
+        "text": "emotionally unavailable",
+        "lm_mean_logprob": -7.308941841125488,
+        "lm_sum_logprob": -36.544708251953125,
+        "scored_tokens": 5,
+        "rhyme": {
+          "candidate": "emotionally unavailable",
+          "target": "table",
+          "unknown_words": [],
+          "syllable_count": 9,
+          "pronunciation_search_truncated": false,
+          "pronunciation_pairs_considered": 2,
+          "weight": 1.0,
+          "alignment": [
+            {
+              "position_from_end": 1,
+              "candidate": {
+                "vowel": "AH",
+                "stress": 0,
+                "coda": [
+                  "L"
+                ]
+              },
+              "target": {
+                "vowel": "AH",
+                "stress": 0,
+                "coda": [
+                  "L"
+                ]
+              },
+              "vowel_weight": 1.0,
+              "coda_weight": 1.0,
+              "stress_weight": 1,
+              "weight": 1.0,
+              "source": "identical_vowel"
+            }
+          ],
+          "candidate_phones": [
+            "IH0",
+            "M",
+            "OW1",
+            "SH",
+            "N",
+            "AH0",
+            "L",
+            "IY0",
+            "AH2",
+            "N",
+            "AH0",
+            "V",
+            "EY1",
+            "L",
+            "AH0",
+            "B",
+            "AH0",
+            "L"
+          ],
+          "target_phones": [
+            "T",
+            "EY1",
+            "B",
+            "AH0",
+            "L"
+          ],
+          "status": "scored"
+        },
+        "syllable_weight": 1.0,
+        "adjusted_score": -7.308941841125488,
+        "rank_weight": 0.17237148320688864
+      }
+    ],
+    "scoring_mode": "local_model",
+    "strength": 2.0,
+    "profile": "soft-default",
+    "model": {
+      "model_id": "Qwen/Qwen3.5-9B",
+      "revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+      "tokenizer_revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+      "quantization": "nf4",
+      "loaded": true,
+      "max_input_tokens": 2048,
+      "backend": "transformers",
+      "automatic_model_substitution": false
+    },
+    "ranking_definition": "softmax(mean token log likelihood + strength * log(rhyme weight) + log(syllable weight)); relative to this candidate set, not calibrated probabilities",
+    "warnings": []
+  },
+  "call_brief_lexical_check": true
+}

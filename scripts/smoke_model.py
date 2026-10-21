@@ -15,6 +15,7 @@ from mumble_rhyme.service import LyricService
 def main():
     parser = argparse.ArgumentParser(description="Actual selected Qwen model GPU integration")
     parser.add_argument("--model", choices=list(MODEL_SPECS), default="9b")
+    parser.add_argument("--output", type=Path, help="Save a new record without overwriting an earlier run")
     args = parser.parse_args()
     torch.manual_seed(42)
     started = time.perf_counter()
@@ -57,7 +58,7 @@ def main():
         "call_brief_lexical_check": call_reference,
     }
     suffix = "" if args.model == "9b" else "-4b"
-    path = Path(__file__).resolve().parents[1] / f"docs/model-smoke{suffix}.json"
+    path = args.output or Path(__file__).resolve().parents[1] / f"docs/model-smoke{suffix}.json"
     path.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
     print(
         json.dumps(

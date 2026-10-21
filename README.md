@@ -112,7 +112,7 @@ For 4B use [the Windows 4B configuration](examples/mcp.windows.4b.json) or [the 
 | `suggest_lyrics` | Generate English options and rerank them | Yes |
 | `model_status` | Inspect pinned configuration and load state | No |
 
-The server reuses the loaded model. Separate CLI invocations load it again. Full request examples and Python usage are in [MCP & API](docs/api.md).
+The server reuses the loaded model. Separate CLI invocations load it again. Python callers can explicitly release weights with `service.model.unload()`; see the [memory lifetime checks](docs/model-memory.md). Full request examples and Python usage are in [MCP & API](docs/api.md).
 
 ## How the ranking works
 
@@ -136,13 +136,13 @@ Version 0.2 implements **candidate generation and reranking**, rather than modif
 
 ## What is verified, and what is next
 
-- **Verified locally:** 41 tests, a real MCP stdio exchange, pinned Qwen3.5-9B and 4B NF4 generation/scoring, and unchanged tensors after Windows resharding (775 for 9B, 738 for 4B).
+- **Verified locally:** 47 core tests plus 10 optional tensor tests, a real MCP stdio exchange, pinned Qwen3.5-9B and 4B NF4 generation/scoring, and unchanged tensors after Windows resharding (775 for 9B, 738 for 4B).
 - **Measured 4B:** 12.56 seconds for a cached direct-model smoke, 14.68 seconds for the production MCP exchange, peak PyTorch allocation 3.217 GiB.
 - **Recorded 9B:** one cached direct-model smoke took 27.71 seconds; an MCP smoke including model load, ranking, and generation took 26.35 seconds. These are functional checks with different requests, not comparative benchmarks or generation-only latency.
 - **Current scope:** English pronunciations; English or Chinese creative instructions; JSON CLI, Python, and MCP.
 - **Future work:** better proposal coverage for custom profiles, broader pronunciation handling, Chinese phonetic scoring, and evaluation with real writing sessions.
 
-No recording analysis, melody tracking, browser editor, or trained singing-quality score is included. Default phonetic similarity is a heuristic over dictionary pronunciations. Read the [verification record](docs/verification.md) for raw outputs and limits, including a later 9B reload failure under reduced available system commit memory.
+No recording analysis, melody tracking, browser editor, or trained singing-quality score is included. Default phonetic similarity is a heuristic over dictionary pronunciations. Read the [verification record](docs/verification.md) for raw outputs and limits, including the [0.2.1 memory audit and resolved reload failure](docs/model-memory.md).
 
 ## Contribute and license
 

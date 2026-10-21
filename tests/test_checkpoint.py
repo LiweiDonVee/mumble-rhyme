@@ -2,6 +2,81 @@ import json
 import struct
 
 
+def test_lazy_full_tensor_reader_avoids_slice_materialization_and_closes_files(tmp_path, monkeypatch):
+    import sys
+    from types import SimpleNamespace
+
+    from mumble_rhyme.checkpoint import full_tensor_state_dict
+
+    (tmp_path / "model.safetensors").touch()
+    events = []
+
+    class Slice:
+        def get_shape(self):
+            return [2]
+
+        def get_dtype(self):
+            return "BF16"
+
+        def __getitem__(self, index):
+            raise AssertionError("The duplicate-buffer slice path must not be used")
+
+    class Reader:
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *args):
+            events.append("closed")
+
+        def keys(self):
+            return ["weight"]
+
+        def get_slice(self, name):
+            return Slice()
+
+        def get_tensor(self, name):
+            events.append("read")
+            return [10, 20]
+
+    monkeypatch.setitem(sys.modules, "safetensors", SimpleNamespace(safe_open=lambda *a, **k: Reader()))
+    with full_tensor_state_dict(tmp_path) as state:
+        view = state["weight"]
+        assert view.get_shape() == [2]
+        assert view.get_dtype() == "BF16"
+        assert not events
+        assert view[...] == [10, 20]
+        assert events == ["read"]
+    assert events == ["read", "closed"]
+    assert state == {}
+
+
+def test_lazy_reader_closes_on_load_failure(tmp_path, monkeypatch):
+    import sys
+    from types import SimpleNamespace
+
+    import pytest
+
+    from mumble_rhyme.checkpoint import full_tensor_state_dict
+
+    (tmp_path / "model.safetensors").touch()
+    closed = []
+
+    class Reader:
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *args):
+            closed.append(True)
+
+        def keys(self):
+            return []
+
+    monkeypatch.setitem(sys.modules, "safetensors", SimpleNamespace(safe_open=lambda *a, **k: Reader()))
+    with pytest.raises(MemoryError), full_tensor_state_dict(tmp_path):
+        raise MemoryError("injected failure")
+    assert closed == [True]
+
+
 def write_fixture(path, tensors):
     header = {"__metadata__": {"format": "pt"}}
     payload = b""

@@ -43,3 +43,5 @@ For inference reports, include OS, Python, GPU, torch/CUDA, model revision, and 
 Do not commit model weights, caches, virtual environments, credentials, private songs, or logs containing unpublished writing. MCP examples use intentionally replaceable absolute paths. Internal planning notes and local research are excluded from distribution.
 
 Contributions are provided under GPL-3.0-or-later, the same license as this project. Third-party material must retain its applicable license and attribution. No contributor agreement is required.
+
+Windows/CUDA memory regression audit (real weights, optional): `python scripts/check_model_memory.py --model 9b` and `--model 4b`. It injects a partial-load failure and checks recovery plus two load/score/unload cycles. Run heavyweight GPU checks serially on constrained hosts. Functional smoke scripts accept `--output path.json` to preserve older records. `tests/test_tensor_stream.py` uses real torch tensors when the model runtime is installed and is skipped in core-only CI.

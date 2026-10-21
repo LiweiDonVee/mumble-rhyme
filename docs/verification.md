@@ -6,7 +6,7 @@ Initial 9B GPU measurements were recorded on **2026-10-20**; 4B measurements and
 
 ## Core behavior
 
-- **41 pytest tests pass** on Windows / Python 3.10, including a fresh environment without torch.
+- **47 core pytest tests pass** on Windows / Python 3.10, including a fresh environment without torch.
 - A real MCP stdio subprocess initializes, discovers five tools, compares pronunciations, handles custom rules, retains unknown candidates, returns phonetic-only rankings and model state, and reports invalid inputs.
 - Tests also check 4B/9B model selection, exact snapshot pins, matching tokenizer/model load arguments, and real stdio model status for both selections. Tests cover positive soft weights, pair direction and precedence, positional rules, no transitive closure, alternative readings, multiple syllables, unknown retention, syllable preferences, and strength zero.
 - A review found and fixed a syllable count that previously came from a different pronunciation than the selected match. Another regression covers an interrupted repair of a derived checkpoint cache.
@@ -52,7 +52,7 @@ English pronunciation comes from dictionary readings and hand-designed similarit
 
 Windows uses reference PyTorch kernels where causal_conv1d and flash-linear-attention are absent. The complete 9B smoke passed with those fallbacks. No optimized-kernel performance, universal hardware minimum, or subjective songwriting superiority is claimed.
 
-## 2026-10-21 follow-up resource check
+## 2026-10-21 follow-up resource check (resolved in 0.2.1)
 
 During 4B adaptation, the current host failed to reload 9B with a MemoryError while materializing its first 2.03 GB embedding. System commit headroom before model load was about 11.74 GB and fell to 3.48 GB before that read; the safetensors pread slice path requires additional temporary copies. Running the unmodified initial commit on the same host reproduced the identical failure. The dated successful 9B records above remain intact; they are not a claim that the later resource-limited run succeeded.
 
@@ -79,3 +79,9 @@ Initial 4B suggestions were valid JSON but too generic for the Chinese brief abo
 Final direct examples include `can't make a call tonight` and `dread the phone ring tonight`; the MCP output includes `too scared to call on this long night`. Other candidates still generalize the mood, so editorial selection remains necessary. Sampling can produce different text or malformed output on other requests; the adapter reports unparseable proposals explicitly.
 
 The recorded 4B times include model loading, scoring, and generation with the derived cache prepared. They are functional measurements on one host, not a controlled 4B/9B quality or speed benchmark, nor a guarantee that every 4 GB GPU can run the model.
+
+## Memory fix verification — 0.2.1
+
+The later 9B loading failure is now resolved on the measured host. It involved avoidable dependency staging as well as memory headroom. Failed-load traceback retention and a workspace-pinned reserved CUDA block were also reproduced and fixed. Both sizes passed injected failure recovery and two same-process load/score/unload cycles, finishing each explicit `release_runtime_cache=True` unload at 1 KiB allocated and 2 MiB reserved. That option requires external CUDA work to be stopped; default cleanup does not purge shared cuBLAS workspaces. See [the full memory audit](model-memory.md) and its raw records.
+
+Updated validation: 47 core tests in a torch-free environment (one optional module skipped); 57 tests including 10 real-tensor streaming tests in the model environment. The latter cover BF16/F16/F32 bytes, matrices, scalar/empty tensors, and truncated input. Functional direct and production MCP runs passed for both 9B and 4B after the fix. Existing historical JSON remains intact.

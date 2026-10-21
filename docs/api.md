@@ -105,3 +105,7 @@ The service shares the same logic as CLI and MCP. Advanced Python/CLI ranking ca
 - `model`: model ID, exact revision, quantization, and load state when model scoring is used.
 
 These are selection aids, not calibrated probabilities of naturalness, musical fit, or listener preference. See [architecture](architecture.md) for the scoring boundaries.
+
+## Explicit Python release
+
+`service.model.unload()` releases references owned by the adapter and unused CUDA allocations under a shared project inference lock. The optional `service.model.unload(release_runtime_cache=True)` also purges process-wide cuBLAS workspace caches; call it only after stopping external CUDA work in the same process. Default unload and automatic failure recovery leave those shared workspaces alone. The next model request loads the same selection again. Externally retained Python references still own their memory; the runtime context may remain until process exit. MCP intentionally stays resident between calls; stopping its server releases that process. See the [failure/retry and lifecycle audit](model-memory.md).

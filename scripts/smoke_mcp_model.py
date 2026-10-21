@@ -19,6 +19,7 @@ from mumble_rhyme.model import MODEL_SPECS
 async def main():
     parser = argparse.ArgumentParser(description="Actual selected Qwen through MCP stdio")
     parser.add_argument("--model", choices=list(MODEL_SPECS), default="9b")
+    parser.add_argument("--output", type=Path, help="Save a new record without overwriting an earlier run")
     args = parser.parse_args()
     started = time.perf_counter()
     root = Path(__file__).resolve().parents[1]
@@ -68,7 +69,7 @@ async def main():
             "call_brief_lexical_check": call_reference,
         }
         suffix = "" if args.model == "9b" else "-4b"
-        path = root / f"docs/mcp-model-smoke{suffix}.json"
+        path = args.output or root / f"docs/mcp-model-smoke{suffix}.json"
         path.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
         print(json.dumps({"result_path": str(path), "elapsed_seconds": result["elapsed_seconds"]}))
 

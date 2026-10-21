@@ -1,0 +1,557 @@
+{
+  "transport": "stdio",
+  "elapsed_seconds": 18.0384052998852,
+  "comparison": {
+    "candidate": "sit",
+    "target": "set",
+    "unknown_words": [],
+    "syllable_count": 1,
+    "pronunciation_search_truncated": false,
+    "pronunciation_pairs_considered": 1,
+    "weight": 0.9829743023715227,
+    "alignment": [
+      {
+        "position_from_end": 1,
+        "candidate": {
+          "vowel": "IH",
+          "stress": 1,
+          "coda": [
+            "T"
+          ]
+        },
+        "target": {
+          "vowel": "EH",
+          "stress": 1,
+          "coda": [
+            "T"
+          ]
+        },
+        "vowel_weight": 0.98,
+        "coda_weight": 1.0,
+        "stress_weight": 1,
+        "weight": 0.9829743023715227,
+        "source": "custom_rule"
+      }
+    ],
+    "candidate_phones": [
+      "S",
+      "IH1",
+      "T"
+    ],
+    "target_phones": [
+      "S",
+      "EH1",
+      "T"
+    ],
+    "status": "scored"
+  },
+  "ranking": {
+    "candidates": [
+      {
+        "text": "head",
+        "lm_mean_logprob": -0.17811261117458344,
+        "lm_sum_logprob": -0.17811261117458344,
+        "scored_tokens": 1,
+        "rhyme": {
+          "candidate": "head",
+          "target": "bed",
+          "unknown_words": [],
+          "syllable_count": 1,
+          "pronunciation_search_truncated": false,
+          "pronunciation_pairs_considered": 1,
+          "weight": 1.0,
+          "alignment": [
+            {
+              "position_from_end": 1,
+              "candidate": {
+                "vowel": "EH",
+                "stress": 1,
+                "coda": [
+                  "D"
+                ]
+              },
+              "target": {
+                "vowel": "EH",
+                "stress": 1,
+                "coda": [
+                  "D"
+                ]
+              },
+              "vowel_weight": 1.0,
+              "coda_weight": 1.0,
+              "stress_weight": 1,
+              "weight": 1.0,
+              "source": "identical_vowel"
+            }
+          ],
+          "candidate_phones": [
+            "HH",
+            "EH1",
+            "D"
+          ],
+          "target_phones": [
+            "B",
+            "EH1",
+            "D"
+          ],
+          "status": "scored"
+        },
+        "syllable_weight": 1.0,
+        "adjusted_score": -0.17811261117458344,
+        "rank_weight": 0.9471095721504932
+      },
+      {
+        "text": "chest",
+        "lm_mean_logprob": -2.928112506866455,
+        "lm_sum_logprob": -2.928112506866455,
+        "scored_tokens": 1,
+        "rhyme": {
+          "candidate": "chest",
+          "target": "bed",
+          "unknown_words": [],
+          "syllable_count": 1,
+          "pronunciation_search_truncated": false,
+          "pronunciation_pairs_considered": 1,
+          "weight": 0.9340269376520263,
+          "alignment": [
+            {
+              "position_from_end": 1,
+              "candidate": {
+                "vowel": "EH",
+                "stress": 1,
+                "coda": [
+                  "S",
+                  "T"
+                ]
+              },
+              "target": {
+                "vowel": "EH",
+                "stress": 1,
+                "coda": [
+                  "D"
+                ]
+              },
+              "vowel_weight": 1.0,
+              "coda_weight": 0.6344479679482282,
+              "stress_weight": 1,
+              "weight": 0.9340269376520263,
+              "source": "identical_vowel"
+            }
+          ],
+          "candidate_phones": [
+            "CH",
+            "EH1",
+            "S",
+            "T"
+          ],
+          "target_phones": [
+            "B",
+            "EH1",
+            "D"
+          ],
+          "status": "scored"
+        },
+        "syllable_weight": 1.0,
+        "adjusted_score": -3.064612506866455,
+        "rank_weight": 0.052821319904853975
+      },
+      {
+        "text": "dreams",
+        "lm_mean_logprob": -8.928112983703613,
+        "lm_sum_logprob": -8.928112983703613,
+        "scored_tokens": 1,
+        "rhyme": {
+          "candidate": "dreams",
+          "target": "bed",
+          "unknown_words": [],
+          "syllable_count": 1,
+          "pronunciation_search_truncated": false,
+          "pronunciation_pairs_considered": 1,
+          "weight": 0.6785819675520726,
+          "alignment": [
+            {
+              "position_from_end": 1,
+              "candidate": {
+                "vowel": "IY",
+                "stress": 1,
+                "coda": [
+                  "M",
+                  "Z"
+                ]
+              },
+              "target": {
+                "vowel": "EH",
+                "stress": 1,
+                "coda": [
+                  "D"
+                ]
+              },
+              "vowel_weight": 0.7082203534678,
+              "coda_weight": 0.5325918010068972,
+              "stress_weight": 1,
+              "weight": 0.6785819675520726,
+              "source": "default_similarity"
+            }
+          ],
+          "candidate_phones": [
+            "D",
+            "R",
+            "IY1",
+            "M",
+            "Z"
+          ],
+          "target_phones": [
+            "B",
+            "EH1",
+            "D"
+          ],
+          "status": "scored"
+        },
+        "syllable_weight": 1.0,
+        "adjusted_score": -9.703612983703614,
+        "rank_weight": 6.910794465292999e-05
+      }
+    ],
+    "scoring_mode": "local_model",
+    "strength": 2.0,
+    "profile": "my-mumble",
+    "model": {
+      "model_id": "Qwen/Qwen3.5-9B",
+      "revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+      "tokenizer_revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+      "quantization": "nf4",
+      "loaded": true,
+      "max_input_tokens": 2048,
+      "backend": "transformers",
+      "automatic_model_substitution": false
+    },
+    "ranking_definition": "softmax(mean token log likelihood + strength * log(rhyme weight) + log(syllable weight)); relative to this candidate set, not calibrated probabilities",
+    "warnings": []
+  },
+  "generation": {
+    "candidates": [
+      {
+        "text": "tossing in the dark until dawn light",
+        "lm_mean_logprob": -2.6411454677581787,
+        "lm_sum_logprob": -23.770309448242188,
+        "scored_tokens": 9,
+        "rhyme": {
+          "candidate": "tossing in the dark until dawn light",
+          "target": "night",
+          "unknown_words": [],
+          "syllable_count": 9,
+          "pronunciation_search_truncated": false,
+          "pronunciation_pairs_considered": 6,
+          "weight": 1.0,
+          "alignment": [
+            {
+              "position_from_end": 1,
+              "candidate": {
+                "vowel": "AY",
+                "stress": 1,
+                "coda": [
+                  "T"
+                ]
+              },
+              "target": {
+                "vowel": "AY",
+                "stress": 1,
+                "coda": [
+                  "T"
+                ]
+              },
+              "vowel_weight": 1.0,
+              "coda_weight": 1.0,
+              "stress_weight": 1,
+              "weight": 1.0,
+              "source": "identical_vowel"
+            }
+          ],
+          "candidate_phones": [
+            "T",
+            "AO1",
+            "S",
+            "IH0",
+            "NG",
+            "IH0",
+            "N",
+            "DH",
+            "AH0",
+            "D",
+            "AA1",
+            "R",
+            "K",
+            "AH0",
+            "N",
+            "T",
+            "IH1",
+            "L",
+            "D",
+            "AO1",
+            "N",
+            "L",
+            "AY1",
+            "T"
+          ],
+          "target_phones": [
+            "N",
+            "AY1",
+            "T"
+          ],
+          "status": "scored"
+        },
+        "syllable_weight": 1.0,
+        "adjusted_score": -2.6411454677581787,
+        "rank_weight": 0.5805598999784433
+      },
+      {
+        "text": "holding down the phone all through the night",
+        "lm_mean_logprob": -3.5452957153320312,
+        "lm_sum_logprob": -28.36236572265625,
+        "scored_tokens": 8,
+        "rhyme": {
+          "candidate": "holding down the phone all through the night",
+          "target": "night",
+          "unknown_words": [],
+          "syllable_count": 9,
+          "pronunciation_search_truncated": false,
+          "pronunciation_pairs_considered": 9,
+          "weight": 1.0,
+          "alignment": [
+            {
+              "position_from_end": 1,
+              "candidate": {
+                "vowel": "AY",
+                "stress": 1,
+                "coda": [
+                  "T"
+                ]
+              },
+              "target": {
+                "vowel": "AY",
+                "stress": 1,
+                "coda": [
+                  "T"
+                ]
+              },
+              "vowel_weight": 1.0,
+              "coda_weight": 1.0,
+              "stress_weight": 1,
+              "weight": 1.0,
+              "source": "identical_vowel"
+            }
+          ],
+          "candidate_phones": [
+            "HH",
+            "OW1",
+            "L",
+            "D",
+            "IH0",
+            "NG",
+            "D",
+            "AW1",
+            "N",
+            "DH",
+            "AH0",
+            "F",
+            "OW1",
+            "N",
+            "AO1",
+            "L",
+            "TH",
+            "R",
+            "UW1",
+            "DH",
+            "AH0",
+            "N",
+            "AY1",
+            "T"
+          ],
+          "target_phones": [
+            "N",
+            "AY1",
+            "T"
+          ],
+          "status": "scored"
+        },
+        "syllable_weight": 1.0,
+        "adjusted_score": -3.5452957153320312,
+        "rank_weight": 0.2350604547020763
+      },
+      {
+        "text": "staying up too long inside the night",
+        "lm_mean_logprob": -4.109901428222656,
+        "lm_sum_logprob": -32.87921142578125,
+        "scored_tokens": 8,
+        "rhyme": {
+          "candidate": "staying up too long inside the night",
+          "target": "night",
+          "unknown_words": [],
+          "syllable_count": 9,
+          "pronunciation_search_truncated": false,
+          "pronunciation_pairs_considered": 6,
+          "weight": 1.0,
+          "alignment": [
+            {
+              "position_from_end": 1,
+              "candidate": {
+                "vowel": "AY",
+                "stress": 1,
+                "coda": [
+                  "T"
+                ]
+              },
+              "target": {
+                "vowel": "AY",
+                "stress": 1,
+                "coda": [
+                  "T"
+                ]
+              },
+              "vowel_weight": 1.0,
+              "coda_weight": 1.0,
+              "stress_weight": 1,
+              "weight": 1.0,
+              "source": "identical_vowel"
+            }
+          ],
+          "candidate_phones": [
+            "S",
+            "T",
+            "EY1",
+            "IH0",
+            "NG",
+            "AH1",
+            "P",
+            "T",
+            "UW1",
+            "L",
+            "AO1",
+            "NG",
+            "IH2",
+            "N",
+            "S",
+            "AY1",
+            "D",
+            "DH",
+            "AH0",
+            "N",
+            "AY1",
+            "T"
+          ],
+          "target_phones": [
+            "N",
+            "AY1",
+            "T"
+          ],
+          "status": "scored"
+        },
+        "syllable_weight": 1.0,
+        "adjusted_score": -4.109901428222656,
+        "rank_weight": 0.1336516812789056
+      },
+      {
+        "text": "waking up at night without the call",
+        "lm_mean_logprob": -4.220017433166504,
+        "lm_sum_logprob": -33.76013946533203,
+        "scored_tokens": 8,
+        "rhyme": {
+          "candidate": "waking up at night without the call",
+          "target": "night",
+          "unknown_words": [],
+          "syllable_count": 9,
+          "pronunciation_search_truncated": false,
+          "pronunciation_pairs_considered": 6,
+          "weight": 0.650950387162595,
+          "alignment": [
+            {
+              "position_from_end": 1,
+              "candidate": {
+                "vowel": "AO",
+                "stress": 1,
+                "coda": [
+                  "L"
+                ]
+              },
+              "target": {
+                "vowel": "AY",
+                "stress": 1,
+                "coda": [
+                  "T"
+                ]
+              },
+              "vowel_weight": 0.6661362832632719,
+              "coda_weight": 0.5712090638488149,
+              "stress_weight": 1,
+              "weight": 0.650950387162595,
+              "source": "default_similarity"
+            }
+          ],
+          "candidate_phones": [
+            "W",
+            "EY1",
+            "K",
+            "IH0",
+            "NG",
+            "AH1",
+            "P",
+            "AE1",
+            "T",
+            "N",
+            "AY1",
+            "T",
+            "W",
+            "IH0",
+            "TH",
+            "AW1",
+            "T",
+            "DH",
+            "AH0",
+            "K",
+            "AO1",
+            "L"
+          ],
+          "target_phones": [
+            "N",
+            "AY1",
+            "T"
+          ],
+          "status": "scored"
+        },
+        "syllable_weight": 1.0,
+        "adjusted_score": -5.078661132913342,
+        "rank_weight": 0.05072796404057493
+      }
+    ],
+    "scoring_mode": "local_model",
+    "strength": 2.0,
+    "profile": "my-mumble",
+    "model": {
+      "model_id": "Qwen/Qwen3.5-9B",
+      "revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+      "tokenizer_revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+      "quantization": "nf4",
+      "loaded": true,
+      "max_input_tokens": 2048,
+      "backend": "transformers",
+      "automatic_model_substitution": false
+    },
+    "ranking_definition": "softmax(mean token log likelihood + strength * log(rhyme weight) + log(syllable weight)); relative to this candidate set, not calibrated probabilities",
+    "warnings": [],
+    "proposal_count_requested": 4,
+    "proposal_count_received": 4,
+    "proposal_raw_output": "[\"waking up at night without the call\", \"tossing in the dark until dawn light\", \"holding down the phone all through the night\", \"staying up too long inside the night\"]\n",
+    "search_scope": "Bounded locally generated proposals; no rhyme filtering. Call rank_candidates with your own alternatives to widen the search."
+  },
+  "model_status": {
+    "model_id": "Qwen/Qwen3.5-9B",
+    "revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+    "tokenizer_revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+    "quantization": "nf4",
+    "loaded": true,
+    "max_input_tokens": 2048,
+    "backend": "transformers",
+    "automatic_model_substitution": false
+  },
+  "call_brief_lexical_check": true
+}

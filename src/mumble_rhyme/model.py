@@ -1,8 +1,10 @@
 """Pinned Qwen3.5 adapter; no heavyweight imports until inference/download."""
 
+import gc
 import json
 import sys
 import threading
+import traceback
 from pathlib import Path
 
 MODEL_ID = "Qwen/Qwen3.5-9B"
@@ -12,6 +14,18 @@ MODEL_SPECS = {
     "4b": ("Qwen/Qwen3.5-4B", "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a"),
 }
 MAX_INPUT_TOKENS = 2048
+_RUNTIME_LOCK = threading.RLock()
+
+
+def _clear_error_frames(error):
+    pending, visited = [error], set()
+    while pending:
+        current = pending.pop()
+        if id(current) in visited:
+            continue
+        visited.add(id(current))
+        traceback.clear_frames(current.__traceback__)
+        pending.extend(e for e in (current.__cause__, current.__context__) if e is not None)
 
 
 def scored_token_positions(offsets, boundary):
@@ -34,7 +48,7 @@ class LocalModel:
         self.model_id, self.revision = MODEL_SPECS[model]
         self.model = None
         self.tokenizer = None
-        self.lock = threading.RLock()
+        self.lock = _RUNTIME_LOCK
 
     def status(self):
         return {
@@ -57,6 +71,28 @@ class LocalModel:
             allow_patterns=["*.json", "*.jinja", "*.txt", "*.safetensors", "LICENSE"],
             max_workers=3,
         )
+
+    def unload(self, *, release_runtime_cache=False):
+        """Release this instance's weights and unused CUDA cache under its lock.
+
+        CUDA runtime/context memory can remain until process exit. References
+        held by external Python callers are outside this instance's ownership.
+        release_runtime_cache=True also clears process-wide cuBLAS workspaces;
+        callers must stop external CUDA activity first. Project adapters share
+        a lock, but unrelated torch code cannot be synchronized by that lock.
+        """
+        with self.lock:
+            self.model, self.tokenizer = None, None
+            gc.collect()
+            torch = sys.modules.get("torch")
+            if torch is not None and torch.cuda.is_initialized():
+                # PyTorch 2.8's cached cuBLAS workspace can keep an otherwise
+                # free multi-GB allocator segment alive after model teardown.
+                clear_workspaces = getattr(getattr(torch, "_C", None), "_cuda_clearCublasWorkspaces", None)
+                if release_runtime_cache and clear_workspaces is not None:
+                    torch.cuda.synchronize()
+                    clear_workspaces()
+                torch.cuda.empty_cache()
 
     def load(self):
         with self.lock:
@@ -87,18 +123,37 @@ class LocalModel:
             tokenizer = AutoTokenizer.from_pretrained(
                 self.model_id, revision=self.revision, trust_remote_code=False
             )
-            model_path = self.model_id
-            if sys.platform == "win32":
-                from .checkpoint import reshard_checkpoint
+            model = None
+            try:
+                if sys.platform == "win32":
+                    from transformers import GenerationConfig, Qwen3_5Config
 
-                snapshot = Path(self.download())
-                model_path = str(reshard_checkpoint(
-                    snapshot, snapshot.parent.parent / "mumble-rhyme-shards" / self.revision
-                ))
-            model = Qwen3_5ForConditionalGeneration.from_pretrained(model_path, **kwargs).eval()
-            if len(tokenizer) > model.get_input_embeddings().num_embeddings:
-                raise RuntimeError("Tokenizer vocabulary exceeds pinned model embeddings")
-            self.tokenizer, self.model = tokenizer, model
+                    from .checkpoint import full_tensor_state_dict, reshard_checkpoint
+
+                    snapshot = Path(self.download())
+                    directory = reshard_checkpoint(
+                        snapshot, snapshot.parent.parent / "mumble-rhyme-shards" / self.revision
+                    )
+                    kwargs["config"] = Qwen3_5Config.from_pretrained(snapshot, trust_remote_code=False)
+                    if (snapshot / "generation_config.json").is_file():
+                        kwargs["generation_config"] = GenerationConfig.from_pretrained(snapshot)
+                    device = "cuda:0" if self.quantization == "nf4" else "cpu"
+                    with full_tensor_state_dict(directory, device=device) as state:
+                        model = Qwen3_5ForConditionalGeneration.from_pretrained(
+                            None, state_dict=state, **kwargs
+                        ).eval()
+                else:
+                    model = Qwen3_5ForConditionalGeneration.from_pretrained(self.model_id, **kwargs).eval()
+                if len(tokenizer) > model.get_input_embeddings().num_embeddings:
+                    raise RuntimeError("Tokenizer vocabulary exceeds pinned model embeddings")
+                self.tokenizer, self.model = tokenizer, model
+            except Exception as error:
+                # A retained exception (e.g. an MCP error/log record) otherwise
+                # keeps the partial model alive through dependency frame locals.
+                _clear_error_frames(error)
+                model, tokenizer = None, None
+                self.unload()
+                raise
 
     def _prompt(self, intent=""):
         messages = [
@@ -118,11 +173,11 @@ class LocalModel:
         )
 
     def score(self, candidates, left="", right="", intent=""):
-        self.load()
         import torch
 
         scores = []
         with self.lock, torch.inference_mode():
+            self.load()
             for candidate in candidates:
                 full, boundary = assemble_completion(left, candidate, right)
                 prompt = self._prompt(intent)
@@ -158,7 +213,6 @@ class LocalModel:
     def generate(self, left, right, intent, target, count=8):
         if not 1 <= count <= 12:
             raise ValueError("count must be between 1 and 12")
-        self.load()
         import torch
 
         request = {
@@ -188,10 +242,11 @@ class LocalModel:
             },
             {"role": "user", "content": json.dumps(request, ensure_ascii=False)},
         ]
-        prompt = self.tokenizer.apply_chat_template(
-            messages, tokenize=False, add_generation_prompt=True, enable_thinking=False
-        )
         with self.lock, torch.inference_mode():
+            self.load()
+            prompt = self.tokenizer.apply_chat_template(
+                messages, tokenize=False, add_generation_prompt=True, enable_thinking=False
+            )
             inputs = self.tokenizer(prompt, return_tensors="pt", add_special_tokens=False).to(
                 self.model.device
             )

@@ -6,7 +6,7 @@
 
 给非母语英语创作者用的本地歌词助手：用中文说出意思，获取英文补词或整句建议；由你决定哪些声音可以通押。提供 Python API、JSON CLI 和 stdio MCP，供人类或旗舰模型调用。
 
-**状态：0.2 可运行版本。** 发音规则、排序、MCP 已验证；本机 RTX 5080 的真实 Qwen3.5-9B 与 4B NF4 生成及评分已通过。实测记录见 [验证记录](docs/verification.md)。
+**状态：0.2.1 可运行版本。** 发音规则、排序、MCP 已验证；本机 RTX 5080 的真实 Qwen3.5-9B 与 4B NF4 生成及评分已通过。实测记录见 [验证记录](docs/verification.md)。
 
 ## 模型与范围
 
@@ -60,7 +60,7 @@ uv pip install --python .venv/Scripts/python.exe -e '.[model,dev]'
 
 `rank` / `suggest` 也接受 `--request -`，从标准输入读取 JSON。所有正常输出都是 JSON；日志和错误写到 stderr。MCP 会常驻并复用已加载模型；每次 CLI 调用是新进程，需要重新加载。
 
-4B 实测（RTX 5080 / torch 2.8.0+cu128）：缓存已有时，真实生成及评分脚本约 12.56 秒、正式 MCP 调用约 14.68 秒；PyTorch 峰值已分配显存约 3.217 GiB。这是整轮功能测试，非每次生成延迟或最低显存承诺。原始结果与 9B 当前内存限制见 [验证记录](docs/verification.md)。
+4B 实测（RTX 5080 / torch 2.8.0+cu128）：缓存已有时，真实生成及评分脚本约 12.56 秒、正式 MCP 调用约 14.68 秒；PyTorch 峰值已分配显存约 3.217 GiB。这是整轮功能测试，非每次生成延迟或最低显存承诺。原始结果与 9B 内存问题的修复记录见 [验证记录](docs/verification.md)。
 
 ## 你的“通押自定义”
 
@@ -155,3 +155,7 @@ rank_weight = softmax(score over the supplied candidate set)
 [安装指南](docs/installation.md) · [音对规则](docs/rhyme-rules.md) · [MCP/API](docs/api.md) · [写作场景对比](docs/workflows.md) · [贡献指南](CONTRIBUTING.md)
 
 当前是候选生成与软排序：生成器参考目标韵脚，用户音对规则在排序阶段生效。可自行提供候选以探索生成器未覆盖的非常规押法。
+
+## 0.2.1 内存修复
+
+已修复 Windows 大张量读取产生额外副本的峰值、失败异常链保留部分模型，以及 cuBLAS 工作区阻止大块显存归还的问题。9B、4B 均通过模拟失败后恢复，并在同一进程内连续加载/评分/卸载两轮；使用显式完整缓存释放后，实测为 1 KiB 已分配、2 MiB 已预留。Python 可调用 `service.model.unload()` 释放模型；若需清理进程级 cuBLAS 缓存，可在同进程其他 CUDA 工作已停止时使用 `release_runtime_cache=True`；MCP 正常在会话内常驻模型，停止服务进程会释放其运行时上下文。详见 [内存审计](docs/model-memory.md)。

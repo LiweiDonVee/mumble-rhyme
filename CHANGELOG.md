@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.1
+
+- Reduce Windows NF4 load peaks: validated large floating-point tensors stream directly to CUDA using a 16 MiB CPU buffer; other tensors use single-buffer full-tensor reads.
+- Release partially loaded models retained by exception cause/context chains, close readers on all load exits, and clear unused CUDA cache after failure.
+- Add explicit Python `LocalModel.unload()` and serialize project loading/inference/unloading with a shared lock. Optional full runtime-cache release requires other same-process CUDA work to be stopped.
+- Add real failure/retry/load/unload memory audits, bit-preserving streaming checks, and fresh 4B/9B generation/MCP records.
+
 ## 0.2.0
 
 - Add explicit Qwen3.5-4B selection through `--model 4b` and `LocalModel(model="4b")`; 9B remains the default.

@@ -61,6 +61,6 @@ def main():
                 raise ValueError("Request must be a JSON object")
             result = getattr(service, args.command)(**request)
         print(json.dumps(result, ensure_ascii=False, indent=2))
-    except (ValueError, TypeError, OSError, RuntimeError, ImportError) as error:
+    except (ValueError, TypeError, OSError, RuntimeError, ImportError, MemoryError) as error:
         print(json.dumps({"error": str(error)}, ensure_ascii=False), file=sys.stderr)
         raise SystemExit(1) from None

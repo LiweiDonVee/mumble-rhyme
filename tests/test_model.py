@@ -100,3 +100,93 @@ def test_prompt_only_and_empty_offsets_are_not_scored():
 def test_completion_inserts_word_spaces_but_preserves_punctuation():
     assert assemble_completion("I feel", "alone", "tonight") == ("I feel alone tonight", 7)
     assert assemble_completion("I feel ", "alone", ", again") == ("I feel alone, again", 7)
+
+
+def test_unload_releases_owned_references_and_unused_cuda_cache(monkeypatch):
+    import sys
+    import weakref
+    from types import SimpleNamespace
+
+    from mumble_rhyme.model import LocalModel
+
+    events = []
+    monkeypatch.setitem(sys.modules, "torch", SimpleNamespace(cuda=SimpleNamespace(
+        is_initialized=lambda: True, empty_cache=lambda: events.append("empty_cache"),
+        synchronize=lambda: events.append("synchronize"),
+    ), _C=SimpleNamespace(_cuda_clearCublasWorkspaces=lambda: events.append("workspaces"))))
+
+    class Owned:
+        pass
+
+    adapter = LocalModel()
+    adapter.model, adapter.tokenizer = Owned(), Owned()
+    owned = weakref.ref(adapter.model)
+    adapter.unload(release_runtime_cache=True)
+    assert owned() is None
+    assert adapter.tokenizer is None
+    assert adapter.status()["loaded"] is False
+    assert events == ["synchronize", "workspaces", "empty_cache"]
+
+
+def test_default_unload_does_not_purge_process_wide_workspaces(monkeypatch):
+    import sys
+    from types import SimpleNamespace
+
+    from mumble_rhyme.model import LocalModel
+
+    events = []
+    monkeypatch.setitem(sys.modules, "torch", SimpleNamespace(cuda=SimpleNamespace(
+        is_initialized=lambda: True, empty_cache=lambda: events.append("empty_cache"),
+        synchronize=lambda: events.append("synchronize"),
+    ), _C=SimpleNamespace(_cuda_clearCublasWorkspaces=lambda: events.append("workspaces"))))
+    LocalModel().unload()
+    assert events == ["empty_cache"]
+
+
+def test_adapters_share_runtime_lock_for_process_wide_cuda_cleanup():
+    from mumble_rhyme.model import LocalModel
+
+    assert LocalModel().lock is LocalModel(model="4b").lock
+
+
+def test_failed_load_drops_partial_model_even_if_error_is_kept(monkeypatch):
+    import sys
+    import weakref
+    from types import SimpleNamespace
+
+    import pytest
+
+    from mumble_rhyme.model import LocalModel
+
+    partials, events = [], []
+
+    class Partial:
+        pass
+
+    def fail(*args, **kwargs):
+        def inner():
+            partial = Partial()
+            partials.append(weakref.ref(partial))
+            raise MemoryError("injected while model owns memory")
+
+        try:
+            inner()
+        except MemoryError as cause:
+            raise RuntimeError("wrapped load failure") from cause
+
+    monkeypatch.setitem(sys.modules, "torch", SimpleNamespace(bfloat16="bf16", cuda=SimpleNamespace(
+        is_initialized=lambda: True, empty_cache=lambda: events.append("empty_cache"),
+    )))
+    monkeypatch.setitem(sys.modules, "transformers", SimpleNamespace(
+        AutoTokenizer=SimpleNamespace(from_pretrained=lambda *a, **k: object()),
+        BitsAndBytesConfig=None,
+        Qwen3_5ForConditionalGeneration=SimpleNamespace(from_pretrained=fail),
+    ))
+    monkeypatch.setattr(sys, "platform", "linux")
+    adapter = LocalModel(quantization="none")
+    with pytest.raises(RuntimeError) as captured:
+        adapter.load()
+    assert captured.value is not None  # Holding the error must not retain the partial model.
+    assert partials[0]() is None
+    assert adapter.model is None and adapter.tokenizer is None
+    assert events == ["empty_cache"]

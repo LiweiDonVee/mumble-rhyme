@@ -55,9 +55,9 @@ When `use_model=false`, the language term is absent and mode is explicitly `phon
 
 ## Local execution
 
-Model imports and weights are lazy; a lock serializes local model operations. The server retains the loaded model for a writing session. Downloads use Hugging Face; after complete caching, `HF_HUB_OFFLINE=1` permits local operation.
+Model imports and weights are lazy; a shared process-wide project lock serializes all LocalModel loading, inference, and explicit `LocalModel.unload()`. Failed loads clear allocation-owning exception frames, including chained causes/contexts, and close readers. The server retains the loaded model for a writing session. Downloads use Hugging Face; after complete caching, `HF_HUB_OFFLINE=1` permits local operation.
 
-Windows uses standard smaller safetensors shards, copied by streaming raw tensor bytes. Cache preparation is locked and publishes its completed index last. The source snapshot remains untouched. The local integration record includes a comparison of all 775 tensor hashes. Windows also initializes optional NumPy before starting stdio reader threads to avoid the observed extension-import stall.
+Windows uses standard smaller safetensors shards, copied by streaming raw tensor bytes. Validated large NF4 tensors are transferred directly to CUDA using a 16 MiB CPU buffer; smaller tensors use the single-buffer full-tensor reader. Default unload drops this adapter's owned references and unused CUDA cache. Explicit `unload(release_runtime_cache=True)` also synchronizes and clears the pinned PyTorch version's process-wide cached cuBLAS workspaces; it requires external CUDA work in the same process to be stopped. Cache preparation is locked and publishes its completed index last. The source snapshot remains untouched. The local integration record includes a comparison of all 775 tensor hashes. Windows also initializes optional NumPy before starting stdio reader threads to avoid the observed extension-import stall.
 
 ## Deliberate limits
 
