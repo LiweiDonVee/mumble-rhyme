@@ -1,0 +1,509 @@
+{
+  "transport": "stdio",
+  "elapsed_seconds": 26.354140099836513,
+  "comparison": {
+    "candidate": "sit",
+    "target": "set",
+    "unknown_words": [],
+    "syllable_count": 1,
+    "pronunciation_search_truncated": false,
+    "pronunciation_pairs_considered": 1,
+    "weight": 0.9829743023715227,
+    "alignment": [
+      {
+        "position_from_end": 1,
+        "candidate": {
+          "vowel": "IH",
+          "stress": 1,
+          "coda": [
+            "T"
+          ]
+        },
+        "target": {
+          "vowel": "EH",
+          "stress": 1,
+          "coda": [
+            "T"
+          ]
+        },
+        "vowel_weight": 0.98,
+        "coda_weight": 1.0,
+        "stress_weight": 1,
+        "weight": 0.9829743023715227,
+        "source": "custom_rule"
+      }
+    ],
+    "candidate_phones": [
+      "S",
+      "IH1",
+      "T"
+    ],
+    "target_phones": [
+      "S",
+      "EH1",
+      "T"
+    ],
+    "status": "scored"
+  },
+  "ranking": {
+    "candidates": [
+      {
+        "text": "head",
+        "lm_mean_logprob": -0.17811261117458344,
+        "lm_sum_logprob": -0.17811261117458344,
+        "scored_tokens": 1,
+        "rhyme": {
+          "candidate": "head",
+          "target": "bed",
+          "unknown_words": [],
+          "syllable_count": 1,
+          "pronunciation_search_truncated": false,
+          "pronunciation_pairs_considered": 1,
+          "weight": 1.0,
+          "alignment": [
+            {
+              "position_from_end": 1,
+              "candidate": {
+                "vowel": "EH",
+                "stress": 1,
+                "coda": [
+                  "D"
+                ]
+              },
+              "target": {
+                "vowel": "EH",
+                "stress": 1,
+                "coda": [
+                  "D"
+                ]
+              },
+              "vowel_weight": 1.0,
+              "coda_weight": 1.0,
+              "stress_weight": 1,
+              "weight": 1.0,
+              "source": "identical_vowel"
+            }
+          ],
+          "candidate_phones": [
+            "HH",
+            "EH1",
+            "D"
+          ],
+          "target_phones": [
+            "B",
+            "EH1",
+            "D"
+          ],
+          "status": "scored"
+        },
+        "syllable_weight": 1.0,
+        "adjusted_score": -0.17811261117458344,
+        "rank_weight": 0.9471095721504932
+      },
+      {
+        "text": "chest",
+        "lm_mean_logprob": -2.928112506866455,
+        "lm_sum_logprob": -2.928112506866455,
+        "scored_tokens": 1,
+        "rhyme": {
+          "candidate": "chest",
+          "target": "bed",
+          "unknown_words": [],
+          "syllable_count": 1,
+          "pronunciation_search_truncated": false,
+          "pronunciation_pairs_considered": 1,
+          "weight": 0.9340269376520263,
+          "alignment": [
+            {
+              "position_from_end": 1,
+              "candidate": {
+                "vowel": "EH",
+                "stress": 1,
+                "coda": [
+                  "S",
+                  "T"
+                ]
+              },
+              "target": {
+                "vowel": "EH",
+                "stress": 1,
+                "coda": [
+                  "D"
+                ]
+              },
+              "vowel_weight": 1.0,
+              "coda_weight": 0.6344479679482282,
+              "stress_weight": 1,
+              "weight": 0.9340269376520263,
+              "source": "identical_vowel"
+            }
+          ],
+          "candidate_phones": [
+            "CH",
+            "EH1",
+            "S",
+            "T"
+          ],
+          "target_phones": [
+            "B",
+            "EH1",
+            "D"
+          ],
+          "status": "scored"
+        },
+        "syllable_weight": 1.0,
+        "adjusted_score": -3.064612506866455,
+        "rank_weight": 0.052821319904853975
+      },
+      {
+        "text": "dreams",
+        "lm_mean_logprob": -8.928112983703613,
+        "lm_sum_logprob": -8.928112983703613,
+        "scored_tokens": 1,
+        "rhyme": {
+          "candidate": "dreams",
+          "target": "bed",
+          "unknown_words": [],
+          "syllable_count": 1,
+          "pronunciation_search_truncated": false,
+          "pronunciation_pairs_considered": 1,
+          "weight": 0.6785819675520726,
+          "alignment": [
+            {
+              "position_from_end": 1,
+              "candidate": {
+                "vowel": "IY",
+                "stress": 1,
+                "coda": [
+                  "M",
+                  "Z"
+                ]
+              },
+              "target": {
+                "vowel": "EH",
+                "stress": 1,
+                "coda": [
+                  "D"
+                ]
+              },
+              "vowel_weight": 0.7082203534678,
+              "coda_weight": 0.5325918010068972,
+              "stress_weight": 1,
+              "weight": 0.6785819675520726,
+              "source": "default_similarity"
+            }
+          ],
+          "candidate_phones": [
+            "D",
+            "R",
+            "IY1",
+            "M",
+            "Z"
+          ],
+          "target_phones": [
+            "B",
+            "EH1",
+            "D"
+          ],
+          "status": "scored"
+        },
+        "syllable_weight": 1.0,
+        "adjusted_score": -9.703612983703614,
+        "rank_weight": 6.910794465292999e-05
+      }
+    ],
+    "scoring_mode": "local_model",
+    "strength": 2.0,
+    "profile": "my-mumble",
+    "model": {
+      "model_id": "Qwen/Qwen3.5-9B",
+      "revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+      "tokenizer_revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+      "quantization": "nf4",
+      "loaded": true,
+      "max_input_tokens": 2048,
+      "backend": "transformers",
+      "automatic_model_substitution": false
+    },
+    "ranking_definition": "softmax(mean token log likelihood + strength * log(rhyme weight) + log(syllable weight)); relative to this candidate set, not calibrated probabilities",
+    "warnings": []
+  },
+  "generation": {
+    "candidates": [
+      {
+        "text": "staying up all night",
+        "lm_mean_logprob": -3.198889970779419,
+        "lm_sum_logprob": -15.994449615478516,
+        "scored_tokens": 5,
+        "rhyme": {
+          "candidate": "staying up all night",
+          "target": "night",
+          "unknown_words": [],
+          "syllable_count": 5,
+          "pronunciation_search_truncated": false,
+          "pronunciation_pairs_considered": 1,
+          "weight": 1.0,
+          "alignment": [
+            {
+              "position_from_end": 1,
+              "candidate": {
+                "vowel": "AY",
+                "stress": 1,
+                "coda": [
+                  "T"
+                ]
+              },
+              "target": {
+                "vowel": "AY",
+                "stress": 1,
+                "coda": [
+                  "T"
+                ]
+              },
+              "vowel_weight": 1.0,
+              "coda_weight": 1.0,
+              "stress_weight": 1,
+              "weight": 1.0,
+              "source": "identical_vowel"
+            }
+          ],
+          "candidate_phones": [
+            "S",
+            "T",
+            "EY1",
+            "IH0",
+            "NG",
+            "AH1",
+            "P",
+            "AO1",
+            "L",
+            "N",
+            "AY1",
+            "T"
+          ],
+          "target_phones": [
+            "N",
+            "AY1",
+            "T"
+          ],
+          "status": "scored"
+        },
+        "syllable_weight": 1.0,
+        "adjusted_score": -3.198889970779419,
+        "rank_weight": 0.6838716869680519
+      },
+      {
+        "text": "calling you all night",
+        "lm_mean_logprob": -4.654638290405273,
+        "lm_sum_logprob": -18.618553161621094,
+        "scored_tokens": 4,
+        "rhyme": {
+          "candidate": "calling you all night",
+          "target": "night",
+          "unknown_words": [],
+          "syllable_count": 5,
+          "pronunciation_search_truncated": false,
+          "pronunciation_pairs_considered": 1,
+          "weight": 1.0,
+          "alignment": [
+            {
+              "position_from_end": 1,
+              "candidate": {
+                "vowel": "AY",
+                "stress": 1,
+                "coda": [
+                  "T"
+                ]
+              },
+              "target": {
+                "vowel": "AY",
+                "stress": 1,
+                "coda": [
+                  "T"
+                ]
+              },
+              "vowel_weight": 1.0,
+              "coda_weight": 1.0,
+              "stress_weight": 1,
+              "weight": 1.0,
+              "source": "identical_vowel"
+            }
+          ],
+          "candidate_phones": [
+            "K",
+            "AO1",
+            "L",
+            "IH0",
+            "NG",
+            "Y",
+            "UW1",
+            "AO1",
+            "L",
+            "N",
+            "AY1",
+            "T"
+          ],
+          "target_phones": [
+            "N",
+            "AY1",
+            "T"
+          ],
+          "status": "scored"
+        },
+        "syllable_weight": 1.0,
+        "adjusted_score": -4.654638290405273,
+        "rank_weight": 0.15949650156891104
+      },
+      {
+        "text": "talking all night",
+        "lm_mean_logprob": -4.886422634124756,
+        "lm_sum_logprob": -19.545690536499023,
+        "scored_tokens": 4,
+        "rhyme": {
+          "candidate": "talking all night",
+          "target": "night",
+          "unknown_words": [],
+          "syllable_count": 4,
+          "pronunciation_search_truncated": false,
+          "pronunciation_pairs_considered": 1,
+          "weight": 1.0,
+          "alignment": [
+            {
+              "position_from_end": 1,
+              "candidate": {
+                "vowel": "AY",
+                "stress": 1,
+                "coda": [
+                  "T"
+                ]
+              },
+              "target": {
+                "vowel": "AY",
+                "stress": 1,
+                "coda": [
+                  "T"
+                ]
+              },
+              "vowel_weight": 1.0,
+              "coda_weight": 1.0,
+              "stress_weight": 1,
+              "weight": 1.0,
+              "source": "identical_vowel"
+            }
+          ],
+          "candidate_phones": [
+            "T",
+            "AO1",
+            "K",
+            "IH0",
+            "NG",
+            "AO1",
+            "L",
+            "N",
+            "AY1",
+            "T"
+          ],
+          "target_phones": [
+            "N",
+            "AY1",
+            "T"
+          ],
+          "status": "scored"
+        },
+        "syllable_weight": 1.0,
+        "adjusted_score": -4.886422634124756,
+        "rank_weight": 0.12649941005092313
+      },
+      {
+        "text": "thinking all night",
+        "lm_mean_logprob": -6.321059226989746,
+        "lm_sum_logprob": -18.963176727294922,
+        "scored_tokens": 3,
+        "rhyme": {
+          "candidate": "thinking all night",
+          "target": "night",
+          "unknown_words": [],
+          "syllable_count": 4,
+          "pronunciation_search_truncated": false,
+          "pronunciation_pairs_considered": 1,
+          "weight": 1.0,
+          "alignment": [
+            {
+              "position_from_end": 1,
+              "candidate": {
+                "vowel": "AY",
+                "stress": 1,
+                "coda": [
+                  "T"
+                ]
+              },
+              "target": {
+                "vowel": "AY",
+                "stress": 1,
+                "coda": [
+                  "T"
+                ]
+              },
+              "vowel_weight": 1.0,
+              "coda_weight": 1.0,
+              "stress_weight": 1,
+              "weight": 1.0,
+              "source": "identical_vowel"
+            }
+          ],
+          "candidate_phones": [
+            "TH",
+            "IH1",
+            "NG",
+            "K",
+            "IH0",
+            "NG",
+            "AO1",
+            "L",
+            "N",
+            "AY1",
+            "T"
+          ],
+          "target_phones": [
+            "N",
+            "AY1",
+            "T"
+          ],
+          "status": "scored"
+        },
+        "syllable_weight": 1.0,
+        "adjusted_score": -6.321059226989746,
+        "rank_weight": 0.0301324014121139
+      }
+    ],
+    "scoring_mode": "local_model",
+    "strength": 2.0,
+    "profile": "my-mumble",
+    "model": {
+      "model_id": "Qwen/Qwen3.5-9B",
+      "revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+      "tokenizer_revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+      "quantization": "nf4",
+      "loaded": true,
+      "max_input_tokens": 2048,
+      "backend": "transformers",
+      "automatic_model_substitution": false
+    },
+    "ranking_definition": "softmax(mean token log likelihood + strength * log(rhyme weight) + log(syllable weight)); relative to this candidate set, not calibrated probabilities",
+    "warnings": [],
+    "proposal_count_requested": 4,
+    "proposal_count_received": 4,
+    "proposal_raw_output": "[\"staying up all night\", \"thinking all night\", \"calling you all night\", \"talking all night\"]\n",
+    "search_scope": "Bounded locally generated proposals; no rhyme filtering. Call rank_candidates with your own alternatives to widen the search."
+  },
+  "model_status": {
+    "model_id": "Qwen/Qwen3.5-9B",
+    "revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+    "tokenizer_revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+    "quantization": "nf4",
+    "loaded": true,
+    "max_input_tokens": 2048,
+    "backend": "transformers",
+    "automatic_model_substitution": false
+  }
+}

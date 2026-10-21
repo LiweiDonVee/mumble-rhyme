@@ -1,0 +1,9 @@
+{
+  "left": "I keep your voice inside my",
+  "right": "",
+  "target": "bed",
+  "intent": "失恋后，脑海里一直回响着对方的声音；口语化，适合唱出来",
+  "candidates": ["head", "chest", "dreams", "heart", "head again"],
+  "strength": 2.0,
+  "use_model": true
+}

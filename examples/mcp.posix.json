@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "mumble-rhyme": {
+      "command": "/absolute/path/to/mumble-rhyme/.venv/bin/python",
+      "args": [
+        "-m",
+        "mumble_rhyme",
+        "--profile",
+        "/absolute/path/to/mumble-rhyme/examples/mumble.yaml",
+        "serve"
+      ]
+    }
+  }
+}

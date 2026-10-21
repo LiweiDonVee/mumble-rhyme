@@ -1,0 +1,145 @@
+# Mumble Rhyme
+
+[English](README.md) · 中文
+
+**你决定哪些声音可以押；工具帮你找到说得通的英文。**
+
+给非母语英语创作者用的本地歌词助手：用中文说出意思，获取英文补词或整句建议；由你决定哪些声音可以通押。提供 Python API、JSON CLI 和 stdio MCP，供人类或旗舰模型调用。
+
+**状态：0.1 可运行版本。** 发音规则、排序、MCP 已验证；本机 RTX 5080 的真实 Qwen3.5-9B NF4 生成及评分已通过。实测记录见 [验证记录](docs/verification.md)。
+
+## 模型与范围
+
+固定使用 **Qwen/Qwen3.5-9B**，模型和 tokenizer 都锁定到 `c202236235762e1c871ad0ccb60c8ee5ba337b9a`。不会偷偷换成较小模型。默认在 CUDA 上用 bitsandbytes NF4 4-bit 加载；原始下载约 19 GB，量化在本地加载时完成。量化不改变词表，但会影响数值精度。无需音频输入。
+
+Windows 首次加载会将已下载权重流式重排成较小分片，以绕过 safetensors 大文件映射导致的分页内存峰值；不改变张量数值。原始缓存保留，因此额外占用约 19.3 GB 磁盘，之后会复用重分片缓存。无需修改系统分页文件。
+
+首版发音评分针对**英文**；创作意图可以用中文。中文韵母评分尚未实现。可用来探索旋律说唱、近韵、情绪化口语表达；不包含艺术家的歌词训练集或风格微调。
+
+## 安装（Windows / RTX 5080）
+
+在此项目目录运行：
+
+```powershell
+uv venv --python 3.10 .venv
+uv pip install --python .venv/Scripts/python.exe torch==2.8.0 --index-url https://download.pytorch.org/whl/cu128
+uv pip install --python .venv/Scripts/python.exe -e '.[model,dev]'
+.venv/Scripts/python.exe -m mumble_rhyme download
+```
+
+核心功能可单独安装 `uv pip install --python .venv/Scripts/python.exe -e .`，不需要 PyTorch。Python 3.10+。其他平台应先按自己的硬件安装兼容的 PyTorch；`--quantization none` 可禁用量化，需要更多内存。当前默认 NF4 路径要求 CUDA。依赖快照见 `requirements-lock.txt`（本机 Windows / Python 3.10 环境）；模型依赖是可选项。
+
+已安装后的使用：
+
+```powershell
+# 不启动模型：查看自定义 i/e 规则对 sit/set 的影响
+.venv/Scripts/python.exe -m mumble_rhyme --profile examples/mumble.yaml compare sit set
+
+# 不启动模型：从词典找候选。整个词典都软评分，返回排名靠前的一部分。
+.venv/Scripts/python.exe -m mumble_rhyme find night --limit 12
+
+# 启动 Qwen：根据上下文比较你或旗舰模型提出的几个表达
+.venv/Scripts/python.exe -m mumble_rhyme --profile examples/mumble.yaml rank --request examples/rank.json
+
+# 启动 Qwen：从中文意思生成英文整句，再按规则排序
+.venv/Scripts/python.exe -m mumble_rhyme suggest --request examples/suggest.json
+
+# 查看固定模型配置，不加载模型
+.venv/Scripts/python.exe -m mumble_rhyme status
+```
+
+`rank` / `suggest` 也接受 `--request -`，从标准输入读取 JSON。所有正常输出都是 JSON；日志和错误写到 stderr。MCP 会常驻并复用已加载模型；每次 CLI 调用是新进程，需要重新加载。
+
+## 你的“通押自定义”
+
+这份配置里的 `i`、`e` 是你命名的符号，不默认等于字母名称或某个 IPA 音。用示例词把符号钉到读音上：
+
+```yaml
+name: my-mumble
+aliases:
+  i: {vowel_of: sit}   # IH
+  e: {vowel_of: bed}   # EH
+  ee: IY
+vowel_rules:
+  - sounds: [i, e]
+    weight: 0.95
+    symmetric: true
+  - sounds: [i, e]
+    position: 2       # 只影响倒数第二个音节；1 = 最后一个音节
+    weight: 0.8
+syllables: 2          # 比较末尾两个音节
+unknown_weight: 0.7
+pronunciations:
+  luv: [L AH1 V]      # 你实际准备怎么唱；多个读音可写多个字符串
+```
+
+- 权重范围 `(0, 1]`：1 是你认为完全可接受，0.95 是轻微降权。未配置的音对继续使用默认相似度，不会被判死刑。默认相似度是手工启发式，并非训练出的听感概率。
+- 规则只作用于指定音对；`i ↔ e`、`e ↔ a` 不会推出 `i ↔ a`。`symmetric: false` 时顺序为 `[候选音, 目标音]`。
+- 位置规则优先于通用规则；同等具体的重复规则采用最后一条。每个请求可以传 `profile` 临时覆盖配置；`aliases` / `pronunciations` 按键合并，`vowel_rules` 整组替换。不修改已保存文件。
+- `vowel_importance` 控制元音在音节评分中的比重，默认 0.75；剩余部分是尾部辅音的编辑距离权重。`stress_mismatch_weight` 默认 0.93，弱化重音不同的匹配。
+- 别名可直接使用 ARPAbet 元音：`AA AE AH AO AW AY EH ER EY IH IY OW OY UH UW`。例词默认取词典第一个读音的最后元音，可用 `syllable_from_end` 指定倒数位置。
+- `pronunciations` 支持空格分隔的 ARPAbet，元音可带 `0/1/2` 表示重音。可为俚语、名字或你特定的唱法覆盖读音。初始发音库是美式英语 CMUdict。
+
+## 怎么与旗舰模型配合
+
+把 [examples/mcp.windows.json](examples/mcp.windows.json) 中的 server 配置合并进支持 stdio MCP 的客户端。示例使用占位绝对路径；请替换成自己的 Python 和项目路径。不同客户端配置入口可能不同。
+
+服务启动等价于：
+
+```powershell
+.venv/Scripts/python.exe -m mumble_rhyme --profile examples/mumble.yaml serve
+```
+
+提供五个工具：
+
+| 工具 | 输入与用途 | 本地模型 |
+| --- | --- | --- |
+| `compare_rhyme` | 比较词或短语，解释每个末尾音节的元音、尾辅音和规则 | 不需要 |
+| `find_rhymes` | 对 CMUdict 单词软评分，返回候选词；不检查上下文含义 | 不需要 |
+| `rank_candidates` | 给候选字符串、左右文、韵脚，结合语境与发音排序 | 默认需要；可 `use_model=false` |
+| `suggest_lyrics` | 给中文意思及上下文，生成英文补词或完整一行并排序 | 需要 |
+| `model_status` | 查看固定提交、量化、加载状态 | 不需要 |
+
+可对旗舰模型这样说：
+
+> 我想表达“深夜还想给前任打电话，但又不想承认”。帮我写一行自然英文歌词，末尾参考 night。我允许 IH/EH 轻微通押。先用 suggest_lyrics 找方向；再根据我的意思提出几个不同写法，用 rank_candidates 比较。解释词义、口语用法，以及哪里需要我唱的时候稍微弯一下音。
+
+`left` / `right` 是空白处两侧的已有内容，`candidates` 只放要填入的片段。需要改写整句就把左右文留空，候选填完整一行。`target_syllables` 是**填入片段**的音节数软偏好；不满足也保留。中间填空时，发音比的是填入片段的末尾，而不是 `right` 的末尾。
+
+`strength` 默认 2.0，越大越重视韵脚；0 关闭韵脚加权（独立的音节数偏好仍会生效）。刚开始可试 0.5–3。没有任何韵脚硬门槛。
+
+## 分数到底代表什么
+
+对已经给出的有限候选集，工具计算：
+
+```text
+score = mean_token_log_likelihood + strength * log(rhyme_weight) + log(syllable_weight)
+rank_weight = softmax(score over the supplied candidate set)
+```
+
+- 词可能拆成多个 token。评分会把完整文本重新 tokenize，再按字符偏移定位要评分的候选和右文；不会把某个 token ID 当成一个发音单词。跨过左文边界的 token 也会算入。
+- `lm_sum_logprob` 是实际求和的 token 对数似然；`lm_mean_logprob` 用于排序以减轻短文本偏好。右文也参与评分，因此能比较中间填空的衔接。均值与右文长度会影响不同长度候选的排序。
+- `rank_weight` 只是此候选集中的相对排序权重，**不是**一句歌词好听/自然/合意的概率。增加或移除候选后它会变化。没有训练过主观音乐听感模型。
+- 无模型模式明确标记为 `phonetic_only`，不会假装评估了语义。CLI / Python 可传 `model_scores` 使用外部给出的有限分数；MCP 不开放这个内部评测入口。
+- 多个读音取最佳发音匹配，并返回选中的音素。每个短语最多考虑 32 个发音组合，超出会返回 `pronunciation_search_truncated=true`。未知尾词得到 `unknown_weight`，保留且标记；未知词后面有已知尾词时可继续比较已知结尾。
+- 所有**提交的**候选都保留。生成本身只有有限预算，`find_rhymes` 也只返回 top N；这不意味着搜索了所有可能歌词。可用自己的候选调用 `rank_candidates` 扩大搜索。
+- 首版按元音分段比较末尾 N 个音节，尾辅音归属是启发式，不是专业音节切分。没有自动推断连读、方言、拖音或实际演唱发音；请用覆盖读音表达它们。
+
+## 开发验证
+
+```powershell
+.venv/Scripts/python.exe -m pytest -q
+.venv/Scripts/python.exe -m ruff check .
+.venv/Scripts/python.exe -m build
+.venv/Scripts/python.exe scripts/smoke_model.py
+```
+
+模型烟雾测试下载/加载真实的固定 Qwen3.5-9B，执行实际生成和似然评分，输出 `docs/model-smoke.json`。常规测试不下载模型、不要求 GPU；包含真实 stdio MCP 子进程交互。模型缓存沿用 Hugging Face 默认位置，可通过 `HF_HOME` 由用户设置。模型和词典各自遵循其上游许可；CMUdict 许可随 Python 依赖分发。
+
+## 开源与贡献
+
+代码采用 [GPL-3.0-or-later](LICENSE)，与当前 cmudict Python 封装一致。模型和词典数据保持各自上游许可，见 [第三方声明](THIRD_PARTY_NOTICES.md)。仓库不附带模型权重。
+
+[安装指南](docs/installation.md) · [音对规则](docs/rhyme-rules.md) · [MCP/API](docs/api.md) · [写作场景对比](docs/workflows.md) · [贡献指南](CONTRIBUTING.md)
+
+当前是候选生成与软排序：生成器参考目标韵脚，用户音对规则在排序阶段生效。可自行提供候选以探索生成器未覆盖的非常规押法。

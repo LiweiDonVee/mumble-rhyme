@@ -1,0 +1,23 @@
+name: my-mumble
+# These are YOUR symbolic labels, not assumptions about the English letters i/e.
+aliases:
+  i: {vowel_of: sit}
+  e: {vowel_of: bed}
+  ee: IY
+vowel_rules:
+  - sounds: [i, e]
+    weight: 0.95
+    symmetric: true
+  - sounds: [i, ee]
+    weight: 0.88
+    symmetric: true
+  # Last syllable can bend more; position-specific rules override generic ones.
+  - sounds: [i, e]
+    position: 1
+    weight: 0.98
+syllables: 1
+vowel_importance: 0.85
+stress_mismatch_weight: 0.95
+unknown_weight: 0.7
+pronunciations:
+  luv: [L AH1 V]

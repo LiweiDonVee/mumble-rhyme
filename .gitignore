@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+dist/
+*.egg-info/
+.models/
+.cache/
+
+# Private working notes and local inputs
+docs/superpowers/
+.env
+.env.*
+!.env.example
+*.log

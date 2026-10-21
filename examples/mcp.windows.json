@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "mumble-rhyme": {
+      "command": "C:/path/to/mumble-rhyme/.venv/Scripts/python.exe",
+      "args": [
+        "-m",
+        "mumble_rhyme",
+        "--profile",
+        "C:/path/to/mumble-rhyme/examples/mumble.yaml",
+        "serve"
+      ]
+    }
+  }
+}
