@@ -120,3 +120,9 @@ See [CONTRIBUTING.md](../CONTRIBUTING.md) for core tests and the opt-in real-mod
 ## Version 0.3 search and lookup
 
 Core installation now includes wordfreq and its local data for balanced lookup. No online word-frequency service is used. The sixth tool search_lyrics uses the selected Qwen model; its beam width defaults to 20 independently of microbatch size 1. Test scripts use the full default 20×20 budget. See [probability-search.md](probability-search.md) for raw probability, boundary and length-limit behavior. After updating, restart the MCP process and check package_version=0.3.0 and six registered tools.
+
+## Large CUDA request despite free GPU capacity
+
+Version 0.3.1 limits only the Windows Transformers disposable allocator warmup to 256 MiB; 9B previously requested 7.22 GiB in a single speed-only allocation before reading weights. This does not reduce beam width or real parameter shapes. Check model_status.loading_warmup after restarting the server.
+
+Do not infer a fixed WDDM allocation ceiling from one failure. Local native 7.22 GiB allocation failed under substantial system commit pressure and succeeded after a user-approved GraphicsPerfSvc restart on the same GPU/driver. The package does not change system services or paging. See [windows-allocation.md](windows-allocation.md) for trace, probes, supported fallback bounds and remaining memory requirements.

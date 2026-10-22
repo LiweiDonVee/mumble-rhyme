@@ -1,0 +1,825 @@
+{
+  "elapsed_seconds_including_load": 36.781738799996674,
+  "peak_allocated_gib": 7.464657783508301,
+  "test_single_allocation_ceiling_bytes": 4294967296,
+  "maximum_factory_bytes": 2034237440,
+  "maximum_observed_tensor_bytes": 2034237440,
+  "maximum_masked_fill_bytes": 1048576,
+  "blocked_allocations": [],
+  "checks_passed": true,
+  "result": {
+    "candidates": [
+      {
+        "text": "fading slow",
+        "raw_continuation": " fading slow\n",
+        "token_ids": [
+          56540,
+          6103,
+          198
+        ],
+        "token_count": 3,
+        "sequence_logprob": -2.3861194103956223,
+        "sequence_probability": 0.09198595189410728,
+        "rhyme_weight": 0.5845932032965151,
+        "adjusted_log_weight": -3.459797515633027,
+        "finished_by": "punctuation",
+        "word_boundary_confirmed": true,
+        "rank_weight": 0.22973698647025456,
+        "rhyme": {
+          "candidate": "fading slow",
+          "target": "light",
+          "unknown_words": [],
+          "syllable_count": 3,
+          "pronunciation_search_truncated": false,
+          "pronunciation_pairs_considered": 1,
+          "weight": 0.5845932032965151,
+          "alignment": [
+            {
+              "position_from_end": 1,
+              "candidate": {
+                "vowel": "OW",
+                "stress": 1,
+                "coda": []
+              },
+              "target": {
+                "vowel": "AY",
+                "stress": 1,
+                "coda": [
+                  "T"
+                ]
+              },
+              "vowel_weight": 0.6172679502604734,
+              "coda_weight": 0.4965853037914095,
+              "stress_weight": 1,
+              "weight": 0.5845932032965151,
+              "source": "default_similarity"
+            }
+          ],
+          "candidate_phones": [
+            "F",
+            "EY1",
+            "D",
+            "IH0",
+            "NG",
+            "S",
+            "L",
+            "OW1"
+          ],
+          "target_phones": [
+            "L",
+            "AY1",
+            "T"
+          ],
+          "status": "scored"
+        }
+      },
+      {
+        "text": "fading fast",
+        "raw_continuation": " fading fast\n",
+        "token_ids": [
+          56540,
+          4778,
+          198
+        ],
+        "token_count": 3,
+        "sequence_logprob": -3.2018800377845764,
+        "sequence_probability": 0.040685641487443296,
+        "rhyme_weight": 0.8249539984574028,
+        "adjusted_log_weight": -3.5867353450798647,
+        "finished_by": "punctuation",
+        "word_boundary_confirmed": true,
+        "rank_weight": 0.20234967962581457,
+        "rhyme": {
+          "candidate": "fading fast",
+          "target": "light",
+          "unknown_words": [],
+          "syllable_count": 3,
+          "pronunciation_search_truncated": false,
+          "pronunciation_pairs_considered": 1,
+          "weight": 0.8249539984574028,
+          "alignment": [
+            {
+              "position_from_end": 1,
+              "candidate": {
+                "vowel": "AE",
+                "stress": 1,
+                "coda": [
+                  "S",
+                  "T"
+                ]
+              },
+              "target": {
+                "vowel": "AY",
+                "stress": 1,
+                "coda": [
+                  "T"
+                ]
+              },
+              "vowel_weight": 0.8694420993065347,
+              "coda_weight": 0.7046880897187134,
+              "stress_weight": 1,
+              "weight": 0.8249539984574028,
+              "source": "default_similarity"
+            }
+          ],
+          "candidate_phones": [
+            "F",
+            "EY1",
+            "D",
+            "IH0",
+            "NG",
+            "F",
+            "AE1",
+            "S",
+            "T"
+          ],
+          "target_phones": [
+            "L",
+            "AY1",
+            "T"
+          ],
+          "status": "scored"
+        }
+      },
+      {
+        "text": "fading out",
+        "raw_continuation": " fading out\n",
+        "token_ids": [
+          56540,
+          680,
+          198
+        ],
+        "token_count": 3,
+        "sequence_logprob": -3.5710396766662598,
+        "sequence_probability": 0.028126595908157033,
+        "rhyme_weight": 0.8012516095248002,
+        "adjusted_log_weight": -4.014200200630206,
+        "finished_by": "punctuation",
+        "word_boundary_confirmed": true,
+        "rank_weight": 0.1319644321017747,
+        "rhyme": {
+          "candidate": "fading out",
+          "target": "light",
+          "unknown_words": [],
+          "syllable_count": 3,
+          "pronunciation_search_truncated": false,
+          "pronunciation_pairs_considered": 1,
+          "weight": 0.8012516095248002,
+          "alignment": [
+            {
+              "position_from_end": 1,
+              "candidate": {
+                "vowel": "AW",
+                "stress": 1,
+                "coda": [
+                  "T"
+                ]
+              },
+              "target": {
+                "vowel": "AY",
+                "stress": 1,
+                "coda": [
+                  "T"
+                ]
+              },
+              "vowel_weight": 0.7442038056701585,
+              "coda_weight": 1.0,
+              "stress_weight": 1,
+              "weight": 0.8012516095248002,
+              "source": "default_similarity"
+            }
+          ],
+          "candidate_phones": [
+            "F",
+            "EY1",
+            "D",
+            "IH0",
+            "NG",
+            "AW1",
+            "T"
+          ],
+          "target_phones": [
+            "L",
+            "AY1",
+            "T"
+          ],
+          "status": "scored"
+        }
+      },
+      {
+        "text": "cold and bright",
+        "raw_continuation": " cold and bright\n",
+        "token_ids": [
+          8981,
+          321,
+          9613,
+          198
+        ],
+        "token_count": 4,
+        "sequence_logprob": -4.135307788848877,
+        "sequence_probability": 0.015997740445860213,
+        "rhyme_weight": 1.0,
+        "adjusted_log_weight": -4.135307788848877,
+        "finished_by": "punctuation",
+        "word_boundary_confirmed": true,
+        "rank_weight": 0.11691238922819518,
+        "rhyme": {
+          "candidate": "cold and bright",
+          "target": "light",
+          "unknown_words": [],
+          "syllable_count": 3,
+          "pronunciation_search_truncated": false,
+          "pronunciation_pairs_considered": 2,
+          "weight": 1.0,
+          "alignment": [
+            {
+              "position_from_end": 1,
+              "candidate": {
+                "vowel": "AY",
+                "stress": 1,
+                "coda": [
+                  "T"
+                ]
+              },
+              "target": {
+                "vowel": "AY",
+                "stress": 1,
+                "coda": [
+                  "T"
+                ]
+              },
+              "vowel_weight": 1.0,
+              "coda_weight": 1.0,
+              "stress_weight": 1,
+              "weight": 1.0,
+              "source": "identical_vowel"
+            }
+          ],
+          "candidate_phones": [
+            "K",
+            "OW1",
+            "L",
+            "D",
+            "AH0",
+            "N",
+            "D",
+            "B",
+            "R",
+            "AY1",
+            "T"
+          ],
+          "target_phones": [
+            "L",
+            "AY1",
+            "T"
+          ],
+          "status": "scored"
+        }
+      },
+      {
+        "text": "fading one by one",
+        "raw_continuation": " fading one by one\n",
+        "token_ids": [
+          56540,
+          799,
+          539,
+          799,
+          198
+        ],
+        "token_count": 5,
+        "sequence_logprob": -3.9706034651553637,
+        "sequence_probability": 0.01886204711177206,
+        "rhyme_weight": 0.7885332255473282,
+        "adjusted_log_weight": -4.445764936762851,
+        "finished_by": "punctuation",
+        "word_boundary_confirmed": true,
+        "rank_weight": 0.08570984499011763,
+        "rhyme": {
+          "candidate": "fading one by one",
+          "target": "light",
+          "unknown_words": [],
+          "syllable_count": 5,
+          "pronunciation_search_truncated": false,
+          "pronunciation_pairs_considered": 1,
+          "weight": 0.7885332255473282,
+          "alignment": [
+            {
+              "position_from_end": 1,
+              "candidate": {
+                "vowel": "AH",
+                "stress": 1,
+                "coda": [
+                  "N"
+                ]
+              },
+              "target": {
+                "vowel": "AY",
+                "stress": 1,
+                "coda": [
+                  "T"
+                ]
+              },
+              "vowel_weight": 0.8780009110209074,
+              "coda_weight": 0.5712090638488149,
+              "stress_weight": 1,
+              "weight": 0.7885332255473282,
+              "source": "default_similarity"
+            }
+          ],
+          "candidate_phones": [
+            "F",
+            "EY1",
+            "D",
+            "IH0",
+            "NG",
+            "W",
+            "AH1",
+            "N",
+            "B",
+            "AY1",
+            "W",
+            "AH1",
+            "N"
+          ],
+          "target_phones": [
+            "L",
+            "AY1",
+            "T"
+          ],
+          "status": "scored"
+        }
+      },
+      {
+        "text": "flickering low",
+        "raw_continuation": " flickering low\n",
+        "token_ids": [
+          27425,
+          4519,
+          3238,
+          198
+        ],
+        "token_count": 4,
+        "sequence_logprob": -3.740340423071757,
+        "sequence_probability": 0.023746018062800217,
+        "rhyme_weight": 0.5845932032965151,
+        "adjusted_log_weight": -4.814018528309162,
+        "finished_by": "punctuation",
+        "word_boundary_confirmed": true,
+        "rank_weight": 0.05930621489568375,
+        "rhyme": {
+          "candidate": "flickering low",
+          "target": "light",
+          "unknown_words": [],
+          "syllable_count": 4,
+          "pronunciation_search_truncated": false,
+          "pronunciation_pairs_considered": 1,
+          "weight": 0.5845932032965151,
+          "alignment": [
+            {
+              "position_from_end": 1,
+              "candidate": {
+                "vowel": "OW",
+                "stress": 1,
+                "coda": []
+              },
+              "target": {
+                "vowel": "AY",
+                "stress": 1,
+                "coda": [
+                  "T"
+                ]
+              },
+              "vowel_weight": 0.6172679502604734,
+              "coda_weight": 0.4965853037914095,
+              "stress_weight": 1,
+              "weight": 0.5845932032965151,
+              "source": "default_similarity"
+            }
+          ],
+          "candidate_phones": [
+            "F",
+            "L",
+            "IH1",
+            "K",
+            "ER0",
+            "IH0",
+            "NG",
+            "L",
+            "OW1"
+          ],
+          "target_phones": [
+            "L",
+            "AY1",
+            "T"
+          ],
+          "status": "scored"
+        }
+      },
+      {
+        "text": "flickering like distant stars",
+        "raw_continuation": " flickering like distant stars\n",
+        "token_ids": [
+          27425,
+          4519,
+          1040,
+          27786,
+          9467,
+          198
+        ],
+        "token_count": 6,
+        "sequence_logprob": -4.117836635792628,
+        "sequence_probability": 0.016279695283825824,
+        "rhyme_weight": 0.6568864068638823,
+        "adjusted_log_weight": -4.958324980097237,
+        "finished_by": "punctuation",
+        "word_boundary_confirmed": true,
+        "rank_weight": 0.05133679019995354,
+        "rhyme": {
+          "candidate": "flickering like distant stars",
+          "target": "light",
+          "unknown_words": [],
+          "syllable_count": 7,
+          "pronunciation_search_truncated": false,
+          "pronunciation_pairs_considered": 1,
+          "weight": 0.6568864068638823,
+          "alignment": [
+            {
+              "position_from_end": 1,
+              "candidate": {
+                "vowel": "AA",
+                "stress": 1,
+                "coda": [
+                  "R",
+                  "Z"
+                ]
+              },
+              "target": {
+                "vowel": "AY",
+                "stress": 1,
+                "coda": [
+                  "T"
+                ]
+              },
+              "vowel_weight": 0.7044587067832626,
+              "coda_weight": 0.5325918010068972,
+              "stress_weight": 1,
+              "weight": 0.6568864068638823,
+              "source": "default_similarity"
+            }
+          ],
+          "candidate_phones": [
+            "F",
+            "L",
+            "IH1",
+            "K",
+            "ER0",
+            "IH0",
+            "NG",
+            "L",
+            "AY1",
+            "K",
+            "D",
+            "IH1",
+            "S",
+            "T",
+            "AH0",
+            "N",
+            "T",
+            "S",
+            "T",
+            "AA1",
+            "R",
+            "Z"
+          ],
+          "target_phones": [
+            "L",
+            "AY1",
+            "T"
+          ],
+          "status": "scored"
+        }
+      },
+      {
+        "text": "flickering out",
+        "raw_continuation": " flickering out\n",
+        "token_ids": [
+          27425,
+          4519,
+          680,
+          198
+        ],
+        "token_count": 4,
+        "sequence_logprob": -4.694332454586402,
+        "sequence_probability": 0.009146971349093506,
+        "rhyme_weight": 0.8012516095248002,
+        "adjusted_log_weight": -5.137492978550348,
+        "finished_by": "punctuation",
+        "word_boundary_confirmed": true,
+        "rank_weight": 0.042915782751522476,
+        "rhyme": {
+          "candidate": "flickering out",
+          "target": "light",
+          "unknown_words": [],
+          "syllable_count": 4,
+          "pronunciation_search_truncated": false,
+          "pronunciation_pairs_considered": 1,
+          "weight": 0.8012516095248002,
+          "alignment": [
+            {
+              "position_from_end": 1,
+              "candidate": {
+                "vowel": "AW",
+                "stress": 1,
+                "coda": [
+                  "T"
+                ]
+              },
+              "target": {
+                "vowel": "AY",
+                "stress": 1,
+                "coda": [
+                  "T"
+                ]
+              },
+              "vowel_weight": 0.7442038056701585,
+              "coda_weight": 1.0,
+              "stress_weight": 1,
+              "weight": 0.8012516095248002,
+              "source": "default_similarity"
+            }
+          ],
+          "candidate_phones": [
+            "F",
+            "L",
+            "IH1",
+            "K",
+            "ER0",
+            "IH0",
+            "NG",
+            "AW1",
+            "T"
+          ],
+          "target_phones": [
+            "L",
+            "AY1",
+            "T"
+          ],
+          "status": "scored"
+        }
+      },
+      {
+        "text": "fading low",
+        "raw_continuation": " fading low\n",
+        "token_ids": [
+          56540,
+          3238,
+          198
+        ],
+        "token_count": 3,
+        "sequence_logprob": -4.135707460343838,
+        "sequence_probability": 0.01599134788256798,
+        "rhyme_weight": 0.5845932032965151,
+        "adjusted_log_weight": -5.209385565581242,
+        "finished_by": "punctuation",
+        "word_boundary_confirmed": true,
+        "rank_weight": 0.039938751477702567,
+        "rhyme": {
+          "candidate": "fading low",
+          "target": "light",
+          "unknown_words": [],
+          "syllable_count": 3,
+          "pronunciation_search_truncated": false,
+          "pronunciation_pairs_considered": 1,
+          "weight": 0.5845932032965151,
+          "alignment": [
+            {
+              "position_from_end": 1,
+              "candidate": {
+                "vowel": "OW",
+                "stress": 1,
+                "coda": []
+              },
+              "target": {
+                "vowel": "AY",
+                "stress": 1,
+                "coda": [
+                  "T"
+                ]
+              },
+              "vowel_weight": 0.6172679502604734,
+              "coda_weight": 0.4965853037914095,
+              "stress_weight": 1,
+              "weight": 0.5845932032965151,
+              "source": "default_similarity"
+            }
+          ],
+          "candidate_phones": [
+            "F",
+            "EY1",
+            "D",
+            "IH0",
+            "NG",
+            "L",
+            "OW1"
+          ],
+          "target_phones": [
+            "L",
+            "AY1",
+            "T"
+          ],
+          "status": "scored"
+        }
+      },
+      {
+        "text": "distant stars",
+        "raw_continuation": " distant stars\n",
+        "token_ids": [
+          27786,
+          9467,
+          198
+        ],
+        "token_count": 3,
+        "sequence_logprob": -4.371645778417587,
+        "sequence_probability": 0.012630436553417671,
+        "rhyme_weight": 0.6568864068638823,
+        "adjusted_log_weight": -5.212134122722197,
+        "finished_by": "punctuation",
+        "word_boundary_confirmed": true,
+        "rank_weight": 0.03982912825898102,
+        "rhyme": {
+          "candidate": "distant stars",
+          "target": "light",
+          "unknown_words": [],
+          "syllable_count": 3,
+          "pronunciation_search_truncated": false,
+          "pronunciation_pairs_considered": 1,
+          "weight": 0.6568864068638823,
+          "alignment": [
+            {
+              "position_from_end": 1,
+              "candidate": {
+                "vowel": "AA",
+                "stress": 1,
+                "coda": [
+                  "R",
+                  "Z"
+                ]
+              },
+              "target": {
+                "vowel": "AY",
+                "stress": 1,
+                "coda": [
+                  "T"
+                ]
+              },
+              "vowel_weight": 0.7044587067832626,
+              "coda_weight": 0.5325918010068972,
+              "stress_weight": 1,
+              "weight": 0.6568864068638823,
+              "source": "default_similarity"
+            }
+          ],
+          "candidate_phones": [
+            "D",
+            "IH1",
+            "S",
+            "T",
+            "AH0",
+            "N",
+            "T",
+            "S",
+            "T",
+            "AA1",
+            "R",
+            "Z"
+          ],
+          "target_phones": [
+            "L",
+            "AY1",
+            "T"
+          ],
+          "status": "scored"
+        }
+      }
+    ],
+    "search": {
+      "beam_width": 20,
+      "branch_top_k": 20,
+      "rounds": 12,
+      "expanded_edges": 4420,
+      "pruned_paths": 3445,
+      "completed_paths": 755,
+      "duplicate_text_paths_collapsed": 177,
+      "length_limit_reached": true,
+      "forced_length_completions": 333,
+      "max_new_tokens": 12,
+      "min_new_tokens": 2,
+      "exhaustive": false,
+      "language_only_frontier_slots": 4,
+      "microbatch_size": 1,
+      "prefix_token_count": 72,
+      "conditioning_token_ids": [
+        248045,
+        8678,
+        198,
+        2523,
+        513,
+        449,
+        6163,
+        81735,
+        13,
+        18047,
+        279,
+        66022,
+        17185,
+        13,
+        9357,
+        1132,
+        3889,
+        6163,
+        66022,
+        1414,
+        11,
+        440,
+        874,
+        39492,
+        466,
+        52408,
+        14973,
+        13,
+        14569,
+        5774,
+        1238,
+        279,
+        16713,
+        66022,
+        8978,
+        26,
+        635,
+        524,
+        12771,
+        424,
+        13,
+        248046,
+        198,
+        248045,
+        846,
+        198,
+        22791,
+        279,
+        66022,
+        13,
+        46499,
+        321,
+        19070,
+        25,
+        220,
+        113230,
+        109631,
+        104620,
+        96111,
+        248046,
+        198,
+        248045,
+        74455,
+        198,
+        248068,
+        271,
+        248069,
+        271,
+        1719,
+        3177,
+        12346,
+        513
+      ],
+      "nontext_special_tokens_excluded": true,
+      "cache_strategy": "Full-prefix forwards; no persistent beam KV copies"
+    },
+    "strength": 2.0,
+    "length_normalization": 0.0,
+    "probability_definition": "Product of original full-vocabulary conditional token probabilities along the returned token path; includes EOS when present. Not normalized within top-k. Text alternatives are not marginalized over different token paths. rank_weight is relative to returned candidates only.",
+    "scoring_mode": "token_path_search",
+    "model": {
+      "package_version": "0.3.1",
+      "model_id": "Qwen/Qwen3.5-9B",
+      "revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+      "tokenizer_revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+      "quantization": "nf4",
+      "loaded": true,
+      "max_input_tokens": 2048,
+      "backend": "transformers",
+      "automatic_model_substitution": false,
+      "last_resource_error": null,
+      "loading_warmup": [
+        {
+          "requested_bytes": 7752651232,
+          "allocated_bytes": 268435456
+        }
+      ]
+    },
+    "profile": "soft-default",
+    "left": "the city lights are",
+    "target": "light",
+    "ranking_definition": "sequence_logprob / token_count^length_normalization + strength * log(rhyme_weight); no model self-rating"
+  }
+}

@@ -17,6 +17,7 @@ def main():
     parser.add_argument("--model", choices=["4b", "9b"], default="4b")
     parser.add_argument("--microbatch-size", type=int, default=1)
     parser.add_argument("--max-new-tokens", type=int, default=12)
+    parser.add_argument("--output", type=Path, help="Preserve a previous validation record")
     args = parser.parse_args()
     service = LyricService(Profile.load("examples/mumble.yaml"), LocalModel(model=args.model))
     start = time.perf_counter()
@@ -60,7 +61,7 @@ def main():
               "microbatch_logprob_comparison": differences,
               "microbatch_logprob_tolerance": .15,
               "result": result}
-    path = Path(__file__).resolve().parents[1] / f"docs/search-model-{args.model}.json"
+    path = args.output or Path(__file__).resolve().parents[1] / f"docs/search-model-{args.model}.json"
     path.write_text(json.dumps(record, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(json.dumps({"output": str(path), "seconds": elapsed,
                       "peak_allocated_gib": record["peak_allocated_gib"],

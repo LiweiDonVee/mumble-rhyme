@@ -1,0 +1,840 @@
+{
+  "elapsed_seconds_including_load": 28.625102800084278,
+  "peak_allocated_gib": 3.181082248687744,
+  "test_single_allocation_ceiling_bytes": 4294967296,
+  "maximum_factory_bytes": 1271398400,
+  "maximum_observed_tensor_bytes": 1271398400,
+  "maximum_masked_fill_bytes": 1048576,
+  "blocked_allocations": [],
+  "checks_passed": true,
+  "result": {
+    "candidates": [
+      {
+        "text": "just distant stars",
+        "raw_continuation": " just distant stars\n",
+        "token_ids": [
+          1066,
+          27786,
+          9467,
+          198
+        ],
+        "token_count": 4,
+        "sequence_logprob": -3.5668679773807526,
+        "sequence_probability": 0.028244176693527783,
+        "rhyme_weight": 0.6568864068638823,
+        "adjusted_log_weight": -4.407356321685362,
+        "finished_by": "punctuation",
+        "word_boundary_confirmed": true,
+        "rank_weight": 0.2826919401785383,
+        "rhyme": {
+          "candidate": "just distant stars",
+          "target": "light",
+          "unknown_words": [],
+          "syllable_count": 4,
+          "pronunciation_search_truncated": false,
+          "pronunciation_pairs_considered": 2,
+          "weight": 0.6568864068638823,
+          "alignment": [
+            {
+              "position_from_end": 1,
+              "candidate": {
+                "vowel": "AA",
+                "stress": 1,
+                "coda": [
+                  "R",
+                  "Z"
+                ]
+              },
+              "target": {
+                "vowel": "AY",
+                "stress": 1,
+                "coda": [
+                  "T"
+                ]
+              },
+              "vowel_weight": 0.7044587067832626,
+              "coda_weight": 0.5325918010068972,
+              "stress_weight": 1,
+              "weight": 0.6568864068638823,
+              "source": "default_similarity"
+            }
+          ],
+          "candidate_phones": [
+            "JH",
+            "AH1",
+            "S",
+            "T",
+            "D",
+            "IH1",
+            "S",
+            "T",
+            "AH0",
+            "N",
+            "T",
+            "S",
+            "T",
+            "AA1",
+            "R",
+            "Z"
+          ],
+          "target_phones": [
+            "L",
+            "AY1",
+            "T"
+          ],
+          "status": "scored"
+        }
+      },
+      {
+        "text": "dying out",
+        "raw_continuation": " dying out\n",
+        "token_ids": [
+          21582,
+          680,
+          198
+        ],
+        "token_count": 3,
+        "sequence_logprob": -4.899058222770691,
+        "sequence_probability": 0.0074535993966860226,
+        "rhyme_weight": 0.8012516095248002,
+        "adjusted_log_weight": -5.342218746734638,
+        "finished_by": "punctuation",
+        "word_boundary_confirmed": true,
+        "rank_weight": 0.11099612925043159,
+        "rhyme": {
+          "candidate": "dying out",
+          "target": "light",
+          "unknown_words": [],
+          "syllable_count": 3,
+          "pronunciation_search_truncated": false,
+          "pronunciation_pairs_considered": 1,
+          "weight": 0.8012516095248002,
+          "alignment": [
+            {
+              "position_from_end": 1,
+              "candidate": {
+                "vowel": "AW",
+                "stress": 1,
+                "coda": [
+                  "T"
+                ]
+              },
+              "target": {
+                "vowel": "AY",
+                "stress": 1,
+                "coda": [
+                  "T"
+                ]
+              },
+              "vowel_weight": 0.7442038056701585,
+              "coda_weight": 1.0,
+              "stress_weight": 1,
+              "weight": 0.8012516095248002,
+              "source": "default_similarity"
+            }
+          ],
+          "candidate_phones": [
+            "D",
+            "AY1",
+            "IH0",
+            "NG",
+            "AW1",
+            "T"
+          ],
+          "target_phones": [
+            "L",
+            "AY1",
+            "T"
+          ],
+          "status": "scored"
+        }
+      },
+      {
+        "text": "just a distant glow",
+        "raw_continuation": " just a distant glow\n",
+        "token_ids": [
+          1066,
+          264,
+          27786,
+          34774,
+          198
+        ],
+        "token_count": 5,
+        "sequence_logprob": -4.368397146463394,
+        "sequence_probability": 0.012671534913779217,
+        "rhyme_weight": 0.5845932032965151,
+        "adjusted_log_weight": -5.442075251700799,
+        "finished_by": "punctuation",
+        "word_boundary_confirmed": true,
+        "rank_weight": 0.10044786373844963,
+        "rhyme": {
+          "candidate": "just a distant glow",
+          "target": "light",
+          "unknown_words": [],
+          "syllable_count": 5,
+          "pronunciation_search_truncated": false,
+          "pronunciation_pairs_considered": 4,
+          "weight": 0.5845932032965151,
+          "alignment": [
+            {
+              "position_from_end": 1,
+              "candidate": {
+                "vowel": "OW",
+                "stress": 1,
+                "coda": []
+              },
+              "target": {
+                "vowel": "AY",
+                "stress": 1,
+                "coda": [
+                  "T"
+                ]
+              },
+              "vowel_weight": 0.6172679502604734,
+              "coda_weight": 0.4965853037914095,
+              "stress_weight": 1,
+              "weight": 0.5845932032965151,
+              "source": "default_similarity"
+            }
+          ],
+          "candidate_phones": [
+            "JH",
+            "AH1",
+            "S",
+            "T",
+            "AH0",
+            "D",
+            "IH1",
+            "S",
+            "T",
+            "AH0",
+            "N",
+            "T",
+            "G",
+            "L",
+            "OW1"
+          ],
+          "target_phones": [
+            "L",
+            "AY1",
+            "T"
+          ],
+          "status": "scored"
+        }
+      },
+      {
+        "text": "just",
+        "raw_continuation": " just\n",
+        "token_ids": [
+          1066,
+          198
+        ],
+        "token_count": 2,
+        "sequence_logprob": -5.153341710567474,
+        "sequence_probability": 0.00578005713980401,
+        "rhyme_weight": 0.8310371866883823,
+        "adjusted_log_weight": -5.523503182174961,
+        "finished_by": "punctuation",
+        "word_boundary_confirmed": true,
+        "rank_weight": 0.09259275451813095,
+        "rhyme": {
+          "candidate": "just",
+          "target": "light",
+          "unknown_words": [],
+          "syllable_count": 1,
+          "pronunciation_search_truncated": false,
+          "pronunciation_pairs_considered": 2,
+          "weight": 0.8310371866883823,
+          "alignment": [
+            {
+              "position_from_end": 1,
+              "candidate": {
+                "vowel": "AH",
+                "stress": 1,
+                "coda": [
+                  "S",
+                  "T"
+                ]
+              },
+              "target": {
+                "vowel": "AY",
+                "stress": 1,
+                "coda": [
+                  "T"
+                ]
+              },
+              "vowel_weight": 0.8780009110209074,
+              "coda_weight": 0.7046880897187134,
+              "stress_weight": 1,
+              "weight": 0.8310371866883823,
+              "source": "default_similarity"
+            }
+          ],
+          "candidate_phones": [
+            "JH",
+            "AH1",
+            "S",
+            "T"
+          ],
+          "target_phones": [
+            "L",
+            "AY1",
+            "T"
+          ],
+          "status": "scored"
+        }
+      },
+      {
+        "text": "just distant eyes",
+        "raw_continuation": " just distant eyes\n",
+        "token_ids": [
+          1066,
+          27786,
+          6213,
+          198
+        ],
+        "token_count": 4,
+        "sequence_logprob": -5.264046147465706,
+        "sequence_probability": 0.005174326219355511,
+        "rhyme_weight": 0.8693582353988059,
+        "adjusted_log_weight": -5.544046147465706,
+        "finished_by": "punctuation",
+        "word_boundary_confirmed": true,
+        "rank_weight": 0.09071002936543064,
+        "rhyme": {
+          "candidate": "just distant eyes",
+          "target": "light",
+          "unknown_words": [],
+          "syllable_count": 4,
+          "pronunciation_search_truncated": false,
+          "pronunciation_pairs_considered": 2,
+          "weight": 0.8693582353988059,
+          "alignment": [
+            {
+              "position_from_end": 1,
+              "candidate": {
+                "vowel": "AY",
+                "stress": 1,
+                "coda": [
+                  "Z"
+                ]
+              },
+              "target": {
+                "vowel": "AY",
+                "stress": 1,
+                "coda": [
+                  "T"
+                ]
+              },
+              "vowel_weight": 1.0,
+              "coda_weight": 0.5712090638488149,
+              "stress_weight": 1,
+              "weight": 0.8693582353988059,
+              "source": "identical_vowel"
+            }
+          ],
+          "candidate_phones": [
+            "JH",
+            "AH1",
+            "S",
+            "T",
+            "D",
+            "IH1",
+            "S",
+            "T",
+            "AH0",
+            "N",
+            "T",
+            "AY1",
+            "Z"
+          ],
+          "target_phones": [
+            "L",
+            "AY1",
+            "T"
+          ],
+          "status": "scored"
+        }
+      },
+      {
+        "text": "distant stars",
+        "raw_continuation": " distant stars\n",
+        "token_ids": [
+          27786,
+          9467,
+          198
+        ],
+        "token_count": 3,
+        "sequence_logprob": -4.733099043369293,
+        "sequence_probability": 0.008799159764448361,
+        "rhyme_weight": 0.6568864068638823,
+        "adjusted_log_weight": -5.573587387673903,
+        "finished_by": "punctuation",
+        "word_boundary_confirmed": true,
+        "rank_weight": 0.08806953634172819,
+        "rhyme": {
+          "candidate": "distant stars",
+          "target": "light",
+          "unknown_words": [],
+          "syllable_count": 3,
+          "pronunciation_search_truncated": false,
+          "pronunciation_pairs_considered": 1,
+          "weight": 0.6568864068638823,
+          "alignment": [
+            {
+              "position_from_end": 1,
+              "candidate": {
+                "vowel": "AA",
+                "stress": 1,
+                "coda": [
+                  "R",
+                  "Z"
+                ]
+              },
+              "target": {
+                "vowel": "AY",
+                "stress": 1,
+                "coda": [
+                  "T"
+                ]
+              },
+              "vowel_weight": 0.7044587067832626,
+              "coda_weight": 0.5325918010068972,
+              "stress_weight": 1,
+              "weight": 0.6568864068638823,
+              "source": "default_similarity"
+            }
+          ],
+          "candidate_phones": [
+            "D",
+            "IH1",
+            "S",
+            "T",
+            "AH0",
+            "N",
+            "T",
+            "S",
+            "T",
+            "AA1",
+            "R",
+            "Z"
+          ],
+          "target_phones": [
+            "L",
+            "AY1",
+            "T"
+          ],
+          "status": "scored"
+        }
+      },
+      {
+        "text": "dying down",
+        "raw_continuation": " dying down\n",
+        "token_ids": [
+          21582,
+          1441,
+          198
+        ],
+        "token_count": 3,
+        "sequence_logprob": -4.8758227825164795,
+        "sequence_probability": 0.007628814780485314,
+        "rhyme_weight": 0.6965746853669333,
+        "adjusted_log_weight": -5.598983306480426,
+        "finished_by": "punctuation",
+        "word_boundary_confirmed": true,
+        "rank_weight": 0.08586109099083081,
+        "rhyme": {
+          "candidate": "dying down",
+          "target": "light",
+          "unknown_words": [],
+          "syllable_count": 3,
+          "pronunciation_search_truncated": false,
+          "pronunciation_pairs_considered": 1,
+          "weight": 0.6965746853669333,
+          "alignment": [
+            {
+              "position_from_end": 1,
+              "candidate": {
+                "vowel": "AW",
+                "stress": 1,
+                "coda": [
+                  "N"
+                ]
+              },
+              "target": {
+                "vowel": "AY",
+                "stress": 1,
+                "coda": [
+                  "T"
+                ]
+              },
+              "vowel_weight": 0.7442038056701585,
+              "coda_weight": 0.5712090638488149,
+              "stress_weight": 1,
+              "weight": 0.6965746853669333,
+              "source": "default_similarity"
+            }
+          ],
+          "candidate_phones": [
+            "D",
+            "AY1",
+            "IH0",
+            "NG",
+            "D",
+            "AW1",
+            "N"
+          ],
+          "target_phones": [
+            "L",
+            "AY1",
+            "T"
+          ],
+          "status": "scored"
+        }
+      },
+      {
+        "text": "just a distant hum",
+        "raw_continuation": " just a distant hum\n",
+        "token_ids": [
+          1066,
+          264,
+          27786,
+          2696,
+          198
+        ],
+        "token_count": 5,
+        "sequence_logprob": -5.537511646747589,
+        "sequence_probability": 0.003936309590558274,
+        "rhyme_weight": 0.7885332255473282,
+        "adjusted_log_weight": -6.012673118355076,
+        "finished_by": "punctuation",
+        "word_boundary_confirmed": true,
+        "rank_weight": 0.056771870050694014,
+        "rhyme": {
+          "candidate": "just a distant hum",
+          "target": "light",
+          "unknown_words": [],
+          "syllable_count": 5,
+          "pronunciation_search_truncated": false,
+          "pronunciation_pairs_considered": 4,
+          "weight": 0.7885332255473282,
+          "alignment": [
+            {
+              "position_from_end": 1,
+              "candidate": {
+                "vowel": "AH",
+                "stress": 1,
+                "coda": [
+                  "M"
+                ]
+              },
+              "target": {
+                "vowel": "AY",
+                "stress": 1,
+                "coda": [
+                  "T"
+                ]
+              },
+              "vowel_weight": 0.8780009110209074,
+              "coda_weight": 0.5712090638488149,
+              "stress_weight": 1,
+              "weight": 0.7885332255473282,
+              "source": "default_similarity"
+            }
+          ],
+          "candidate_phones": [
+            "JH",
+            "AH1",
+            "S",
+            "T",
+            "AH0",
+            "D",
+            "IH1",
+            "S",
+            "T",
+            "AH0",
+            "N",
+            "T",
+            "HH",
+            "AH1",
+            "M"
+          ],
+          "target_phones": [
+            "L",
+            "AY1",
+            "T"
+          ],
+          "status": "scored"
+        }
+      },
+      {
+        "text": "distant stars above",
+        "raw_continuation": " distant stars above\n",
+        "token_ids": [
+          27786,
+          9467,
+          3294,
+          198
+        ],
+        "token_count": 4,
+        "sequence_logprob": -5.744667649269104,
+        "sequence_probability": 0.003199797830090151,
+        "rhyme_weight": 0.7885332255473282,
+        "adjusted_log_weight": -6.219829120876591,
+        "finished_by": "punctuation",
+        "word_boundary_confirmed": true,
+        "rank_weight": 0.0461494459262303,
+        "rhyme": {
+          "candidate": "distant stars above",
+          "target": "light",
+          "unknown_words": [],
+          "syllable_count": 5,
+          "pronunciation_search_truncated": false,
+          "pronunciation_pairs_considered": 1,
+          "weight": 0.7885332255473282,
+          "alignment": [
+            {
+              "position_from_end": 1,
+              "candidate": {
+                "vowel": "AH",
+                "stress": 1,
+                "coda": [
+                  "V"
+                ]
+              },
+              "target": {
+                "vowel": "AY",
+                "stress": 1,
+                "coda": [
+                  "T"
+                ]
+              },
+              "vowel_weight": 0.8780009110209074,
+              "coda_weight": 0.5712090638488149,
+              "stress_weight": 1,
+              "weight": 0.7885332255473282,
+              "source": "default_similarity"
+            }
+          ],
+          "candidate_phones": [
+            "D",
+            "IH1",
+            "S",
+            "T",
+            "AH0",
+            "N",
+            "T",
+            "S",
+            "T",
+            "AA1",
+            "R",
+            "Z",
+            "AH0",
+            "B",
+            "AH1",
+            "V"
+          ],
+          "target_phones": [
+            "L",
+            "AY1",
+            "T"
+          ],
+          "status": "scored"
+        }
+      },
+      {
+        "text": "just neon ghosts",
+        "raw_continuation": " just neon ghosts\n",
+        "token_ids": [
+          1066,
+          45092,
+          52034,
+          198
+        ],
+        "token_count": 4,
+        "sequence_logprob": -5.272399991750717,
+        "sequence_probability": 0.005131280751739173,
+        "rhyme_weight": 0.6197087190722166,
+        "adjusted_log_weight": -6.229411430321456,
+        "finished_by": "punctuation",
+        "word_boundary_confirmed": true,
+        "rank_weight": 0.04570933963953543,
+        "rhyme": {
+          "candidate": "just neon ghosts",
+          "target": "light",
+          "unknown_words": [],
+          "syllable_count": 4,
+          "pronunciation_search_truncated": false,
+          "pronunciation_pairs_considered": 2,
+          "weight": 0.6197087190722166,
+          "alignment": [
+            {
+              "position_from_end": 1,
+              "candidate": {
+                "vowel": "OW",
+                "stress": 1,
+                "coda": [
+                  "S",
+                  "T",
+                  "S"
+                ]
+              },
+              "target": {
+                "vowel": "AY",
+                "stress": 1,
+                "coda": [
+                  "T"
+                ]
+              },
+              "vowel_weight": 0.6172679502604734,
+              "coda_weight": 0.6270890852730562,
+              "stress_weight": 1,
+              "weight": 0.6197087190722166,
+              "source": "default_similarity"
+            }
+          ],
+          "candidate_phones": [
+            "JH",
+            "AH1",
+            "S",
+            "T",
+            "N",
+            "IY1",
+            "AA0",
+            "N",
+            "G",
+            "OW1",
+            "S",
+            "T",
+            "S"
+          ],
+          "target_phones": [
+            "L",
+            "AY1",
+            "T"
+          ],
+          "status": "scored"
+        }
+      }
+    ],
+    "search": {
+      "beam_width": 20,
+      "branch_top_k": 20,
+      "rounds": 12,
+      "expanded_edges": 4420,
+      "pruned_paths": 3326,
+      "completed_paths": 874,
+      "duplicate_text_paths_collapsed": 282,
+      "length_limit_reached": true,
+      "forced_length_completions": 348,
+      "max_new_tokens": 12,
+      "min_new_tokens": 2,
+      "exhaustive": false,
+      "language_only_frontier_slots": 4,
+      "microbatch_size": 1,
+      "prefix_token_count": 72,
+      "conditioning_token_ids": [
+        248045,
+        8678,
+        198,
+        2523,
+        513,
+        449,
+        6163,
+        81735,
+        13,
+        18047,
+        279,
+        66022,
+        17185,
+        13,
+        9357,
+        1132,
+        3889,
+        6163,
+        66022,
+        1414,
+        11,
+        440,
+        874,
+        39492,
+        466,
+        52408,
+        14973,
+        13,
+        14569,
+        5774,
+        1238,
+        279,
+        16713,
+        66022,
+        8978,
+        26,
+        635,
+        524,
+        12771,
+        424,
+        13,
+        248046,
+        198,
+        248045,
+        846,
+        198,
+        22791,
+        279,
+        66022,
+        13,
+        46499,
+        321,
+        19070,
+        25,
+        220,
+        113230,
+        109631,
+        104620,
+        96111,
+        248046,
+        198,
+        248045,
+        74455,
+        198,
+        248068,
+        271,
+        248069,
+        271,
+        1719,
+        3177,
+        12346,
+        513
+      ],
+      "nontext_special_tokens_excluded": true,
+      "cache_strategy": "Full-prefix forwards; no persistent beam KV copies"
+    },
+    "strength": 2.0,
+    "length_normalization": 0.0,
+    "probability_definition": "Product of original full-vocabulary conditional token probabilities along the returned token path; includes EOS when present. Not normalized within top-k. Text alternatives are not marginalized over different token paths. rank_weight is relative to returned candidates only.",
+    "scoring_mode": "token_path_search",
+    "model": {
+      "package_version": "0.3.1",
+      "model_id": "Qwen/Qwen3.5-4B",
+      "revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+      "tokenizer_revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+      "quantization": "nf4",
+      "loaded": true,
+      "max_input_tokens": 2048,
+      "backend": "transformers",
+      "automatic_model_substitution": false,
+      "last_resource_error": null,
+      "loading_warmup": [
+        {
+          "requested_bytes": 3218564096,
+          "allocated_bytes": 268435456
+        }
+      ]
+    },
+    "profile": "soft-default",
+    "left": "the city lights are",
+    "target": "light",
+    "ranking_definition": "sequence_logprob / token_count^length_normalization + strength * log(rhyme_weight); no model self-rating"
+  }
+}

@@ -110,3 +110,11 @@ Raw records: [4B direct](search-model-4b.json), [9B direct](search-model-9b.json
 Balanced dictionary lookup tests cover mine/fall useful common terms, custom rule preservation, raw phonetic mode and expandable same-pronunciation variants. They use installed wordfreq English data locally; its code and data licenses are acknowledged separately. No online search was used in this change.
 
 Final 0.3.0 checks: 73 tests pass in the torch-free core environment (one optional module skipped); 83 tests pass in the model environment including real tensor-transfer tests. Ruff, dependency compatibility, documentation links, example JSON, sdist/wheel builds and package contents passed. Both actual-model and MCP search records report package_version=0.3.0.
+
+## Windows allocator warmup fix — 0.3.1 (2026-10-22)
+
+The exact 7,752,651,232-byte request was traced to the pinned Transformers allocator warmup before 9B weights load. A native 7.22 GiB request failed with 14.64 GiB GPU memory reported free. Windows GraphicsPerfSvc separately retained roughly 54.4 GiB of committed memory; after the user-approved service restart and natural old-host exit, native 7.22 GiB allocation succeeded on the same GPU/driver. A universal fixed 4 GiB WDDM ceiling was not established.
+
+The Windows loader now caps the optional disposable warmup at 256 MiB through a thread-local dispatch mode, preserving every actual tensor shape and the 20×20 search. Unit tests check ordinary allocations/small warmups are unchanged, thread isolation and exception restoration. Core tests: 73 passed, 2 optional modules skipped. Model environment: 86 passed (10 tensor-transfer tests and 3 allocator/fallback-bound tests included).
+
+Actual 9B and 4B full default searches passed with a 4 GiB single-factory allocation ceiling enforced by an external audit. Actual fallback at maximum supported search shape B8/L2048/H32 produced finite outputs with a 128 MiB pairwise masked_fill, maximum observed tensor 256 MiB, and isolated-layer peak 3.298 GiB. No attention algorithm was replaced. Independent 9B path-probability checks and cold production MCP search passed after the loader fix. Detailed scope, raw JSON, resource limits and reproduction commands: [windows-allocation.md](windows-allocation.md).

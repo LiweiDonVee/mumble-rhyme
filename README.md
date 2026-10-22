@@ -148,11 +148,13 @@ Version 0.3 adds **token-path beam search** alongside candidate generation and r
 
 ## Reliability and verification
 
+Version **0.3.1** caps the Windows loader's disposable full-model allocator warmup at **256 MiB**, avoiding its 7.22 GiB single request on 9B. Real weight/attention shapes and the 20×20 search stay unchanged. Both models passed actual-search allocation audits; a separate maximum-shape fallback check found a 128 MiB pairwise mask, not 7.22 GiB. See [the Windows allocation investigation and independent system-commit issue](docs/windows-allocation.md).
+
 Version 0.2.2 covers the reported cold `suggest_lyrics` cuBLAS allocation case: CUDA runtime initialization happens before NF4 loading, inference allocation failures release weights, and status reports the running package version. Both models have real suggest-first and same-process failure-recovery records. See [the investigation, limits, and client restart instructions](docs/suggest-reliability.md).
 
 ## What is verified, and what is next
 
-- **Verified locally:** 73 core tests plus 10 optional tensor tests, a real MCP stdio exchange, pinned Qwen3.5-9B and 4B NF4 generation/scoring, and unchanged tensors after Windows resharding (775 for 9B, 738 for 4B).
+- **Verified locally:** 73 core tests plus 13 optional tensor/allocator tests, a real MCP stdio exchange, pinned Qwen3.5-9B and 4B NF4 generation/scoring, and unchanged tensors after Windows resharding (775 for 9B, 738 for 4B).
 - **Measured 4B:** 12.56 seconds for a cached direct-model smoke, 14.68 seconds for the production MCP exchange, peak PyTorch allocation 3.217 GiB.
 - **Recorded 9B:** one cached direct-model smoke took 27.71 seconds; an MCP smoke including model load, ranking, and generation took 26.35 seconds. These are functional checks with different requests, not comparative benchmarks or generation-only latency.
 - **Current scope:** English pronunciations; English or Chinese creative instructions; JSON CLI, Python, and MCP.

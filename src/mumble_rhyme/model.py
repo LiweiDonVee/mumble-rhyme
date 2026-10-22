@@ -63,6 +63,7 @@ class LocalModel:
         self.tokenizer = None
         self.lock = _RUNTIME_LOCK
         self.last_resource_error = None
+        self.loading_warmup = []
 
     def status(self):
         from . import __version__
@@ -78,6 +79,7 @@ class LocalModel:
             "backend": "transformers",
             "automatic_model_substitution": False,
             "last_resource_error": self.last_resource_error,
+            "loading_warmup": self.loading_warmup,
         }
 
     def download(self):
@@ -195,6 +197,7 @@ class LocalModel:
                     from transformers import GenerationConfig, Qwen3_5Config
 
                     from .checkpoint import full_tensor_state_dict, reshard_checkpoint
+                    from .loading import bounded_allocator_warmup
 
                     snapshot = Path(self.download())
                     directory = reshard_checkpoint(
@@ -204,7 +207,9 @@ class LocalModel:
                     if (snapshot / "generation_config.json").is_file():
                         kwargs["generation_config"] = GenerationConfig.from_pretrained(snapshot)
                     device = "cuda:0" if self.quantization == "nf4" else "cpu"
-                    with full_tensor_state_dict(directory, device=device) as state:
+                    with (full_tensor_state_dict(directory, device=device) as state,
+                          bounded_allocator_warmup() as warmup):
+                        self.loading_warmup = warmup
                         model = Qwen3_5ForConditionalGeneration.from_pretrained(
                             None, state_dict=state, **kwargs
                         ).eval()

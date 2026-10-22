@@ -1,0 +1,18 @@
+{
+  "input_shape": [
+    8,
+    2048,
+    32,
+    128
+  ],
+  "chunk_size": 64,
+  "dtype": "bfloat16",
+  "pairwise_dtype": "float32",
+  "pairwise_masked_fill_bytes": 134217728,
+  "maximum_observed_tensor_bytes": 268435456,
+  "maximum_factory_bytes": 16777216,
+  "peak_allocated_gib": 3.2980079650878906,
+  "elapsed_seconds": 0.332065099850297,
+  "checks_passed": true,
+  "scope": "One actual fallback layer at maximum supported search microbatch/context; not full-model VRAM"
+}

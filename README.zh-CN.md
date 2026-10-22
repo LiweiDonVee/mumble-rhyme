@@ -6,7 +6,7 @@
 
 给非母语英语创作者用的本地歌词助手：用中文说出意思，获取英文补词或整句建议；由你决定哪些声音可以通押。提供 Python API、JSON CLI 和 stdio MCP，供人类或旗舰模型调用。
 
-**状态：0.3.0 可运行版本。** 发音规则、排序、MCP 已验证；本机 RTX 5080 的真实 Qwen3.5-9B 与 4B NF4 生成及评分已通过。实测记录见 [验证记录](docs/verification.md)。
+**状态：0.3.1 可运行版本。** 发音规则、排序、MCP 已验证；本机 RTX 5080 的真实 Qwen3.5-9B 与 4B NF4 生成及评分已通过。实测记录见 [验证记录](docs/verification.md)。
 
 ## 模型与范围
 
@@ -180,3 +180,11 @@ rank_weight = softmax(score over the supplied candidate set)
 `find_rhymes` 默认 balanced：综合词频与软音韵，折叠同音拼写并返回 alternatives；`mode=phonetic` 保留纯音韵模式。词频不改变你的通押分数，不禁用生僻词；常见人名和网络词仍可能出现。
 
 [算法、API 与实测](docs/probability-search.md)。更新后重启 MCP，通过 model_status 确认运行版本为 0.3.0；工具列表应有六项。
+
+## 0.3.1：Windows 大块预分配修复
+
+已精确定位 9B 的 7.22 GiB 单次申请来自 Transformers 的可选 allocator warmup，不是真实权重或本次 attention fallback。现在仅将这一步预热限制为 256 MiB，不改模型、真实张量形状或 20×20 搜索宽度，不修改全局依赖函数。
+
+另发现系统 GraphicsPerfSvc 宿主占用约 54.4 GiB 提交内存，经用户授权重启并退出旧宿主后，原生 7.22 GiB 分配也成功了。因此不能把该现象一概归为固定 4 GiB 驱动上限。项目修复避免不必要的大申请，系统本身仍需足够提交余量。
+
+9B、4B 的默认搜索均在强制拒绝大于 4 GiB 的工厂申请的测试条件下通过；实际 fallback 单层最大搜索形状（批量8/长度2048）的 pairwise masked_fill 是 128 MiB。详见 [完整调查与实测](docs/windows-allocation.md)。更新后重启 MCP，确认 package_version=0.3.1；model_status.loading_warmup 会显示预热原始大小和实际大小。

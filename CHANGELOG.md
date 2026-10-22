@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.1
+
+- Cap Windows Transformers' disposable allocator warmup at 256 MiB instead of requesting one model-sized block (7.22 GiB for 9B).
+- Scope the cap to the pinned upstream warmup via thread-local torch dispatch; leave real parameter/activation shapes and search budgets unchanged, with no global/site-packages patches.
+- Report requested/effective warmup allocations in model status, including failed attempts.
+- Add actual 4B/9B search allocation audits and a maximum-shape linear-attention fallback audit. Document the separate GraphicsPerfSvc host-commit pressure and native allocation probes before/after its user-approved restart.
+
 ## 0.3.0
 
 - Add search_lyrics / CLI search: bounded token-tree search with default 20 active paths and top-20 extensions, raw sequence probabilities, completed-word soft rhyme guidance, explicit length normalization and cutoff metadata.

@@ -69,3 +69,5 @@ Before NF4 weights are loaded, the current execution thread initializes cuBLAS a
 ## Direct probability search
 
 `search_lyrics` branches actual token IDs with original full-vocabulary log probabilities, removes nontext control tokens after normalization, and preserves EOS probability. Active paths are pruned using completed-prefix rhyme guidance with a fraction reserved for raw likelihood. Final candidates retain raw path probability plus separate soft weighting; no Qwen self-rating is used. Microbatching is independent from beam width, and full-prefix forwards avoid persistent per-beam KV copies. See [probability-search.md](probability-search.md).
+
+Windows loading additionally scopes a thread-local TorchFunctionMode to the pinned Transformers `caching_allocator_warmup` frame, limiting its disposable torch.empty to 256 MiB. Ordinary parameter/activation allocations are forwarded unchanged, and the mode exits on success/error without mutating module globals. See [allocation audit](windows-allocation.md).

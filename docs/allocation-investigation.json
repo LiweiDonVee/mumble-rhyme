@@ -1,0 +1,43 @@
+{
+  "date": "2026-10-22",
+  "before_service_restart": {
+    "small_native_probes": [
+      {
+        "requested_gib": 4.0,
+        "success": true,
+        "free_before": 15715008512
+      },
+      {
+        "requested_gib": 4.5,
+        "success": true,
+        "free_before": 15715008512
+      }
+    ],
+    "large_native_probe": {
+      "requested_bytes": 7752651232,
+      "free_before": 15715008512,
+      "success": false,
+      "error": "CUDA out of memory. Tried to allocate 7.22 GiB. GPU 0 has a total capacity of 15.92 GiB of which 14.64 GiB is free. Of the allocated memory 0 bytes is allocated by PyTorch, and 0 bytes is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)"
+    },
+    "instrumented_loading_request": {
+      "requested_bytes": 7752651232,
+      "gib": 7.220219105482101,
+      "stack": [
+        "<module>:16",
+        "load:208",
+        "from_pretrained:4353",
+        "_load_pretrained_model:4435",
+        "caching_allocator_warmup:5118",
+        "__torch_function__:12"
+      ]
+    }
+  },
+  "external_service_observation": {
+    "name": "GraphicsPerfSvc",
+    "old_host_private_committed_bytes": 58401550336,
+    "restart_authorized_by_user": true,
+    "service_restart_succeeded": true,
+    "old_host_exited_without_force": true
+  },
+  "interpretation": "The large native request succeeded after service restart on the same GPU/driver; a fixed universal 4 GiB allocation ceiling was not established. The project avoids the unnecessary full-model warmup independently of available headroom."
+}

@@ -121,3 +121,7 @@ After updating, restart the MCP server and check `package_version`; a running pr
 ## Probability search
 
 `service.search` and `search_lyrics` have the same fields as [examples/search.json](../examples/search.json). The default beam/branch budgets are 20/20. Raw `sequence_logprob` and `sequence_probability` describe the actual token path; `adjusted_log_weight` applies the rhyme preference and optional explicit length normalization. `rank_weight` is relative to returned candidates. `search` reports pruning, cutoff, and conditioning tokens. Unlike rank_candidates, this forward search has no right context. Full boundary, frequency, and probability semantics are in [probability-search.md](probability-search.md).
+
+## Windows allocator warmup status
+
+In 0.3.1, `model_status.loading_warmup` records any optional upstream allocator-warmup request that was capped, with `requested_bytes` and `allocated_bytes`. It applies to Windows loading only; normal tensor allocations and search width are unchanged. Records are attached during loading so later failures remain diagnosable. See [the exact 7.22 GiB investigation](windows-allocation.md).

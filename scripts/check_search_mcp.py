@@ -16,6 +16,7 @@ from mcp.client.stdio import stdio_client
 async def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--model", choices=["4b", "9b"], default="4b")
+    parser.add_argument("--output", type=Path, help="Preserve a previous validation record")
     args = parser.parse_args()
     params = StdioServerParameters(command=sys.executable,
         args=["-m", "mumble_rhyme", "--model", args.model, "serve"], env=dict(os.environ))
@@ -37,7 +38,7 @@ async def main():
         assert all(r["sequence_logprob"] < 0 and r["rhyme_weight"] > 0 for r in result["candidates"])
         record = {"transport":"stdio", "elapsed_seconds_including_load":time.perf_counter()-started,
                   "request":request, "response":result, "checks_passed":True}
-    path = Path(__file__).resolve().parents[1] / f"docs/search-mcp-{args.model}.json"
+    path = args.output or Path(__file__).resolve().parents[1] / f"docs/search-mcp-{args.model}.json"
     path.write_text(json.dumps(record, ensure_ascii=False, indent=2)+"\n", encoding="utf-8")
     print(json.dumps({"output":str(path),"seconds":record["elapsed_seconds_including_load"]}),flush=True)
 
