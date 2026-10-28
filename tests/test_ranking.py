@@ -51,6 +51,12 @@ def test_invalid_ranking_requests_rejected(kwargs):
         LyricService().rank(["night", "light"], "fight", use_model=False, **kwargs)
 
 
+@pytest.mark.parametrize("candidates", ["night", {"text": "night"}])
+def test_rank_rejects_non_sequence_candidate_containers(candidates):
+    with pytest.raises(TypeError, match="candidates"):
+        LyricService().rank(candidates, "light", use_model=False)
+
+
 def test_dictionary_search_discloses_budget_and_scores_near_rhymes():
     result = LyricService().find("night", limit=8)
     assert result["vocabulary_evaluated"] > 10000

@@ -119,7 +119,7 @@ See [CONTRIBUTING.md](../CONTRIBUTING.md) for core tests and the opt-in real-mod
 
 ## Version 0.3 search and lookup
 
-Core installation now includes wordfreq and its local data for balanced lookup. No online word-frequency service is used. The sixth tool search_lyrics uses the selected Qwen model; its beam width defaults to 20 independently of microbatch size 1. Test scripts use the full default 20×20 budget. See [probability-search.md](probability-search.md) for raw probability, boundary and length-limit behavior. After updating, restart the MCP process and check package_version=0.3.0 and six registered tools.
+Core installation now includes wordfreq and its local data for balanced lookup. No online word-frequency service is used. The sixth tool search_lyrics uses the selected Qwen model; its beam width defaults to 20 independently of microbatch size 1. Test scripts use the full default 20×20 budget. See [probability-search.md](probability-search.md) for raw probability, boundary and length-limit behavior. After updating, restart the MCP process and check that `model_status.package_version` matches the installed package (currently 0.3.1) and that six tools are registered.
 
 ## Large CUDA request despite free GPU capacity
 

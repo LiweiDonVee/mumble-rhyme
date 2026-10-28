@@ -18,6 +18,15 @@ def validate_preferences(target, strength, target_syllables):
         raise ValueError("target_syllables must be a positive integer")
 
 
+def validate_candidates(candidates):
+    if not isinstance(candidates, (list, tuple)):
+        raise TypeError("candidates must be a list or tuple of 1 to 32 nonempty strings")
+    if not 1 <= len(candidates) <= 32 or any(
+        not isinstance(candidate, str) or not candidate.strip() for candidate in candidates
+    ):
+        raise ValueError("Provide 1 to 32 nonempty candidate strings")
+
+
 class LyricService:
     def __init__(self, profile: Profile | None = None, model: LocalModel | None = None):
         self.profile = profile or Profile()
@@ -47,8 +56,7 @@ class LyricService:
         profile=None,
         model_scores=None,
     ):
-        if not 1 <= len(candidates) <= 32 or any(not isinstance(c, str) or not c.strip() for c in candidates):
-            raise ValueError("Provide 1 to 32 nonempty candidate strings")
+        validate_candidates(candidates)
         validate_preferences(target, strength, target_syllables)
         engine = self._engine(profile)
         if model_scores is not None:

@@ -165,7 +165,7 @@ rank_weight = softmax(score over the supplied candidate set)
 
 首次 NF4 加载会先初始化 cuBLAS/BF16 运算路径。生成或评分中遇到显存分配错误，会释放模型和异常堆栈中的临时张量，避免报错后继续占用整份模型。不会自动换模型或假装返回成功。`model_status` 新增 `package_version` 和 `last_resource_error`。
 
-更新后请在 Cherry Studio 中停止/重新启动此 MCP，再确认 `package_version` 为 `0.3.0`；运行中的旧进程不会自动更新代码。两种模型已验证以用户的城市灯光请求冷启动直接生成，并验证模拟分配错误后的同进程重试。原始驱动错误在重启后未稳定复现，不能把模拟错误当成原生故障复现，详见 [调试记录](docs/suggest-reliability.md)。
+更新后请在 Cherry Studio 中停止/重新启动此 MCP，再确认 `model_status.package_version` 与当前安装包一致；运行中的旧进程不会自动更新代码。两种模型已验证以用户的城市灯光请求冷启动直接生成，并验证模拟分配错误后的同进程重试。原始驱动错误在重启后未稳定复现，不能把模拟错误当成原生故障复现，详见 [调试记录](docs/suggest-reliability.md)。
 
 ## 0.3.0：真实概率树搜索与实用找词
 
@@ -179,7 +179,7 @@ rank_weight = softmax(score over the supplied candidate set)
 
 `find_rhymes` 默认 balanced：综合词频与软音韵，折叠同音拼写并返回 alternatives；`mode=phonetic` 保留纯音韵模式。词频不改变你的通押分数，不禁用生僻词；常见人名和网络词仍可能出现。
 
-[算法、API 与实测](docs/probability-search.md)。更新后重启 MCP，通过 model_status 确认运行版本为 0.3.0；工具列表应有六项。
+[算法、API 与实测](docs/probability-search.md)。更新后重启 MCP，通过 `model_status` 确认运行版本与当前安装包一致；工具列表应有六项。
 
 ## 0.3.1：Windows 大块预分配修复
 
